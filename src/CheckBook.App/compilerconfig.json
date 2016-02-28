@@ -1,0 +1,10 @@
+﻿[
+  {
+    "outputFile": "Style/LoginStyleSheet.css",
+    "inputFile": "Style/LoginStyleSheet.less"
+  },
+  {
+    "outputFile": "Style/Default.css",
+    "inputFile": "Style/Default.less"
+  }
+]

@@ -1,0 +1,217 @@
+﻿@viewModel CheckBook.App.ViewModels.ManagerViewModel, CheckBook.App
+@masterPage Views/app.dotmaster
+
+<dot:Content ContentPlaceHolderID="PageContent">
+    
+    <div class="page content">
+
+        <h1><span class="glyphicon glyphicon-cog"></span> Settings</h1>
+
+        <div class="row">
+            <div class="col-md-6">
+
+                <!-- users grid -->
+                <div class="pull-right header-row-button">
+                    <dot:LinkButton class="btn btn-primary" Click="{command: ShowUserPopup(null)}" Validate.Enabled="false">
+                        <span class="glyphicon glyphicon-plus"></span> Create User
+                    </dot:LinkButton>
+                </div>
+                <h2><span class="glyphicon glyphicon-user"></span> Users</h2>
+
+                <dot:GridView DataSource="{value: Users}" class="table table-striped">
+                    <Columns>
+                        <dot:GridViewTextColumn ValueBinding="{value: LastName}" HeaderText="Last Name" AllowSorting="true" />
+                        <dot:GridViewTextColumn ValueBinding="{value: FirstName}" HeaderText="First Name" AllowSorting="true" />
+                        <dot:GridViewTemplateColumn HeaderText="E-mail">
+                            <a href="{value: 'mailto:' + Email}" InnerText="{value: Email}"></a>
+                        </dot:GridViewTemplateColumn>
+                        <dot:GridViewTextColumn ValueBinding="{value: UserRole == 'User' ? 'User' : 'Admin'}" HeaderText="Role" />
+                        <dot:GridViewTemplateColumn Width="30px">
+                            <dot:LinkButton Click="{command: _root.ShowUserPopup(Id)}" Validate.Enabled="false">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                            </dot:LinkButton>
+                        </dot:GridViewTemplateColumn>
+                    </Columns>
+                </dot:GridView>
+                
+                <dot:DataPager DataSet="{value: Users}" class="pagination" />
+            </div>
+            <div class="col-md-6">
+
+                <!-- groups grid -->
+                <div class="pull-right header-row-button">
+                    <dot:LinkButton class="btn btn-primary" Click="{command: ShowGroupPopup(null)}" Validate.Enabled="false">
+                        <span class="glyphicon glyphicon-plus"></span> Create Group
+                    </dot:LinkButton>
+                </div>
+                <h2><span class="glyphicon glyphicon-th"></span> Groups</h2>
+
+                <dot:GridView DataSource="{value: Groups}" class="table table-striped">
+                    <Columns>
+                        <dot:GridViewTextColumn ValueBinding="{value: Name}" HeaderText="Name" AllowSorting="true" />
+                        <dot:GridViewTemplateColumn Width="30px">
+                            <dot:LinkButton Click="{command: _root.ShowGroupPopup(Id)}" Validate.Enabled="false">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                            </dot:LinkButton>
+                        </dot:GridViewTemplateColumn>
+                    </Columns>
+                </dot:GridView>
+
+                <dot:DataPager DataSet="{value: Groups}" class="pagination" />
+
+            </div>
+        </div>
+    </div>
+    
+    <!-- user detail popup -->
+    <div class="modal fade" tabindex="-1" role="dialog" data-id="user-detail" Validate.Target="{value: EditedUser}">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"><span class="glyphicon glyphicon-user"></span> User Details</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-danger" Visible="{value: UserAlertText != null}">{{value: UserAlertText}}</div>
+
+                    <form class="settings-form form-horizontal" ValidationMessage.SetToolTipText="true" ValidationMessage.InvalidCssClass="has-error">
+                        <cc:UserDetailForm DataContext="{value: EditedUser}" HideOptionalPasswordNotice="{value: Id == 0}" />
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">User Role</label>
+                            <div class="col-md-8">
+                                <label class="radio-inline">
+                                    <dot:RadioButton CheckedItem="{value: EditedUser.UserRole}" CheckedValue="{value: 0}" />
+                                    User
+                                </label>
+                                <label class="radio-inline">
+                                    <dot:RadioButton CheckedItem="{value: EditedUser.UserRole}" CheckedValue="{value: 1}" />
+                                    Admin
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group validation-box">
+                            <dot:ValidationSummary IncludeErrorsFromChildren="true" />
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <div class="pull-left" Visible="{value: EditedUser.Id != 0}">
+                        <dot:LinkButton Text="Delete User" Click="{command: DeleteUser()}">
+                            <PostBack.Handlers>
+                                <dot:ConfirmPostBackHandler Message="Do you really want to remove this user?" />
+                            </PostBack.Handlers>
+                        </dot:LinkButton>
+                    </div>
+
+                    <dot:Button class="btn btn-primary" ButtonTagName="button" Click="{command: SaveUser()}">
+                        <span class="glyphicon glyphicon-floppy-disk"></span> Save Changes
+                    </dot:Button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- group detail popup -->
+    <div class="modal fade" tabindex="-1" role="dialog" data-id="group-detail" Validate.Target="{value: EditedGroup}">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h3 class="modal-title"><span class="glyphicon glyphicon-th"></span> Group Details</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-danger" Visible="{value: GroupAlertText != null}">{{value: GroupAlertText}}</div>
+
+                    <form class="group-form form-horizontal" ValidationMessage.SetToolTipText="true" ValidationMessage.InvalidCssClass="has-error">
+                        
+                        <div class="form-group" ValidationMessage.ValidatedValue="{value: EditedGroup.Name}">
+                            <label class="col-md-4 control-label">Group Name</label>
+                            <div class="col-md-8">
+                                <dot:TextBox Text="{value: EditedGroup.Name}" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group" ValidationMessage.ValidatedValue="{value: EditedGroup.Currency}">
+                            <label class="col-md-4 control-label">Currency</label>
+                            <div class="col-md-8">
+                                <dot:TextBox Text="{value: EditedGroup.Currency}" class="form-control" />
+                            </div>
+                        </div>
+
+                        <div class="member-box">
+                            <h4><span class="glyphicon glyphicon-user"></span> Group Members</h4>
+
+                            <dot:Repeater DataSource="{value: GroupUsers}">
+                                <ItemTemplate>
+                                    <div class="user-box">
+                                        <div class="name">
+                                            <cc:UserAvatar />
+                                        </div>
+                                        <div class="control-small">
+                                            <dot:LinkButton class="btn btn-default" Validate.Enabled="false" Click="{command: _root.GroupRemoveUser(_this)}">
+                                                <span class="glyphicon glyphicon-remove"></span>
+                                            </dot:LinkButton>
+                                        </div>
+                                    </div>
+                                </ItemTemplate>
+                                <EmptyDataTemplate>
+                                    <p><em>The group doesn't have any members.</em></p>
+                                </EmptyDataTemplate>
+                            </dot:Repeater>
+                        </div>             
+
+                        <div class="member-box">
+                            <h4><span class="glyphicon glyphicon-search"></span> Add Members</h4>
+                            <div class="text-right">
+                                <dot:TextBox Text="{value: GroupSearchText}" class="form-control inline-textbox" placeholder="Name or E-mail Address..." />
+                                <dot:Button class="btn btn-default" IsSubmitButton="true" Validate.Enabled="false"
+                                            Click="{command: GroupSearch()}" ButtonTagName="button">
+                                    <span class="glyphicon glyphicon-search"></span> Search Users
+                                </dot:Button>
+                            </div>
+
+                            <dot:Repeater DataSource="{value: GroupSearchResults}">
+                                <ItemTemplate>
+                                    <div class="user-box">
+                                        <div class="name">
+                                            <cc:UserAvatar />
+                                        </div>
+                                        <div class="control-small">
+                                            <dot:LinkButton class="btn btn-default" Validate.Enabled="false" Click="{command: _root.GroupAddUser(_this)}">
+                                                <span class="glyphicon glyphicon-plus"></span>
+                                            </dot:LinkButton>
+                                        </div>
+                                    </div>
+                                </ItemTemplate>
+                                <EmptyDataTemplate>
+                                    <p><em>No users were found.</em></p>
+                                </EmptyDataTemplate>
+                            </dot:Repeater>
+                        </div>               
+
+                        <div class="form-group validation-box">
+                            <dot:ValidationSummary IncludeErrorsFromChildren="true" />
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <div class="pull-left" Visible="{value: EditedGroup.Id != 0}">
+                        <dot:LinkButton Text="Delete Group" Click="{command: DeleteGroup()}">
+                            <PostBack.Handlers>
+                                <dot:ConfirmPostBackHandler Message="Do you really want to remove this group with all payments?" />
+                            </PostBack.Handlers>
+                        </dot:LinkButton>
+                    </div>
+
+                    <dot:Button class="btn btn-primary" ButtonTagName="button" Click="{command: SaveGroup()}">
+                        <span class="glyphicon glyphicon-floppy-disk"></span> Save Changes
+                    </dot:Button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <dot:RequiredResource Name="bootstrap" />
+    <dot:RequiredResource Name="autoHideAlert" />
+</dot:Content>

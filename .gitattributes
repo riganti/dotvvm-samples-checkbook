@@ -1,0 +1,16 @@
+# Ignore external libraries from statistics
+src/CheckBook.App/Style/bootstrap/* linguist-vendored
+
+# Lineendings
+*.sln        eol=crlf
+*.vcproj     eol=crlf
+*.vcxproj*   eol=crlf
+
+# Whitespace rules
+# strict (no trailing, no tabs)
+*.cs         whitespace=trailing-space,space-before-tab,tab-in-indent,cr-at-eol
+*.html       whitespace=trailing-space,space-before-tab,tab-in-indent,cr-at-eol
+
+# normal (no trailing)
+*.sql        whitespace=trailing-space,space-before-tab,cr-at-eol
+*.txt        whitespace=trailing-space,space-before-tab,cr-at-eol

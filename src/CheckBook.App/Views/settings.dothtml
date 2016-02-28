@@ -1,0 +1,41 @@
+﻿@viewModel CheckBook.App.ViewModels.SettingsViewModel, CheckBook.App
+@masterPage Views/app.dotmaster
+
+<dot:Content ContentPlaceHolderID="PageContent">
+
+    <dot:RequiredResource Name="autoHideAlert" />
+
+    <div class="page content">
+        <h1><span class="glyphicon glyphicon-user"></span> My Profile</h1>
+
+        <div class="{value: 'alert alert-' + AlertType}" Visible="{value: AlertText != null}">{{value: AlertText}}</div>
+
+        <form class="settings-form form-horizontal" ValidationMessage.SetToolTipText="true" ValidationMessage.InvalidCssClass="has-error">
+
+            <div class="form-group">
+                <div class="user-box">
+                    <div class="caption">
+                        <cc:UserAvatar DataContext="{value: Data}" />
+                    </div>
+                    <div class="control">
+                        <dot:FileUpload UploadedFiles="{value: AvatarFiles}" AllowMultipleFiles="false" UploadCompleted="{command: ProcessFile()}" Validate.Enabled="false" />
+                    </div>
+                </div>
+            </div>
+
+            <cc:UserDetailForm DataContext="{value: Data}" />
+
+            <div class="form-group validation-box">
+                <dot:ValidationSummary IncludeErrorsFromChildren="true" />
+            </div>
+
+            <div class="form-group text-center">
+                <dot:Button Click="{command: Save()}" class="btn btn-primary" ButtonTagName="button">
+                    <span class="glyphicon glyphicon-floppy-disk"></span> Save Changes
+                </dot:Button>
+            </div>
+        </form>
+    </div>
+</dot:Content>
+
+

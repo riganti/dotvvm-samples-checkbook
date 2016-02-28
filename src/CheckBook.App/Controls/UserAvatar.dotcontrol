@@ -1,0 +1,4 @@
+﻿@viewModel CheckBook.DataAccess.Data.IAvatarData, CheckBook.DataAccess
+
+<img src="{value: (ImageUrl != null && ImageUrl != '') ? ImageUrl : ('/identicon/' + UserId)}" alt="{value: Name}" class="img-circle" />
+{{value: Name}}

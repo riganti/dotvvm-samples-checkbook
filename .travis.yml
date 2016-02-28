@@ -1,0 +1,10 @@
+language: csharp
+
+git:
+  depth: 1
+
+branches:
+  only:
+    - master
+
+solution: src/CheckBook.sln

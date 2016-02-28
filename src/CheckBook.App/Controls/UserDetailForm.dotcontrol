@@ -1,0 +1,41 @@
+﻿@viewModel CheckBook.DataAccess.Data.UserInfoData, CheckBook.DataAccess
+@baseType CheckBook.App.Controls.UserDetailForm, CheckBook.App
+
+<div class="form-group" ValidationMessage.ValidatedValue="{value: Email}">
+    <label class="col-md-4 control-label">E-mail Address</label>
+    <div class="col-md-8">
+        <dot:TextBox class="form-control" Text="{value: Email}" />
+    </div>
+</div>
+
+<div class="form-group" ValidationMessage.ValidatedValue="{value: FirstName}">
+    <label class="col-md-4 control-label">First Name</label>
+    <div class="col-md-8">
+        <dot:TextBox class="form-control" Text="{value: FirstName}" />
+    </div>
+</div>
+
+<div class="form-group" ValidationMessage.ValidatedValue="{value: LastName}">
+    <label class="col-md-4 control-label">Last Name</label>
+    <div class="col-md-8">
+        <dot:TextBox class="form-control" Text="{value: LastName}" />
+    </div>
+</div>
+
+<div class="form-group" Visible="{controlProperty: !HideOptionalPasswordNotice}">
+    <span class="help-block">Leave the following fields empty if you don't want to change the password.</span>
+</div>
+
+<div class="form-group" ValidationMessage.ValidatedValue="{value: Password}">
+    <label class="col-md-4 control-label">Password</label>
+    <div class="col-md-8">
+        <dot:TextBox class="form-control" Text="{value: Password}" Type="Password" />
+    </div>
+</div>
+
+<div class="form-group" ValidationMessage.ValidatedValue="{value: PasswordAgain}">
+    <label class="col-md-4 control-label">Confirm Password</label>
+    <div class="col-md-8">
+        <dot:TextBox class="form-control" Text="{value: PasswordAgain}" Type="Password" />
+    </div>
+</div>

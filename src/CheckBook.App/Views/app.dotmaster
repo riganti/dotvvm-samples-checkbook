@@ -1,0 +1,36 @@
+﻿@viewModel CheckBook.App.ViewModels.AppViewModelBase, CheckBook.App
+
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="~/Style/Bootstrap/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/Style/Default.min.css" />
+</head>
+<body>
+    <div class="header">
+        <dot:LinkButton Click="{command: SignOut()}" Text="Sign Out" class="header-item button-right" />  
+
+        <h1><span class="glyphicon glyphicon-cutlery"></span> CheckBook</h1>
+
+        <dot:RouteLink RouteName="home" class="{value: 'header-item ' + (ActivePage == 'home' ? 'header-item-active' : '')}">
+            <span class="glyphicon glyphicon-th"></span> My Groups
+        </dot:RouteLink>
+
+        <dot:RouteLink RouteName="settings" class="{value: 'header-item ' + (ActivePage == 'settings' ? 'header-item-active' : '')}">
+            <span class="glyphicon glyphicon-user"></span> My Profile
+        </dot:RouteLink>
+
+        <dot:RouteLink RouteName="manager" Text="Manager" class="{value: 'header-item ' + (ActivePage == 'manager' ? 'header-item-active' : '')}"
+                       Visible="{value: IsAdmin}">
+            <span class="glyphicon glyphicon-cog"></span> Settings
+        </dot:RouteLink>
+    </div>
+
+    <dot:ContentPlaceHolder ID="PageContent">
+    </dot:ContentPlaceHolder>
+</body>
+</html>
+
+

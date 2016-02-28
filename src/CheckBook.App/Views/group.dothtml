@@ -1,0 +1,97 @@
+﻿@viewModel CheckBook.App.ViewModels.GroupViewModel, CheckBook.App
+@masterPage Views/app.dotmaster
+
+<dot:Content ContentPlaceHolderID="PageContent">
+    
+    <div class="page">
+
+        <h1><span class="glyphicon glyphicon-th"></span> {{value: GroupName}}</h1>
+
+        <div class="row">
+            <div class="col-md-6 col-lg-6">
+                <div class="pull-right header-row-button">
+                    <dot:RouteLink RouteName="payment" class="btn btn-primary" Param-GroupId="{value: GroupId}" Param-Id="">
+                        <span class="glyphicon glyphicon-plus"></span> New Payment
+                    </dot:RouteLink>
+                </div>
+                <h2><span class="glyphicon glyphicon-calendar"></span> Payment History</h2>
+                <div class="clearfix"></div>
+
+                <dot:GridView class="table table-striped" DataSource="{value: Payments}">
+                    <Columns>
+                        <dot:GridViewTextColumn ValueBinding="{value: CreatedDate}" FormatString="d" HeaderText="Date" AllowSorting="true" />
+                        <dot:GridViewTextColumn ValueBinding="{value: Description}" HeaderText="Description" Width="80%" />
+                        <dot:GridViewTemplateColumn HeaderText="Amount">
+                            <ContentTemplate>
+                                <dot:Literal Text="{value: TotalAmount}" FormatString="n0" /> {{value: Currency}}
+                            </ContentTemplate>
+                        </dot:GridViewTemplateColumn>
+                        <dot:GridViewTemplateColumn>
+                            <dot:RouteLink RouteName="payment" Param-Id="{value: Id}" Param-GroupId="{value: GroupId}">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                            </dot:RouteLink>
+                        </dot:GridViewTemplateColumn>
+                    </Columns>
+                    <EmptyDataTemplate>
+                        <p><em>There are no payments in this group.</em></p>
+                    </EmptyDataTemplate>
+                </dot:GridView>
+
+                <dot:DataPager DataSet="{value: Payments}" class="pagination" />
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+                <h2><span class="glyphicon glyphicon-stats"></span> Settlement</h2>
+                <table class="table table-striped settlement-table">
+                    <thead>
+                        <tr>
+                            <th>Payment</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <dot:Repeater DataSource="{value: Settlement}" WrapperTagName="tbody">
+                        <ItemTemplate>
+                            <tr>
+                                <td>
+                                    {{value: Name1}}
+                                    <span class="glyphicon glyphicon-arrow-right"></span>
+                                    {{value: Name2}}
+                                </td>
+                                <td class="text-right">
+                                    <strong><dot:Literal Text="{value: Amount}" FormatString="n0" /> {{value: _root.Currency}}</strong>
+                                </td>
+                            </tr>
+                        </ItemTemplate>
+                        <EmptyDataTemplate>
+                            <p><em>All payments are settled now.</em></p>
+                        </EmptyDataTemplate>
+                    </dot:Repeater>
+                </table>
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+                <h2><span class="glyphicon glyphicon-user"></span> Members</h2>
+                <dot:Repeater DataSource="{value: Members}" class="member-list">
+                    <ItemTemplate>
+                        <div class="user-box">
+                            <div class="name">
+                                <cc:UserAvatar />
+                            </div>
+                            <div class="control">
+                                <strong class="{value: Amount >= 0 ? 'status-green' : 'status-red'}">
+                                    <dot:Literal Text="{value: Amount}" FormatString="n0" /> {{value: _root.Currency}}
+                                </strong>
+                            </div>
+                        </div>
+                    </ItemTemplate>
+                    <EmptyDataTemplate>
+                        <p><em>There are no members in this group.</em></p>
+                    </EmptyDataTemplate>
+                </dot:Repeater>
+            </div>
+
+        </div>
+    </div>
+    
+</dot:Content>
+

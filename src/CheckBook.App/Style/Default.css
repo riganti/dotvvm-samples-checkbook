@@ -1,0 +1,244 @@
+﻿/* COMMON STYLES */
+.page {
+  padding: 20px;
+  width: 100%;
+}
+.button-small {
+  width: 40%;
+}
+.button-120 {
+  width: 120px;
+}
+.button-right {
+  float: right;
+  margin-right: 10px;
+}
+.button-left {
+  float: left;
+  margin-left: 10px;
+}
+.input-right {
+  float: right;
+}
+.register-button {
+  margin-left: 30%;
+}
+.validation-box {
+  color: #a00000;
+}
+.status-box {
+  color: blue;
+}
+h1 {
+  margin-bottom: 30px;
+}
+div.content {
+  padding: 20px;
+}
+.inline-textbox {
+  display: inline-block;
+  width: 200px;
+}
+.header {
+  background-color: #2980b9;
+  height: 50px;
+  width: 100%;
+}
+.header h1 {
+  float: left;
+  margin: 0px 50px 0px 10px;
+  color: white;
+  line-height: 50px;
+  font-size: 24px;
+  opacity: 0.4;
+}
+.header-item {
+  display: inline-block;
+  line-height: 50px;
+  padding: 0px 20px;
+  height: 50px;
+  font-size: 14px;
+  color: white;
+}
+.header-item:hover {
+  text-decoration: none;
+  color: #e0e0e0;
+}
+.header-item-active {
+  background-color: #409ad5;
+}
+/* LOGIN FORM */
+.login-form {
+  margin: 10% auto 0;
+  width: 450px;
+}
+.login-input {
+  float: right;
+  width: 180px;
+}
+/* HOME PAGE */
+.tile-list .thumbnail {
+  display: inline-block;
+  width: 250px;
+  margin: 10px;
+  padding-top: 10px;
+}
+/* GROUP PAGE */
+.member-list {
+  margin-bottom: 20px;
+}
+.member-list .status-green {
+  color: #00aa00;
+}
+.member-list .status-red {
+  color: #aa0000;
+}
+.settlement-table {
+  width: 100%;
+}
+.header-row-button {
+  margin-top: 25px;
+}
+/* PAYMENT PAGE */
+.payment-group-form {
+  margin: 0 auto;
+  width: 850px;
+}
+.payment-group-form .payer-box h2 {
+  margin-top: 50px;
+}
+.user-box {
+  display: inline-block;
+  margin: 10px;
+}
+.user-box .name {
+  display: inline-block;
+  width: 200px;
+}
+.user-box .control {
+  display: inline-block;
+  width: 200px;
+}
+.user-box .control-small {
+  display: inline-block;
+  width: 50px;
+}
+.user-box img {
+  margin: 10px;
+  width: 60px;
+  height: 60px;
+}
+.user-box .form-control {
+  width: 80px;
+  display: inline-block;
+}
+/* SETTINGS PAGE */
+.settings-form {
+  width: 95%;
+  max-width: 600px;
+  margin-left: 20px;
+}
+/* MANAGER PAGE */
+.group-form {
+  width: 95%;
+  margin-left: 20px;
+}
+.member-box {
+  margin-top: 40px;
+}
+.group-select {
+  max-width: 400px;
+  margin-bottom: 20px;
+}
+.black-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #444;
+  z-index: 1001;
+  opacity: .5;
+  filter: alpha(opacity=50);
+}
+.white-content {
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  padding: 25px;
+  background-color: white;
+  z-index: 1002;
+  overflow-y: auto;
+  -moz-transform: translate(-50%, 0);
+  -ms-transform: translate(-50%, 0);
+  -o-transform: translate(-50%, 0);
+  -webkit-transform: translate(-50%, 0);
+  transform: translate(-50%, 0);
+  width: 500px;
+  max-height: 70%;
+  -moz-box-shadow: 0 0 20px 3px #888888;
+  -webkit-box-shadow: 10px ;
+  box-shadow: 0 0 20px 3px #888888;
+}
+.block-group {
+  display: inline-block;
+}
+.block-padded {
+  padding-top: 25px;
+}
+.block-grid {
+  padding: 25px;
+  width: 50%;
+  display: table;
+  float: left;
+  min-width: 500px;
+}
+.popup-button-left {
+  margin-left: 100px;
+}
+.popup-button-right {
+  margin-left: 20px;
+}
+.popup-input {
+  float: right;
+  width: 250px;
+}
+/*overrides*/
+.pagination > .active > a {
+  background-color: #555555;
+  border-color: #555555;
+  color: white;
+}
+.pagination > .active > a:hover,
+.pagination > .active > a:focus {
+  background-color: #222222;
+  border-color: #222222;
+}
+.pagination > li > a {
+  color: #222222;
+}
+.pagination > li > a:hover,
+.pagination > li > a:focus {
+  color: black;
+}
+.pagination > .disabled > a,
+.pagination > .disabled > a:focus {
+  color: #777;
+}
+.pagination > .disabled > a > button {
+  cursor: not-allowed;
+}
+.row {
+  margin-top: 10px;
+}
+.right {
+  text-align: right;
+}
+.form-control.date {
+  width: 160px;
+}
+@media screen and (max-width: 460px) {
+  .login-form {
+    width: 300px;
+  }
+}
