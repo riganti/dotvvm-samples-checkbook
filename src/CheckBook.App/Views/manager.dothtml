@@ -81,11 +81,11 @@
                             <label class="col-md-4 control-label">User Role</label>
                             <div class="col-md-8">
                                 <label class="radio-inline">
-                                    <dot:RadioButton CheckedItem="{value: EditedUser.UserRole}" CheckedValue="{value: 0}" />
+                                    <dot:RadioButton CheckedItem="{value: EditedUser.UserRole}" CheckedValue="{value: UserRole.User}" />
                                     User
                                 </label>
                                 <label class="radio-inline">
-                                    <dot:RadioButton CheckedItem="{value: EditedUser.UserRole}" CheckedValue="{value: 1}" />
+                                    <dot:RadioButton CheckedItem="{value: EditedUser.UserRole}" CheckedValue="{value: UserRole.Admin}" />
                                     Admin
                                 </label>
                             </div>

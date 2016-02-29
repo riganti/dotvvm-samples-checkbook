@@ -27,7 +27,14 @@ namespace CheckBook.App
             app.UseCookieAuthentication(new CookieAuthenticationOptions()
             {
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
-                LoginPath = new PathString("/")
+                LoginPath = new PathString("/"),
+                Provider = new CookieAuthenticationProvider()
+                {
+                    OnApplyRedirect = context =>
+                    {
+                        DotvvmAuthenticationHelper.ApplyRedirectResponse(context.OwinContext, context.RedirectUri);
+                    }
+                }
             });
 
             // use DotVVM
