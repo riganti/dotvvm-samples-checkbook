@@ -53,7 +53,7 @@ div.content {
 
 .header {
     background-color: #2980b9;
-    height: 50px;
+    min-height: 50px;
     width: 100%;
 
     h1 {
@@ -110,8 +110,6 @@ div.content {
 
 /* GROUP PAGE */
 .member-list {
-    margin-bottom: 20px;
-
     .status-green {
         color: #00aa00;
     }
@@ -123,13 +121,16 @@ div.content {
     width: 100%;
 }
 .header-row-button {
-    margin-top: 25px;
+   line-height: 36px;
+}
+.section {
+    margin-bottom: 50px;
 }
 
 /* PAYMENT PAGE */
 .payment-group-form {
     margin: 0 auto;
-    width: 850px;    
+    max-width: 960px;    
  
     .payer-box h2 {
         margin-top: 50px;
@@ -138,15 +139,24 @@ div.content {
 
 .user-box {
     display: inline-block;
-    margin: 10px;
 
     .name {
         display: inline-block;
-        width: 200px;
+        width: 250px;
+        
+        .text {
+            display: inline-block;
+            width: 165px;
+            vertical-align: middle;
+        }
     }
     .control {
         display: inline-block;
         width: 200px;
+    }
+    .control-medium {
+        display: inline-block;
+        width: 100px;
     }
     .control-small {
         display: inline-block;
@@ -157,11 +167,27 @@ div.content {
         margin: 10px;
         width: 60px;
         height: 60px;
+        display: inline-block;
     }
 
     .form-control {
         width: 80px;
         display: inline-block;
+    }
+}
+
+@media (max-width: 400px) {
+    .user-box {
+        width: 98%;
+        margin-bottom: 30px;
+
+        .name {
+            width: 100%;
+        }
+        .control, .control-medium, .control-small {
+            width: 100%;
+            text-align: right;
+        }
     }
 }
 
@@ -171,7 +197,11 @@ div.content {
     max-width: 600px;
     margin-left: 20px;
 }
-
+@media (max-width: 400px) {
+    .settings-table .email-column {
+        display: none;
+    }
+}
 
 /* MANAGER PAGE */
 .group-form {

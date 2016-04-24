@@ -9,6 +9,7 @@ using Microsoft.Owin.StaticFiles;
 using Owin;
 using DotVVM.Framework;
 using DotVVM.Framework.Configuration;
+using DotVVM.Framework.Hosting;
 using DotVVM.Framework.Storage;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.AspNet.Identity;
@@ -27,7 +28,14 @@ namespace CheckBook.App
             app.UseCookieAuthentication(new CookieAuthenticationOptions()
             {
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
-                LoginPath = new PathString("/")
+                LoginPath = new PathString("/"),
+                Provider = new CookieAuthenticationProvider()
+                {
+                    OnApplyRedirect = context =>
+                    {
+                        DotvvmAuthenticationHelper.ApplyRedirectResponse(context.OwinContext, context.RedirectUri);
+                    }
+                }
             });
 
             // use DotVVM

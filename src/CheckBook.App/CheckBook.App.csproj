@@ -1,5 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -43,8 +42,8 @@
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="DotVVM.Framework, Version=0.9.1.7, Culture=neutral, PublicKeyToken=23f3607db32275da, processorArchitecture=MSIL">
-      <HintPath>..\packages\DotVVM.0.9.1.7-pre\lib\net451\DotVVM.Framework.dll</HintPath>
+    <Reference Include="DotVVM.Framework, Version=1.0.0.0, Culture=neutral, PublicKeyToken=23f3607db32275da, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotVVM.1.0.0-rc\lib\net451\DotVVM.Framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
@@ -53,10 +52,6 @@
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="ExpressionEvaluator, Version=2.0.3.0, Culture=neutral, PublicKeyToken=90d9f15d622e2348, processorArchitecture=MSIL">
-      <HintPath>..\packages\ExpressionEvaluator.2.0.3.0\lib\net40\ExpressionEvaluator.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -147,9 +142,9 @@
     <Compile Include="ViewModels\SettingsViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="LICENSE.txt" />
     <Content Include="Scripts\autoHideAlert.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\inputMathExpressions.js" />
     <Content Include="Scripts\jquery-2.1.3.min.js" />
     <Content Include="Style\default.svg" />
     <Content Include="Style\dollar-exchange.png" />
@@ -167,7 +162,6 @@
     <Content Include="Web.config" />
     <Content Include="Views\login.dothtml" />
     <Content Include="packages.config" />
-    <Content Include="dotvvm.json" />
     <Content Include="Style\Default.less" />
     <None Include="compilerconfig.json" />
     <Content Include="compilerconfig.json.defaults">
@@ -187,6 +181,7 @@
     <Content Include="Views\group.dothtml" />
     <Content Include="Controls\UserAvatar.dotcontrol" />
     <Content Include="Controls\UserDetailForm.dotcontrol" />
+    <None Include="Properties\PublishProfiles\Production.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

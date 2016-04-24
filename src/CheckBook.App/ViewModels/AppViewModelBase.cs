@@ -36,7 +36,7 @@ namespace CheckBook.App.ViewModels
             Context.OwinContext.Authentication.SignOut();
 
             // redirect to the login route
-            Context.Redirect("login", null);
+            Context.RedirectToRoute("login");
         }
     }
 }

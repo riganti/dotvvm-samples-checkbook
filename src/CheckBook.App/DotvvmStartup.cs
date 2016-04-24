@@ -48,11 +48,16 @@ namespace CheckBook.App
 
         private void RegisterResources(DotvvmConfiguration config)
         {
-            // register custom script
+            // register custom scripts
             config.Resources.Register("autoHideAlert", new ScriptResource()
             {
                 Url = "/Scripts/autoHideAlert.js",
                 Dependencies = new[] { "jquery" }
+            });
+            config.Resources.Register("inputMathExpressions", new ScriptResource()
+            {
+                Url = "/Scripts/inputMathExpressions.js",
+                Dependencies = new [] { "jquery" }
             });
 
             // Note that the 'jquery' resource is registered in DotVVM and points to official jQuery CDN.

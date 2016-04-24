@@ -10,7 +10,7 @@
 
         <div class="{value: 'alert alert-' + AlertType}" Visible="{value: AlertText != null}">{{value: AlertText}}</div>
 
-        <form class="settings-form form-horizontal" ValidationMessage.SetToolTipText="true" ValidationMessage.InvalidCssClass="has-error">
+        <form class="settings-form form-horizontal" Validator.SetToolTipText="true" Validator.InvalidCssClass="has-error">
 
             <div class="form-group">
                 <div class="user-box">
@@ -18,7 +18,7 @@
                         <cc:UserAvatar DataContext="{value: Data}" />
                     </div>
                     <div class="control">
-                        <dot:FileUpload UploadedFiles="{value: AvatarFiles}" AllowMultipleFiles="false" UploadCompleted="{command: ProcessFile()}" Validate.Enabled="false" />
+                        <dot:FileUpload UploadedFiles="{value: AvatarFiles}" AllowMultipleFiles="false" UploadCompleted="{command: ProcessFile()}" Validation.Enabled="false" />
                     </div>
                 </div>
             </div>

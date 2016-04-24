@@ -8,6 +8,7 @@ using CheckBook.DataAccess.Data;
 using CheckBook.DataAccess.Services;
 using DotVVM.Framework.Controls;
 using DotVVM.Framework.Storage;
+using DotVVM.Framework.ViewModel;
 
 namespace CheckBook.App.ViewModels
 {

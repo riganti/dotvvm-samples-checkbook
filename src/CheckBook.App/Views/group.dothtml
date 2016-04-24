@@ -8,13 +8,13 @@
         <h1><span class="glyphicon glyphicon-th"></span> {{value: GroupName}}</h1>
 
         <div class="row">
-            <div class="col-md-6 col-lg-6">
+            <div class="col-md-6 col-lg-6 section">
                 <div class="pull-right header-row-button">
                     <dot:RouteLink RouteName="payment" class="btn btn-primary" Param-GroupId="{value: GroupId}" Param-Id="">
                         <span class="glyphicon glyphicon-plus"></span> New Payment
                     </dot:RouteLink>
                 </div>
-                <h2><span class="glyphicon glyphicon-calendar"></span> Payment History</h2>
+                <h2><span class="glyphicon glyphicon-calendar"></span> Payments</h2>
                 <div class="clearfix"></div>
 
                 <dot:GridView class="table table-striped" DataSource="{value: Payments}">
@@ -40,7 +40,7 @@
                 <dot:DataPager DataSet="{value: Payments}" class="pagination" />
             </div>
 
-            <div class="col-md-6 col-lg-3">
+            <div class="col-md-6 col-lg-3 section">
                 <h2><span class="glyphicon glyphicon-stats"></span> Settlement</h2>
                 <table class="table table-striped settlement-table">
                     <thead>
@@ -63,13 +63,19 @@
                             </tr>
                         </ItemTemplate>
                         <EmptyDataTemplate>
-                            <p><em>All payments are settled now.</em></p>
+                            <tbody>
+                                <tr>
+                                    <td colspan="2">
+                                        <em>All payments are settled now.</em>
+                                    </td>
+                                </tr>
+                            </tbody>
                         </EmptyDataTemplate>
                     </dot:Repeater>
                 </table>
             </div>
 
-            <div class="col-md-6 col-lg-3">
+            <div class="col-md-6 col-lg-3 section">
                 <h2><span class="glyphicon glyphicon-user"></span> Members</h2>
                 <dot:Repeater DataSource="{value: Members}" class="member-list">
                     <ItemTemplate>
@@ -77,7 +83,7 @@
                             <div class="name">
                                 <cc:UserAvatar />
                             </div>
-                            <div class="control">
+                            <div class="control-medium">
                                 <strong class="{value: Amount >= 0 ? 'status-green' : 'status-red'}">
                                     <dot:Literal Text="{value: Amount}" FormatString="n0" /> {{value: _root.Currency}}
                                 </strong>

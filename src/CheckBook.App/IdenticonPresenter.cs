@@ -34,7 +34,5 @@ namespace CheckBook.App
 
             return Task.FromResult(0);
         }
-
-        public IViewModelSerializer ViewModelSerializer { get; }
     }
 }

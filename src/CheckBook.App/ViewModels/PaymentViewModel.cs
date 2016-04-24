@@ -128,7 +128,7 @@ namespace CheckBook.App.ViewModels
         /// </summary>
         public void GoBack()
         {
-            Context.Redirect("group", new { Id = Data.GroupId });
+            Context.RedirectToRoute("group", new { Id = Data.GroupId });
         }
     }
 }

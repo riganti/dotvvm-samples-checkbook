@@ -4,11 +4,12 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
     <link rel="stylesheet" type="text/css" href="~/Style/Bootstrap/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="~/Style/MsModernButtons/m-buttons.min.css">
     <link rel="stylesheet" type="text/css" href="~/Style/Default.min.css">
 </head>
-<body ValidationMessage.InvalidCssClass="has-error" ValidationMessage.SetToolTipText="true">
+<body Validator.InvalidCssClass="has-error" Validator.SetToolTipText="true">
 
     <div class="page">
 
@@ -18,21 +19,28 @@
             </div>
 
             <div class="form-group">
-                <label class="col-xs-4 control-label">E-mail Address</label>
-                <div class="col-xs-8" ValidationMessage.ValidatedValue="{value: Email}">
-                    <dot:TextBox class="form-control" Text="{value: Email}" />
+                <label class="col-md-4 control-label">E-mail Address</label>
+                <div class="col-md-8" Validator.ValidatedValue="{value: Email}">
+                    <dot:TextBox class="form-control" Text="{value: Email}" name="username" />
                 </div>
             </div>
 
             <div class="form-group">
-                <label class="col-xs-4 control-label">Password</label>
-                <div class="col-xs-8" ValidationMessage.ValidatedValue="{value: Password}">
-                    <dot:TextBox class="form-control" Text="{value: Password}" Type="Password" />
+                <label class="col-md-4 control-label">Password</label>
+                <div class="col-md-8" Validator.ValidatedValue="{value: Password}">
+                    <dot:TextBox class="form-control" Text="{value: Password}" name="password" Type="Password" />
                 </div>
             </div>
 
             <div class="form-group">
-                <div class="col-xs-7 validation-box">
+                <label class="col-md-8 col-md-offset-4">
+                    <dot:CheckBox class="checkbox-inline" Checked="{value: RememberMe}" />
+                    Remember Me
+                </label>
+            </div>
+
+            <div class="form-group">
+                <div class="validation-box">
                     {{value: ErrorMessage}}
                     <dot:ValidationSummary />
                 </div>
@@ -46,7 +54,8 @@
                         </dot:UpdateProgress>
                     </div>
 
-                    <dot:Button Click="{command: SignIn()}" class="btn btn-primary" ButtonTagName="button">Sign In</dot:Button>
+                    <dot:Button Click="{command: SignIn()}" class="btn btn-primary" name="submit" 
+                                IsSubmitButton="true" ButtonTagName="button">Sign In</dot:Button>
                 </div>
             </div>
         </form>

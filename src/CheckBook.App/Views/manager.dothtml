@@ -12,22 +12,22 @@
 
                 <!-- users grid -->
                 <div class="pull-right header-row-button">
-                    <dot:LinkButton class="btn btn-primary" Click="{command: ShowUserPopup(null)}" Validate.Enabled="false">
+                    <dot:LinkButton class="btn btn-primary" Click="{command: ShowUserPopup(null)}" Validation.Enabled="false">
                         <span class="glyphicon glyphicon-plus"></span> Create User
                     </dot:LinkButton>
                 </div>
                 <h2><span class="glyphicon glyphicon-user"></span> Users</h2>
 
-                <dot:GridView DataSource="{value: Users}" class="table table-striped">
+                <dot:GridView DataSource="{value: Users}" class="table table-striped settings-table">
                     <Columns>
                         <dot:GridViewTextColumn ValueBinding="{value: LastName}" HeaderText="Last Name" AllowSorting="true" />
                         <dot:GridViewTextColumn ValueBinding="{value: FirstName}" HeaderText="First Name" AllowSorting="true" />
-                        <dot:GridViewTemplateColumn HeaderText="E-mail">
+                        <dot:GridViewTemplateColumn HeaderText="E-mail" HeaderCssClass="email-column" CssClass="email-column">
                             <a href="{value: 'mailto:' + Email}" InnerText="{value: Email}"></a>
                         </dot:GridViewTemplateColumn>
                         <dot:GridViewTextColumn ValueBinding="{value: UserRole == 'User' ? 'User' : 'Admin'}" HeaderText="Role" />
                         <dot:GridViewTemplateColumn Width="30px">
-                            <dot:LinkButton Click="{command: _root.ShowUserPopup(Id)}" Validate.Enabled="false">
+                            <dot:LinkButton Click="{command: _root.ShowUserPopup(Id)}" Validation.Enabled="false">
                                 <span class="glyphicon glyphicon-pencil"></span>
                             </dot:LinkButton>
                         </dot:GridViewTemplateColumn>
@@ -40,7 +40,7 @@
 
                 <!-- groups grid -->
                 <div class="pull-right header-row-button">
-                    <dot:LinkButton class="btn btn-primary" Click="{command: ShowGroupPopup(null)}" Validate.Enabled="false">
+                    <dot:LinkButton class="btn btn-primary" Click="{command: ShowGroupPopup(null)}" Validation.Enabled="false">
                         <span class="glyphicon glyphicon-plus"></span> Create Group
                     </dot:LinkButton>
                 </div>
@@ -50,7 +50,7 @@
                     <Columns>
                         <dot:GridViewTextColumn ValueBinding="{value: Name}" HeaderText="Name" AllowSorting="true" />
                         <dot:GridViewTemplateColumn Width="30px">
-                            <dot:LinkButton Click="{command: _root.ShowGroupPopup(Id)}" Validate.Enabled="false">
+                            <dot:LinkButton Click="{command: _root.ShowGroupPopup(Id)}" Validation.Enabled="false">
                                 <span class="glyphicon glyphicon-pencil"></span>
                             </dot:LinkButton>
                         </dot:GridViewTemplateColumn>
@@ -64,7 +64,7 @@
     </div>
     
     <!-- user detail popup -->
-    <div class="modal fade" tabindex="-1" role="dialog" data-id="user-detail" Validate.Target="{value: EditedUser}">
+    <div class="modal fade" tabindex="-1" role="dialog" data-id="user-detail" Validation.Target="{value: EditedUser}">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -74,18 +74,18 @@
                 <div class="modal-body">
                     <div class="alert alert-danger" Visible="{value: UserAlertText != null}">{{value: UserAlertText}}</div>
 
-                    <form class="settings-form form-horizontal" ValidationMessage.SetToolTipText="true" ValidationMessage.InvalidCssClass="has-error">
+                    <form class="settings-form form-horizontal" Validator.SetToolTipText="true" Validator.InvalidCssClass="has-error">
                         <cc:UserDetailForm DataContext="{value: EditedUser}" HideOptionalPasswordNotice="{value: Id == 0}" />
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">User Role</label>
                             <div class="col-md-8">
                                 <label class="radio-inline">
-                                    <dot:RadioButton CheckedItem="{value: EditedUser.UserRole}" CheckedValue="{value: 0}" />
+                                    <dot:RadioButton CheckedItem="{value: EditedUser.UserRole}" CheckedValue="User" />
                                     User
                                 </label>
                                 <label class="radio-inline">
-                                    <dot:RadioButton CheckedItem="{value: EditedUser.UserRole}" CheckedValue="{value: 1}" />
+                                    <dot:RadioButton CheckedItem="{value: EditedUser.UserRole}" CheckedValue="Admin" />
                                     Admin
                                 </label>
                             </div>
@@ -114,7 +114,7 @@
     </div>
 
     <!-- group detail popup -->
-    <div class="modal fade" tabindex="-1" role="dialog" data-id="group-detail" Validate.Target="{value: EditedGroup}">
+    <div class="modal fade" tabindex="-1" role="dialog" data-id="group-detail" Validation.Target="{value: EditedGroup}">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -124,15 +124,15 @@
                 <div class="modal-body">
                     <div class="alert alert-danger" Visible="{value: GroupAlertText != null}">{{value: GroupAlertText}}</div>
 
-                    <form class="group-form form-horizontal" ValidationMessage.SetToolTipText="true" ValidationMessage.InvalidCssClass="has-error">
+                    <form class="group-form form-horizontal" Validator.SetToolTipText="true" Validator.InvalidCssClass="has-error">
                         
-                        <div class="form-group" ValidationMessage.ValidatedValue="{value: EditedGroup.Name}">
+                        <div class="form-group" Validator.ValidatedValue="{value: EditedGroup.Name}">
                             <label class="col-md-4 control-label">Group Name</label>
                             <div class="col-md-8">
                                 <dot:TextBox Text="{value: EditedGroup.Name}" class="form-control" />
                             </div>
                         </div>
-                        <div class="form-group" ValidationMessage.ValidatedValue="{value: EditedGroup.Currency}">
+                        <div class="form-group" Validator.ValidatedValue="{value: EditedGroup.Currency}">
                             <label class="col-md-4 control-label">Currency</label>
                             <div class="col-md-8">
                                 <dot:TextBox Text="{value: EditedGroup.Currency}" class="form-control" />
@@ -149,7 +149,7 @@
                                             <cc:UserAvatar />
                                         </div>
                                         <div class="control-small">
-                                            <dot:LinkButton class="btn btn-default" Validate.Enabled="false" Click="{command: _root.GroupRemoveUser(_this)}">
+                                            <dot:LinkButton class="btn btn-default" Validation.Enabled="false" Click="{command: _root.GroupRemoveUser(_this)}">
                                                 <span class="glyphicon glyphicon-remove"></span>
                                             </dot:LinkButton>
                                         </div>
@@ -165,7 +165,7 @@
                             <h4><span class="glyphicon glyphicon-search"></span> Add Members</h4>
                             <div class="text-right">
                                 <dot:TextBox Text="{value: GroupSearchText}" class="form-control inline-textbox" placeholder="Name or E-mail Address..." />
-                                <dot:Button class="btn btn-default" IsSubmitButton="true" Validate.Enabled="false"
+                                <dot:Button class="btn btn-default" IsSubmitButton="true" Validation.Enabled="false"
                                             Click="{command: GroupSearch()}" ButtonTagName="button">
                                     <span class="glyphicon glyphicon-search"></span> Search Users
                                 </dot:Button>
@@ -178,7 +178,7 @@
                                             <cc:UserAvatar />
                                         </div>
                                         <div class="control-small">
-                                            <dot:LinkButton class="btn btn-default" Validate.Enabled="false" Click="{command: _root.GroupAddUser(_this)}">
+                                            <dot:LinkButton class="btn btn-default" Validation.Enabled="false" Click="{command: _root.GroupAddUser(_this)}">
                                                 <span class="glyphicon glyphicon-plus"></span>
                                             </dot:LinkButton>
                                         </div>

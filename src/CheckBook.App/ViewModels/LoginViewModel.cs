@@ -1,6 +1,8 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 using CheckBook.App.Helpers;
 using DotVVM.Framework.ViewModel;
+using Microsoft.Owin.Security;
 
 namespace CheckBook.App.ViewModels
 {
@@ -14,7 +16,8 @@ namespace CheckBook.App.ViewModels
 
         [Required(ErrorMessage = "The password is required!")]
         public string Password { get; set; }
-        
+
+        public bool RememberMe { get; set; }
 
         // The user cannot change this field in the browser so there is no point in transferring it from the client to the server
         [Bind(Direction.ServerToClient)]
@@ -32,10 +35,15 @@ namespace CheckBook.App.ViewModels
             else
             {
                 // issue an authentication cookie
-                Context.OwinContext.Authentication.SignIn(identity);
+                var properties = new AuthenticationProperties()
+                {
+                    IsPersistent = RememberMe,
+                    ExpiresUtc = RememberMe ? DateTime.UtcNow.AddMonths(1) : (DateTime?)null
+                };
+                Context.OwinContext.Authentication.SignIn(properties, identity);
 
                 // redirect to the home page
-                Context.Redirect("home");
+                Context.RedirectToRoute("home");
             }
         }
         

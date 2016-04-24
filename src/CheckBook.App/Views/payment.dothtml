@@ -1,22 +1,22 @@
 ﻿@viewModel CheckBook.App.ViewModels.PaymentViewModel, CheckBook.App
 @masterPage Views/app.dotmaster
 
-<dot:Content ContentPlaceHolderID="PageContent"  ValidationMessage.InvalidCssClass="has-error" ValidationMessage.SetToolTipText="true">
+<dot:Content ContentPlaceHolderID="PageContent"  Validator.InvalidCssClass="has-error" Validator.SetToolTipText="true">
     
     <div class="page">
         <form class="form-horizontal payment-group-form">
             <h1><span class="glyphicon glyphicon-piggy-bank"></span> Payment Details</h1>
             
             <div class="form-group">
-                <label class="col-xs-2 control-label">Date</label>
-                <div class="col-xs-10" ValidationMessage.ValidatedValue="{value: Data.CreatedDate}">
+                <label class="col-md-2 control-label">Date</label>
+                <div class="col-md-10" Validator.ValidatedValue="{value: Data.CreatedDate}">
                     <dot:TextBox class="form-control date" Text="{value: Data.CreatedDate}" FormatString="d" ValueType="DateTime" Enabled="{value: IsEditable}" />
                 </div>
             </div>
 
             <div class="form-group">
-                <label class="col-xs-2 control-label">Description</label>
-                <div class="col-xs-10" ValidationMessage.ValidatedValue="{value: Data.Description}">
+                <label class="col-md-2 control-label">Description</label>
+                <div class="col-md-10" Validator.ValidatedValue="{value: Data.Description}">
                     <dot:TextBox class="form-control" Text="{value: Data.Description}" Enabled="{value: IsEditable}" />
                 </div>
             </div>
@@ -29,9 +29,9 @@
                             <cc:UserAvatar />
                         </div>
                         <div class="control">
-                            <dot:TextBox Text="{value: Amount}" FormatString="n0" Enabled="{value: _root.IsEditable}" 
-                                         Changed="{command: _root.Recalculate()}" Validate.Enabled="false"
-                                         class="form-control" /> {{value: _root.Data.Currency}}
+                            <dot:TextBox Text="{value: Amount}" FormatString="n2" Enabled="{value: _root.IsEditable}" 
+                                         Changed="{command: _root.Recalculate()}" Validation.Enabled="false"
+                                         class="form-control amount" /> {{value: _root.Data.Currency}}
                         </div>
                     </div>
                 </dot:Repeater>
@@ -45,9 +45,9 @@
                             <cc:UserAvatar />
                         </div>
                         <div class="control">
-                            <dot:TextBox Text="{value: Amount}" FormatString="n0" Enabled="{value: _root.IsEditable}" 
-                                         Changed="{command: _root.Recalculate()}" Validate.Enabled="false"
-                                         class="form-control" /> {{value: _root.Data.Currency}}
+                            <dot:TextBox Text="{value: Amount}" FormatString="n2" Enabled="{value: _root.IsEditable}" 
+                                         Changed="{command: _root.Recalculate()}" Validation.Enabled="false"
+                                         class="form-control amount" /> {{value: _root.Data.Currency}}
                         </div>
                     </div>
                 </dot:Repeater>
@@ -57,7 +57,7 @@
                 <div class="alert alert-warning" Visible="{value: AmountDifference != 0}">
                     <span class="glyphicon glyphicon-alert"></span>
                     The payments and debts are not equal! If you save the payment, the difference of 
-                    <strong><dot:Literal Text="{value: AmountDifference}" FormatString="n0" /> {{value: _root.Data.Currency}}</strong>
+                    <strong><dot:Literal Text="{value: AmountDifference}" FormatString="n2" /> {{value: _root.Data.Currency}}</strong>
                     will be split between all people who are involved in this transaction.
                 </div>
 
@@ -80,10 +80,17 @@
                     <dot:Button Click="{command: Save()}" class="btn btn-primary" ButtonTagName="button" Visible="{value: IsEditable}">
                         <span class="glyphicon glyphicon-floppy-disk"></span> Save Changes
                     </dot:Button>
-                    <dot:Button Click="{command: GoBack()}" class="btn btn-default" ButtonTagName="button" Validate.Enabled="false">Go Back</dot:Button>
+                    <dot:Button Click="{command: GoBack()}" class="btn btn-default" ButtonTagName="button" Validation.Enabled="false">Go Back</dot:Button>
                 </div>
             </div>
         </form>
     </div>
+
+    <dot:InlineScript Dependencies="inputMathExpressions">
+        dotvvm.events.init.subscribe(function () {
+            // when everything in page is initialized, apply the jQuery expression evaluation script on textboxes
+            $(".amount").inputMathExpressions();
+        });
+    </dot:InlineScript>
 
 </dot:Content>
