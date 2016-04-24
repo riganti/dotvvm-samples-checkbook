@@ -1,12 +1,5 @@
 # CheckBook: [DotVVM](https://github.com/riganti/dotvvm) Sample App
 
-## Before you start...
-
-This sample waits until the DotVVM 1.0 is released. Until then, it references pre-release version of DotVVM which is not on the official Nuget feed.
-You can create it on your own package from the **future** branch in the [DotVVM](https://github.com/riganti/dotvvm) repository.
-
-
-
 ## Running The Sample
 
 If you are using _SQL Server Express_, just open the project in Visual Studio and run. The database will be created automatically.
