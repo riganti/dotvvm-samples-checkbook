@@ -26,6 +26,7 @@ namespace CheckBook.App.ViewModels
 
         public string ErrorMessage { get; set; }
         
+        [Protect(ProtectMode.SignData)]
         public bool IsEditable { get; set; }
 
         public bool IsDeletable { get; set; }

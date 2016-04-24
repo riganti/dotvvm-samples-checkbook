@@ -11,6 +11,8 @@ namespace CheckBook.App
             RegisterRoutes(config);
             RegisterMarkupControls(config);
             RegisterResources(config);
+
+            config.Markup.ImportedNamespaces.Add("CheckBook.DataAccess.Enums");
         }
 
         private void RegisterRoutes(DotvvmConfiguration config)

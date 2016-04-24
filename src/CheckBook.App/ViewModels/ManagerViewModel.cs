@@ -7,6 +7,7 @@ using CheckBook.DataAccess.Data;
 using CheckBook.DataAccess.Enums;
 using CheckBook.DataAccess.Services;
 using DotVVM.Framework.Runtime.Filters;
+using DotVVM.Framework.ViewModel;
 
 namespace CheckBook.App.ViewModels
 {
@@ -34,11 +35,12 @@ namespace CheckBook.App.ViewModels
 
         public GroupData EditedGroup { get; set; } = new GroupData();
 
+        [Bind(Direction.ServerToClient)]
         public string GroupAlertText { get; private set; }
 
         public string GroupSearchText { get; private set; }
 
-        public List<UserInfoData> GroupSearchResults { get; private set; }
+        public List<UserInfoData> GroupSearchResults { get; set; }
 
         public List<UserInfoData> GroupUsers { get; set; }
 
