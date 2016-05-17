@@ -105,6 +105,7 @@
     <Compile Include="Data\GroupData.cs" />
     <Compile Include="Data\GroupMemberData.cs" />
     <Compile Include="Data\IAvatarData.cs" />
+    <Compile Include="Data\MyTransactionData.cs" />
     <Compile Include="Data\PaymentData.cs" />
     <Compile Include="Data\SettlementData.cs" />
     <Compile Include="Data\TransactionData.cs" />

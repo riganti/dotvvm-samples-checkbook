@@ -12,7 +12,6 @@ namespace CheckBook.DataAccess.Services
 {
     public static class PaymentService
     {
-        
         /// <summary>
         /// Loads all payments in the specified group.
         /// </summary>
@@ -26,6 +25,19 @@ namespace CheckBook.DataAccess.Services
 
                 // This handles sorting and paging for you. Just give the IQueryable<T> into the dataSet's LoadFromQueryable method
                 dataSet.LoadFromQueryable(payments);
+            }
+        }
+
+        public static void LoadMyTransactions(int userId, Action<IQueryable<MyTransactionData>> resultCallback)
+        {
+            using (var db = new AppContext())
+            {
+                var payments = db.Payments
+                    .Where(p => p.Transactions.Any(t => t.UserId == userId))
+                    .OrderByDescending(p => p.CreatedDate)
+                    .Select(ToMyTransactionData(userId));
+
+                resultCallback(payments);
             }
         }
 
@@ -206,7 +218,7 @@ namespace CheckBook.DataAccess.Services
             using (var db = new AppContext())
             {
                 var user = db.Users.Find(userId);
-                return user.UserRole == UserRole.Admin 
+                return user.UserRole == UserRole.Admin
                        || db.Payments.Any(pg => pg.Id == paymentId && pg.Group.UserGroups.Any(ug => ug.UserId == userId));
             }
         }
@@ -225,6 +237,22 @@ namespace CheckBook.DataAccess.Services
                     GroupId = pg.GroupId
                 };
             }
+        }
+
+        private static Expression<Func<Payment, MyTransactionData>> ToMyTransactionData(int userId)
+        {
+            return p => new MyTransactionData()
+            {
+                PaymentId = p.Id,
+                Description = p.Description,
+                TotalAmount = p.Transactions.Where(t => t.Amount > 0).Sum(t => (decimal?)t.Amount) ?? 0,
+                CreatedDate = p.CreatedDate,
+                Currency = p.Group.Currency,
+                GroupId = p.GroupId,
+                GroupName = p.Group.Name,
+                MyBalance = p.Transactions.Where(t => t.UserId == userId).Sum(t => (decimal?)t.Amount) ?? 0,
+                MySpending = p.Transactions.Where(t => t.UserId == userId && t.Amount < 0).Sum(t => (decimal?)t.Amount) ?? 0
+            };
         }
     }
 }

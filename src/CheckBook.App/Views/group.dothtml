@@ -19,8 +19,8 @@
 
                 <dot:GridView class="table table-striped" DataSource="{value: Payments}">
                     <Columns>
-                        <dot:GridViewTextColumn ValueBinding="{value: CreatedDate}" FormatString="d" HeaderText="Date" AllowSorting="true" />
-                        <dot:GridViewTextColumn ValueBinding="{value: Description}" HeaderText="Description" Width="80%" />
+                        <dot:GridViewTextColumn ValueBinding="{value: CreatedDate}" FormatString="MM/dd/yy, ddd" HeaderText="Date" AllowSorting="true" />
+                        <dot:GridViewTextColumn ValueBinding="{value: Description}" HeaderText="Description" Width="76%" />
                         <dot:GridViewTemplateColumn HeaderText="Amount">
                             <ContentTemplate>
                                 <dot:Literal Text="{value: TotalAmount}" FormatString="n0" /> {{value: Currency}}
