@@ -10,7 +10,7 @@
     <link rel="stylesheet" type="text/css" href="~/Style/Default.min.css" />
 </head>
 <body>
-    <div class="header">
+    <div class="header" RenderSettings.Mode="Server">
         <dot:LinkButton Click="{command: SignOut()}" Text="Sign Out" class="header-item button-right" />  
 
         <h1><span class="glyphicon glyphicon-cutlery"></span> CheckBook</h1>
