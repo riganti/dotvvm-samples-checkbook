@@ -12,7 +12,7 @@ The default user account is **smith@test.com** / **Pa$$w0rd**.
 
 ## Features Demonstrated in the Sample
 
-* [Master Pages](https://www.dotvvm.com/docs/tutorials/basics-master-pages) and [Markup Controls](https://www.dotvvm.com/docs/tutorials/control-development-markup-controls)
+* [Master Pages](https://www.dotvvm.com/docs/tutorials/basics-master-pages) and [Markup Controls](https://www.dotvvm.com/docs/tutorials/control-development-markup-only-controls)
 
 * [Validation](https://www.dotvvm.com/docs/tutorials/basics-validation)
 
@@ -22,7 +22,7 @@ The default user account is **smith@test.com** / **Pa$$w0rd**.
 
 * [Authentication](https://www.dotvvm.com/docs/tutorials/advanced-owin-security) and [Authorization](https://www.dotvvm.com/docs/tutorials/advanced-authentication-authorization)
 
-* [Presenters](https://www.dotvvm.com/docs/tutorials/advanced-presenters)
+* [Presenters](https://www.dotvvm.com/docs/tutorials/advanced-custom-presenters)
 
 * Bootstrap and Modal Dialogs
 
