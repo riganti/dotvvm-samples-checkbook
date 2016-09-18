@@ -84,10 +84,10 @@ div.content {
   padding-top: 10px;
 }
 /* GROUP PAGE */
-.member-list .status-green {
+.status-green {
   color: #00aa00;
 }
-.member-list .status-red {
+.status-red {
   color: #aa0000;
 }
 .settlement-table {

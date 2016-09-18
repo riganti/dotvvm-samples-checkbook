@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 using CheckBook.App.Helpers;
 using DotVVM.Framework.ViewModel;
 using Microsoft.Owin.Security;
@@ -23,6 +24,16 @@ namespace CheckBook.App.ViewModels
         [Bind(Direction.ServerToClient)]
         public string ErrorMessage { get; set; }
 
+
+        public override Task Init()
+        {
+            if (!Context.IsPostBack && Context.OwinContext.Authentication.User.Identity.IsAuthenticated)
+            {
+                Context.RedirectToRoute("home");
+            }
+
+            return base.Init();
+        }
 
 
         public void SignIn()

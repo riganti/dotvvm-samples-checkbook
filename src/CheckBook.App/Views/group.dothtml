@@ -19,7 +19,7 @@
 
                 <dot:GridView class="table table-striped" DataSource="{value: Payments}">
                     <Columns>
-                        <dot:GridViewTextColumn ValueBinding="{value: CreatedDate}" FormatString="MM/dd/yy, ddd" HeaderText="Date" AllowSorting="true" />
+                        <dot:GridViewTextColumn ValueBinding="{value: CreatedDate}" FormatString="D" HeaderText="Date" AllowSorting="true" />
                         <dot:GridViewTextColumn ValueBinding="{value: Description}" HeaderText="Description" Width="76%" />
                         <dot:GridViewTemplateColumn HeaderText="Amount">
                             <ContentTemplate>
@@ -61,16 +61,7 @@
                                     <strong><dot:Literal Text="{value: Amount}" FormatString="n0" /> {{value: _root.Currency}}</strong>
                                 </td>
                             </tr>
-                        </ItemTemplate>
-                        <EmptyDataTemplate>
-                            <tbody>
-                                <tr>
-                                    <td colspan="2">
-                                        <em>All payments are settled now.</em>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </EmptyDataTemplate>
+                        </ItemTemplate>                       
                     </dot:Repeater>
                 </table>
             </div>

@@ -15,7 +15,7 @@ namespace CheckBook.DataAccess.Services
         {
             // sort members by amounts and exclude 
             var sortedMembers = members
-                .Where(m => m.Amount != 0)
+                .Where(m => Math.Abs(m.Amount) >= 1)
                 .OrderBy(m => m.Amount)
                 .Select(m => new TempMemberData()
                 {
@@ -25,7 +25,7 @@ namespace CheckBook.DataAccess.Services
                 .ToList();
 
             // generate transactions until the list is empty
-            while (sortedMembers.Count > 0)
+            while (sortedMembers.Count > 1)
             {
                 // get the first member (he owes the most) and send his money to the last one (he paid most)
                 var first = sortedMembers[0];
@@ -42,12 +42,12 @@ namespace CheckBook.DataAccess.Services
 
                 // update the members and sort again
                 first.Amount += amountToSend;
-                if (first.Amount == 0)
+                if (Math.Abs(first.Amount) < 1)
                 {
                     sortedMembers.RemoveAt(0);
                 }
                 last.Amount -= amountToSend;
-                if (last.Amount == 0)
+                if (Math.Abs(last.Amount) < 1)
                 {
                     sortedMembers.RemoveAt(sortedMembers.Count - 1);
                 }

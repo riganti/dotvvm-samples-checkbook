@@ -28,7 +28,7 @@ namespace CheckBook.DataAccess.Services
             }
         }
 
-        public static void LoadMyTransactions(int userId, Action<IQueryable<MyTransactionData>> resultCallback)
+        public static void LoadMyTransactions(int userId, GridViewDataSet<MyTransactionData> dataSet)
         {
             using (var db = new AppContext())
             {
@@ -37,7 +37,8 @@ namespace CheckBook.DataAccess.Services
                     .OrderByDescending(p => p.CreatedDate)
                     .Select(ToMyTransactionData(userId));
 
-                resultCallback(payments);
+                // This handles sorting and paging for you. Just give the IQueryable<T> into the dataSet's LoadFromQueryable method
+                dataSet.LoadFromQueryable(payments);
             }
         }
 

@@ -17,14 +17,11 @@ namespace CheckBook.App.ViewModels
         /// </summary>
         public List<GroupData> Groups { get; set; }
 
-        public List<MyTransactionData> MyTransactions { get; set; }
 
         public override Task PreRender()
         {
             var userId = GetUserId();
             Groups = GroupService.GetGroupsByUser(userId);
-
-            PaymentService.LoadMyTransactions(userId, q => MyTransactions = q.ToList());
 
             return base.PreRender();
         }

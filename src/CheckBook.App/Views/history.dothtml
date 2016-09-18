@@ -1,0 +1,41 @@
+﻿@viewModel CheckBook.App.ViewModels.HistoryViewModel, CheckBook.App
+@masterPage Views/app.dotmaster
+
+<dot:Content ContentPlaceHolderID="PageContent">
+
+    <div class="page">
+        <h1><span class="glyphicon glyphicon-time"></span> Payment History</h1>
+        
+        <dot:GridView DataSource="{value: MyTransactions}" class="table" RenderSettings.Mode="Server">
+            <dot:GridViewTextColumn ValueBinding="{value: CreatedDate}" FormatString="D" HeaderText="Date" />
+            <dot:GridViewTextColumn ValueBinding="{value: Description}" HeaderText="Description" />
+            <dot:GridViewTemplateColumn HeaderText="My Balance" CssClass="{value: MyBalance >= 0 ? "status-green" : "status-red"}">
+                <ContentTemplate>
+                    <dot:Literal Text="{value: MyBalance}" FormatString="+ #;- #;0" /> {{value: Currency}}
+                </ContentTemplate>
+            </dot:GridViewTemplateColumn>
+            <dot:GridViewTemplateColumn HeaderText="My Spending">
+                <ContentTemplate>
+                    <dot:Literal Text="{value: MySpending}" FormatString="n0" /> {{value: Currency}}
+                </ContentTemplate>
+            </dot:GridViewTemplateColumn>
+            <dot:GridViewTemplateColumn HeaderText="Total Paid">
+                <ContentTemplate>
+                    <dot:Literal Text="{value: TotalAmount}" FormatString="n0" /> {{value: Currency}}
+                </ContentTemplate>
+            </dot:GridViewTemplateColumn>
+            <dot:GridViewTemplateColumn HeaderText="Group">
+                <dot:RouteLink RouteName="group" Param-Id="{value: GroupId}" Text="{value: GroupName}" />
+            </dot:GridViewTemplateColumn>
+            <dot:GridViewTemplateColumn>
+                <dot:RouteLink RouteName="payment" Param-Id="{value: PaymentId}" Param-GroupId="{value: GroupId}">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                </dot:RouteLink>
+            </dot:GridViewTemplateColumn>
+        </dot:GridView>
+
+        <dot:DataPager DataSet="{value: MyTransactions}" class="pagination" />
+    </div>
+
+</dot:Content>
+

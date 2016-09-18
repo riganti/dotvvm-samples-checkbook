@@ -1,3 +1,4 @@
+using DotVVM.Framework.Compilation;
 using DotVVM.Framework.Configuration;
 using DotVVM.Framework.ResourceManagement;
 using DotVVM.Framework.Routing;
@@ -12,7 +13,7 @@ namespace CheckBook.App
             RegisterMarkupControls(config);
             RegisterResources(config);
 
-            config.Markup.ImportedNamespaces.Add("CheckBook.DataAccess.Enums");
+            config.Markup.ImportedNamespaces.Add(new NamespaceImport("CheckBook.DataAccess.Enums"));
         }
 
         private void RegisterRoutes(DotvvmConfiguration config)

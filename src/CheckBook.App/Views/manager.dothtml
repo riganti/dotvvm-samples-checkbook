@@ -34,7 +34,7 @@
                     </Columns>
                 </dot:GridView>
                 
-                <dot:DataPager DataSet="{value: Users}" class="pagination" />
+                <dot:DataPager DataSet="{value: Users}" class="pagination" Validation.Enabled="false" />
             </div>
             <div class="col-md-6">
 
@@ -57,7 +57,7 @@
                     </Columns>
                 </dot:GridView>
 
-                <dot:DataPager DataSet="{value: Groups}" class="pagination" />
+                <dot:DataPager DataSet="{value: Groups}" class="pagination" Validation.Enabled="false" />
 
             </div>
         </div>

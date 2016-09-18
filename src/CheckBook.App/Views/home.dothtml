@@ -30,37 +30,6 @@
                     </div>
                 </div>
             </dot:Repeater>
-
-        </div>
-
-        <div>
-            <dot:GridView DataSource="{value: MyTransactions}" class="table" RenderSettings.Mode="Server">
-                <dot:GridViewTextColumn ValueBinding="{value: CreatedDate}" FormatString="MM/dd/yy, ddd" HeaderText="Date" />
-                <dot:GridViewTextColumn ValueBinding="{value: Description}" HeaderText="Description" />
-                <dot:GridViewTemplateColumn HeaderText="My Balance" CssClass="{value: MyBalance >= 0 ? "" : "status-red"}">
-                    <ContentTemplate>
-                        <dot:Literal Text="{value: MyBalance}" FormatString="+ #;- #;0" /> {{value: Currency}}
-                    </ContentTemplate>
-                </dot:GridViewTemplateColumn>
-                <dot:GridViewTemplateColumn HeaderText="My Spending">
-                    <ContentTemplate>
-                        <dot:Literal Text="{value: MySpending}" FormatString="n0" /> {{value: Currency}}
-                    </ContentTemplate>
-                </dot:GridViewTemplateColumn>
-                <dot:GridViewTemplateColumn HeaderText="total Amount">
-                    <ContentTemplate>
-                        <dot:Literal Text="{value: TotalAmount}" FormatString="n0" /> {{value: Currency}}
-                    </ContentTemplate>
-                </dot:GridViewTemplateColumn>
-                <dot:GridViewTemplateColumn HeaderText="Group">
-                    <dot:RouteLink RouteName="group" Param-Id="{value: GroupId}" Text="{value: GroupName}" />
-                </dot:GridViewTemplateColumn>
-                <dot:GridViewTemplateColumn>
-                    <dot:RouteLink RouteName="payment" Param-Id="{value: PaymentId}" Param-GroupId="{value: GroupId}">
-                        <span class="glyphicon glyphicon-pencil"></span>
-                    </dot:RouteLink>
-                </dot:GridViewTemplateColumn>
-            </dot:GridView>
         </div>
     </div>
 
