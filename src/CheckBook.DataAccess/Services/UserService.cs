@@ -17,7 +17,7 @@ namespace CheckBook.DataAccess.Services
         /// </summary>
         public static UserWithPasswordData GetUserWithPassword(string email)
         {
-            using (var db = new AppContext())
+            using (var db = new Context.AppContext())
             {
                 email = email.Trim().ToLower();
 
@@ -32,7 +32,7 @@ namespace CheckBook.DataAccess.Services
         /// </summary>
         public static UserInfoData GetUserInfo(int id)
         {
-            using (var db = new AppContext())
+            using (var db = new Context.AppContext())
             {
                 return db.Users
                     .Select(ToUserInfoData)
@@ -45,7 +45,7 @@ namespace CheckBook.DataAccess.Services
         /// </summary>
         public static void LoadUserInfos(GridViewDataSet<UserInfoData> dataSet)
         {
-            using (var db = new AppContext())
+            using (var db = new Context.AppContext())
             {
                 var users = db.Users
                     .Select(ToUserInfoData);
@@ -59,7 +59,7 @@ namespace CheckBook.DataAccess.Services
         /// </summary>
         public static List<UserInfoData> SearchUsers(string searchText)
         {
-            using (var db = new AppContext())
+            using (var db = new Context.AppContext())
             {
                 IQueryable<User> users = db.Users;
                 if (!string.IsNullOrWhiteSpace(searchText))
@@ -80,7 +80,7 @@ namespace CheckBook.DataAccess.Services
         /// </summary>
         public static List<UserInfoData> GetGroupUsers(int groupId)
         {
-            using (var db = new AppContext())
+            using (var db = new Context.AppContext())
             {
                 return db.Users
                     .Where(u => u.UserGroups.Any(g => g.GroupId == groupId))
@@ -95,7 +95,7 @@ namespace CheckBook.DataAccess.Services
         /// </summary>
         public static void UpdateUserInfo(UserInfoData user, int userId)
         {
-            using (var db = new AppContext())
+            using (var db = new Context.AppContext())
             {
                 var entity = db.Users.Find(userId);
 
@@ -110,7 +110,7 @@ namespace CheckBook.DataAccess.Services
         /// </summary>
         public static void CreateOrUpdateUserInfo(UserInfoData user)
         {
-            using (var db = new AppContext())
+            using (var db = new Context.AppContext())
             {
                 var entity = db.Users.Find(user.Id);
                 if (entity == null)
@@ -131,7 +131,7 @@ namespace CheckBook.DataAccess.Services
             }
         }
 
-        private static void UpdateUserInfoCore(UserInfoData user, User entity, AppContext db)
+        private static void UpdateUserInfoCore(UserInfoData user, User entity, DataAccess.Context.AppContext db)
         {
             // update first and last name
             entity.FirstName = user.FirstName;
@@ -160,7 +160,7 @@ namespace CheckBook.DataAccess.Services
         /// </summary>
         public static void DeleteUser(int id)
         {
-            using (var db = new AppContext())
+            using (var db = new Context.AppContext())
             {
                 var user = db.Users.Find(id);
                 if (user.Transactions.Any())

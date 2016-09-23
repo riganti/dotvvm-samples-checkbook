@@ -21,27 +21,28 @@
             <div class="form-group">
                 <label class="col-md-4 control-label">E-mail Address</label>
                 <div class="col-md-8" Validator.ValidatedValue="{value: Email}">
-                    <dot:TextBox class="form-control" Text="{value: Email}" name="username" />
+                    <dot:TextBox class="form-control" Text="{value: Email}" name="username"  UITests.Name="Email"/>
                 </div>
             </div>
 
             <div class="form-group">
                 <label class="col-md-4 control-label">Password</label>
                 <div class="col-md-8" Validator.ValidatedValue="{value: Password}">
-                    <dot:TextBox class="form-control" Text="{value: Password}" name="password" Type="Password" />
+                    <dot:TextBox class="form-control" Text="{value: Password}" name="password" Type="Password" UITests.Name="Password">
+                    </dot:TextBox>
                 </div>
             </div>
 
             <div class="form-group">
                 <label class="col-md-8 col-md-offset-4">
-                    <dot:CheckBox class="checkbox-inline" Checked="{value: RememberMe}" />
+                    <dot:CheckBox class="checkbox-inline" Checked="{value: RememberMe}"  UITests.Name="RememberMe"/>
                     Remember Me
                 </label>
             </div>
 
             <div class="form-group">
                 <div class="validation-box">
-                    {{value: ErrorMessage}}
+                    <dot:Literal Text="{value: ErrorMessage}" UITests.Name="ErrorMessage" />
                     <dot:ValidationSummary />
                 </div>
             </div>
@@ -55,7 +56,7 @@
                     </div>
 
                     <dot:Button Click="{command: SignIn()}" class="btn btn-primary" name="submit" 
-                                IsSubmitButton="true" ButtonTagName="button">Sign In</dot:Button>
+                                IsSubmitButton="true" ButtonTagName="button" UITests.Name="SignIn">Sign In</dot:Button>
                 </div>
             </div>
         </form>

@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CheckBook.App", "CheckBook.App\CheckBook.App.csproj", "{A5EA0101-0A7E-4182-A28C-DD223A8C0DBD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CheckBook.DataAccess", "CheckBook.DataAccess\CheckBook.DataAccess.csproj", "{7091EB10-4E6B-48E6-A30C-964C7D806A32}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CheckBook.App.Tests", "CheckBook.App.Tests\CheckBook.App.Tests.csproj", "{82632A34-5D8D-4477-B0B6-1612A44DCCF6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{7091EB10-4E6B-48E6-A30C-964C7D806A32}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7091EB10-4E6B-48E6-A30C-964C7D806A32}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7091EB10-4E6B-48E6-A30C-964C7D806A32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82632A34-5D8D-4477-B0B6-1612A44DCCF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82632A34-5D8D-4477-B0B6-1612A44DCCF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82632A34-5D8D-4477-B0B6-1612A44DCCF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82632A34-5D8D-4477-B0B6-1612A44DCCF6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

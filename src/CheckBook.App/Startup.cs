@@ -22,7 +22,7 @@ namespace CheckBook.App
         public void Configuration(IAppBuilder app)
         {
             // set up Entity Framework Migrations
-            Database.SetInitializer(new MigrateDatabaseToLatestVersion<AppContext, DataAccess.Migrations.Configuration>());
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<DataAccess.Context.AppContext, DataAccess.Migrations.Configuration>());
 
             // use cookie authentication
             app.UseCookieAuthentication(new CookieAuthenticationOptions()
@@ -33,7 +33,7 @@ namespace CheckBook.App
                 {
                     OnApplyRedirect = context =>
                     {
-                        DotvvmAuthenticationHelper.ApplyRedirectResponse(context.OwinContext, context.RedirectUri);
+                        DotvvmAuthentication.ApplyRedirect(context.OwinContext, context.RedirectUri);
                     }
                 }
             });

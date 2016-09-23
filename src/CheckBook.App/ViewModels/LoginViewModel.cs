@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using CheckBook.App.Helpers;
+using DotVVM.Framework.AspNetCore.Hosting;
 using DotVVM.Framework.ViewModel;
 using Microsoft.Owin.Security;
 
@@ -40,7 +41,7 @@ namespace CheckBook.App.ViewModels
                     IsPersistent = RememberMe,
                     ExpiresUtc = RememberMe ? DateTime.UtcNow.AddMonths(1) : (DateTime?)null
                 };
-                Context.OwinContext.Authentication.SignIn(properties, identity);
+                Context.GetAuthentication().SignIn(properties, identity);
 
                 // redirect to the home page
                 Context.RedirectToRoute("home");

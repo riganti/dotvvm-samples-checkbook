@@ -1,0 +1,7 @@
+{
+  "version": 1,
+  "projectName": "CheckBook.App",
+  "rootNamespace": "CheckBook.App",
+  "uiTestProjectPath": "..\\CheckBook.App.Tests",
+  "uiTestProjectRootNamespace": "CheckBook.App.Tests"
+}

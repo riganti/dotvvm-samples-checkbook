@@ -17,7 +17,7 @@ namespace CheckBook.DataAccess.Services
         /// </summary>
         public static void LoadGroups(GridViewDataSet<GroupData> dataSet)
         {
-            using (var db = new AppContext())
+            using (var db = new Context.AppContext())
             {
                 var groups = db.Groups
                     .Select(ToGroupData);
@@ -30,7 +30,7 @@ namespace CheckBook.DataAccess.Services
         /// </summary>
         public static List<GroupData> GetGroupsByUser(int userId)
         {
-            using (var db = new AppContext())
+            using (var db = new Context.AppContext())
             {
                 return db.Groups
                     .Where(g => g.UserGroups.Any(ug => ug.UserId == userId))
@@ -52,7 +52,7 @@ namespace CheckBook.DataAccess.Services
         /// </summary>
         public static GroupData GetGroup(int groupId)
         {
-            using (var db = new AppContext())
+            using (var db = new Context.AppContext())
             {
                 return db.Groups
                     .Select(ToGroupData)
@@ -65,7 +65,7 @@ namespace CheckBook.DataAccess.Services
         /// </summary>
         public static void CreateOrUpdateGroup(GroupData group, List<UserInfoData> groupUsers)
         {
-            using (var db = new AppContext())
+            using (var db = new Context.AppContext())
             {
                 // get or create the group
                 var entity = db.Groups.Include(u => u.UserGroups).SingleOrDefault(g => g.Id == group.Id);
@@ -109,7 +109,7 @@ namespace CheckBook.DataAccess.Services
         /// </summary>
         public static void DeleteGroup(int id)
         {
-            using (var db = new AppContext())
+            using (var db = new Context.AppContext())
             {
                 var group = db.Groups.Find(id);
                 db.Groups.Remove(group);
@@ -122,7 +122,7 @@ namespace CheckBook.DataAccess.Services
         /// </summary>
         public static List<GroupMemberData> GetGroupMembers(int groupId)
         {
-            using (var db = new AppContext())
+            using (var db = new Context.AppContext())
             {
                 var toGroupMemberData = GetToGroupMemberData(groupId);
 
