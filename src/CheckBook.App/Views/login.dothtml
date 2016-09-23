@@ -42,7 +42,7 @@
 
             <div class="form-group">
                 <div class="validation-box">
-                    <dot:Literal Text="{value: ErrorMessage}" UITests.Name="ErrorMessage" />
+                    <dot:Literal Text="{value: ErrorMessage}"  UITests.Name="ErrorMessage"/>
                     <dot:ValidationSummary />
                 </div>
             </div>

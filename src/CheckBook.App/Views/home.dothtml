@@ -8,7 +8,7 @@
 
         <div class="tile-list">
 
-            <dot:Repeater DataSource="{value: Groups}" RenderSettings.Mode="Server">
+            <dot:Repeater DataSource="{value: Groups}" RenderSettings.Mode="Server" UITests.Name="Groups">
                 <div class="thumbnail">
                     <dot:RouteLink RouteName="group" Param-Id="{value: Id}">
                         <img src="{value: ImageUrl}" alt="{value: Name}" />
@@ -16,7 +16,7 @@
 
                     <div class="caption">
                         <h3>{{value: Name}}</h3>
-                        <p>Total spendings: <strong><dot:Literal Text="{value: TotalSpending}" FormatString="n0" /> {{value: Currency}}</strong></p>
+                        <p>Total spendings: <strong><dot:Literal Text="{value: TotalSpending}" FormatString="n0"  UITests.Name="TotalSpending"/> {{value: Currency}}</strong></p>
                         <p>Payments: <strong>{{value: TotalPayments}}</strong></p>
 
                         <div class="text-right">
@@ -39,17 +39,17 @@
                 <dot:GridViewTextColumn ValueBinding="{value: Description}" HeaderText="Description" />
                 <dot:GridViewTemplateColumn HeaderText="My Balance" CssClass="{value: MyBalance >= 0 ? "" : "status-red"}">
                     <ContentTemplate>
-                        <dot:Literal Text="{value: MyBalance}" FormatString="+ #;- #;0" /> {{value: Currency}}
+                        <dot:Literal Text="{value: MyBalance}" FormatString="+ #;- #;0"  UITests.Name="MyBalance"/> {{value: Currency}}
                     </ContentTemplate>
                 </dot:GridViewTemplateColumn>
                 <dot:GridViewTemplateColumn HeaderText="My Spending">
                     <ContentTemplate>
-                        <dot:Literal Text="{value: MySpending}" FormatString="n0" /> {{value: Currency}}
+                        <dot:Literal Text="{value: MySpending}" FormatString="n0"  UITests.Name="MySpending"/> {{value: Currency}}
                     </ContentTemplate>
                 </dot:GridViewTemplateColumn>
                 <dot:GridViewTemplateColumn HeaderText="total Amount">
                     <ContentTemplate>
-                        <dot:Literal Text="{value: TotalAmount}" FormatString="n0" /> {{value: Currency}}
+                        <dot:Literal Text="{value: TotalAmount}" FormatString="n0"  UITests.Name="TotalAmount"/> {{value: Currency}}
                     </ContentTemplate>
                 </dot:GridViewTemplateColumn>
                 <dot:GridViewTemplateColumn HeaderText="Group">

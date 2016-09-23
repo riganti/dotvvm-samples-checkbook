@@ -15,8 +15,9 @@ namespace CheckBook.App.Tests
         {
             RunInAllBrowsers(browser =>
             {
-                var loginPage = new LoginHelper(browser);
                 browser.Navigate().GoToUrl("http://localhost:60319/");
+
+                var loginPage = new LoginHelper(browser);
 
                 loginPage.Email.SetText("smith@test.com");
                 loginPage.Password.SetText("Pa$$w0rdxxx");
@@ -26,6 +27,34 @@ namespace CheckBook.App.Tests
                 Thread.Sleep(2000);
 
                 Assert.IsTrue(!string.IsNullOrEmpty(loginPage.ErrorMessage.GetText()));
+            });
+        }
+
+        [TestMethod]
+        public void Login_CorrectCredentials()
+        {
+            RunInAllBrowsers(browser =>
+            {
+                browser.Navigate().GoToUrl("http://localhost:60319/");
+                
+                var loginPage = new LoginHelper(browser);
+
+                loginPage.Email.SetText("smith@test.com");
+                loginPage.Password.SetText("Pa$$w0rd");
+                loginPage.RememberMe.Check(true);
+                loginPage.SignIn.Click();
+
+                Thread.Sleep(2000);
+                Assert.IsTrue(browser.Url.Contains("/home"));
+
+                var homePage = new HomeHelper(browser);
+                Assert.AreEqual(2, homePage.Groups.GetItemsCount());
+
+                var firstItem = homePage.Groups.GetItem(0);
+                Assert.IsTrue(!string.IsNullOrEmpty(firstItem.TotalSpending.GetText()));
+
+                var secondItem = homePage.Groups.GetItem(1);
+                Assert.IsTrue(!string.IsNullOrEmpty(secondItem.TotalSpending.GetText()));
             });
         }
     }

@@ -110,6 +110,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Helpers\HomeHelper.cs" />
     <Compile Include="Helpers\LoginHelper.cs" />
     <Compile Include="LoginTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
