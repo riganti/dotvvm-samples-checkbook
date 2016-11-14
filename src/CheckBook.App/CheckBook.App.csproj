@@ -139,6 +139,7 @@
     <Compile Include="ViewModels\ManagerViewModel.cs" />
     <Compile Include="ViewModels\GroupViewModel.cs" />
     <Compile Include="ViewModels\PaymentViewModel.cs" />
+    <Compile Include="ViewModels\RegisterViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -159,14 +160,20 @@
       <DependentUpon>Default.css</DependentUpon>
     </Content>
     <Content Include="Style\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Style\Register.css">
+      <DependentUpon>Register.less</DependentUpon>
+    </Content>
+    <Content Include="Style\Register.min.css">
+      <DependentUpon>Register.css</DependentUpon>
+    </Content>
     <Content Include="Web.config" />
     <Content Include="Views\login.dothtml" />
     <Content Include="packages.config" />
     <Content Include="Style\Default.less" />
     <None Include="compilerconfig.json" />
-    <Content Include="compilerconfig.json.defaults">
+    <None Include="compilerconfig.json.defaults">
       <DependentUpon>compilerconfig.json</DependentUpon>
-    </Content>
+    </None>
     <Content Include="Style\bootstrap\bootstrap-theme.css.map" />
     <Content Include="Style\bootstrap\bootstrap.css.map" />
     <Content Include="Views\home.dothtml" />
@@ -182,6 +189,8 @@
     <Content Include="Controls\UserAvatar.dotcontrol" />
     <Content Include="Controls\UserDetailForm.dotcontrol" />
     <None Include="Properties\PublishProfiles\Production.pubxml" />
+    <Content Include="Views\register.dothtml" />
+    <Content Include="Style\Register.less" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

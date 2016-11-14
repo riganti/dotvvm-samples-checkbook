@@ -70,7 +70,6 @@ namespace CheckBook.DataAccess.Services
                 return users
                     .OrderBy(u => u.LastName)
                     .Select(ToUserInfoData)
-                    .Take(8)
                     .ToList();
             }
         }

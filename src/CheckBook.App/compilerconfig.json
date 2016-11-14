@@ -6,5 +6,9 @@
   {
     "outputFile": "Style/Default.css",
     "inputFile": "Style/Default.less"
+  },
+  {
+    "outputFile": "Style/Register.css",
+    "inputFile": "Style/Register.less"
   }
 ]

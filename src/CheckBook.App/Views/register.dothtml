@@ -1,0 +1,77 @@
+﻿@viewModel CheckBook.App.ViewModels.RegisterViewModel, CheckBook.App
+
+
+<!DOCTYPE html>
+
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" type="text/css" href="~/Style/Bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Style/MsModernButtons/m-buttons.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Style/Register.min.css">
+</head>
+<body Validator.InvalidCssClass="has-error" Validator.SetToolTipText="true">
+    <div class="page">
+        <form class="form-horizontal registration-form">
+
+            <div class="form-group">
+                <h1>Registration</h1>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-6 control-label">E-mail Address</label>
+                <div class="col-md-6" <!--Validator.ValidatedValue="{value: Email}"-->>
+                    <dot:TextBox class="form-control" Text="" name="username" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-6 control-label">First Name</label>
+                <div class="col-md-6">
+                    <dot:TextBox class="form-control" Text="" name="name" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-6 control-label">Last Name</label>
+                <div class="col-md-6">
+                    <dot:TextBox class="form-control" Text="" name="surname" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-6 control-label">Password</label>
+                <div class="col-md-6" <!--Validator.ValidatedValue="{value: Password}"-->>
+                    <dot:TextBox class="form-control" Text="" name="password" Type="Password" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-6 control-label">Confirm password</label>
+                <div class="col-md-6" <!--Validator.ValidatedValue="{value: Password}"-->>
+                    <dot:TextBox class="form-control" Text="" name="confirmPassword" Type="Password" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-6"></div>
+                <div class="col-md-6">
+                    <dot:Button class="btn btn-primary" ButtonTagName="button">Register</dot:Button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="validation-box">
+                    <!--{{value: ErrorMessage}}-->
+                    <dot:ValidationSummary />
+                </div>
+            </div>
+
+        </form>
+    </div>
+</body>
+</html>
+
+

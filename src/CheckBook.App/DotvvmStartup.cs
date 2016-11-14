@@ -19,10 +19,11 @@ namespace CheckBook.App
         {
             // configure a default route
             config.RouteTable.Add("default", "", "Views/login.dothtml");
+            config.RouteTable.Add("Registration", "registration", "Views/register.dothtml");
 
             // configure routes with parameters
-            config.RouteTable.Add("group", "group/{Id}", "Views/group.dothtml", new { Id = (int?)null });
-            config.RouteTable.Add("payment", "payment/{GroupId}/{Id}", "Views/payment.dothtml", new { Id = (int?)null });
+            config.RouteTable.Add("group", "group/{Id}", "Views/group.dothtml", new { Id = (int?) null });
+            config.RouteTable.Add("payment", "payment/{GroupId}/{Id}", "Views/payment.dothtml", new { Id = (int?) null });
 
             // configure customer presenters
             config.RouteTable.Add("identicon", "identicon/{Identicon}", null, null, () => new IdenticonPresenter());

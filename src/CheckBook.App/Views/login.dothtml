@@ -56,9 +56,11 @@
 
                     <dot:Button Click="{command: SignIn()}" class="btn btn-primary" name="submit" 
                                 IsSubmitButton="true" ButtonTagName="button">Sign In</dot:Button>
-                </div>
+
+                    <dot:LinkButton Validation.Enabled="false" Click="{command: Register()}" class="btn btn-primary" ButtonTagName="button">Register</div>
             </div>
         </form>
+
     </div>
 </body>
 </html>

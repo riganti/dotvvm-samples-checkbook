@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 using CheckBook.App.Helpers;
 using DotVVM.Framework.ViewModel;
 using Microsoft.Owin.Security;
@@ -46,6 +47,11 @@ namespace CheckBook.App.ViewModels
                 Context.RedirectToRoute("home");
             }
         }
-        
+
+        public void Register()
+        {
+            // redirect to the registratio page
+            Context.RedirectToRoute("registration");
+        }
     }
 }
