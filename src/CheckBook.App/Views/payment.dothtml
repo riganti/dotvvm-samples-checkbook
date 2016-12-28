@@ -9,14 +9,14 @@
             
             <div class="form-group">
                 <label class="col-md-2 control-label">Date</label>
-                <div class="col-md-10" Validator.ValidatedValue="{value: Data.CreatedDate}">
+                <div class="col-md-10" Validator.Value="{value: Data.CreatedDate}">
                     <dot:TextBox class="form-control date" Text="{value: Data.CreatedDate}" FormatString="d" ValueType="DateTime" Enabled="{value: IsEditable}" />
                 </div>
             </div>
 
             <div class="form-group">
                 <label class="col-md-2 control-label">Description</label>
-                <div class="col-md-10" Validator.ValidatedValue="{value: Data.Description}">
+                <div class="col-md-10" Validator.Value="{value: Data.Description}">
                     <dot:TextBox class="form-control" Text="{value: Data.Description}" Enabled="{value: IsEditable}" />
                 </div>
             </div>

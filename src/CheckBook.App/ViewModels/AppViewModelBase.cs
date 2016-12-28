@@ -2,6 +2,7 @@
 using DotVVM.Framework.ViewModel;
 using Microsoft.AspNet.Identity;
 using CheckBook.DataAccess.Enums;
+using DotVVM.Framework.Hosting;
 
 namespace CheckBook.App.ViewModels
 {
@@ -15,7 +16,7 @@ namespace CheckBook.App.ViewModels
         /// <summary>
         /// Determines whether the user is administrator.
         /// </summary>
-        public bool IsAdmin => Context.OwinContext.Authentication.User.IsInRole(UserRole.Admin.ToString());
+        public bool IsAdmin => Context.GetAuthentication().User.IsInRole(UserRole.Admin.ToString());
 
         /// <summary>
         /// Gets or sets the active page. This is used in the top menu bar to highlight the current menu item.
@@ -27,13 +28,13 @@ namespace CheckBook.App.ViewModels
         /// </summary>
         protected int GetUserId()
         {
-            return int.Parse(Context.OwinContext.Authentication.User.Identity.GetUserId());
+            return int.Parse(Context.GetAuthentication().User.Identity.GetUserId());
         }
 
         public void SignOut()
         {
             // sign out
-            Context.OwinContext.Authentication.SignOut();
+            Context.GetAuthentication().SignOut();
 
             // redirect to the login route
             Context.RedirectToRoute("login");

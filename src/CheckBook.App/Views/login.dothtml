@@ -20,14 +20,14 @@
 
             <div class="form-group">
                 <label class="col-md-4 control-label">E-mail Address</label>
-                <div class="col-md-8" Validator.ValidatedValue="{value: Email}">
+                <div class="col-md-8" Validator.Value="{value: Email}">
                     <dot:TextBox class="form-control" Text="{value: Email}" name="username" />
                 </div>
             </div>
 
             <div class="form-group">
                 <label class="col-md-4 control-label">Password</label>
-                <div class="col-md-8" Validator.ValidatedValue="{value: Password}">
+                <div class="col-md-8" Validator.Value="{value: Password}">
                     <dot:TextBox class="form-control" Text="{value: Password}" name="password" Type="Password" />
                 </div>
             </div>

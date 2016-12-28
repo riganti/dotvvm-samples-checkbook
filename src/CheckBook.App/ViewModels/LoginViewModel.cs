@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using CheckBook.App.Helpers;
 using DotVVM.Framework.ViewModel;
 using Microsoft.Owin.Security;
+using DotVVM.Framework.Hosting;
 
 namespace CheckBook.App.ViewModels
 {
@@ -27,7 +28,7 @@ namespace CheckBook.App.ViewModels
 
         public override Task Init()
         {
-            if (!Context.IsPostBack && Context.OwinContext.Authentication.User.Identity.IsAuthenticated)
+            if (!Context.IsPostBack && Context.GetAuthentication().User.Identity.IsAuthenticated)
             {
                 Context.RedirectToRoute("home");
             }
@@ -51,7 +52,7 @@ namespace CheckBook.App.ViewModels
                     IsPersistent = RememberMe,
                     ExpiresUtc = RememberMe ? DateTime.UtcNow.AddMonths(1) : (DateTime?)null
                 };
-                Context.OwinContext.Authentication.SignIn(properties, identity);
+                Context.GetAuthentication().SignIn(properties, identity);
 
                 // redirect to the home page
                 Context.RedirectToRoute("home");

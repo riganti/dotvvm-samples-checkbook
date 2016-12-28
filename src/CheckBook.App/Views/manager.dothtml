@@ -126,13 +126,13 @@
 
                     <form class="group-form form-horizontal" Validator.SetToolTipText="true" Validator.InvalidCssClass="has-error">
                         
-                        <div class="form-group" Validator.ValidatedValue="{value: EditedGroup.Name}">
+                        <div class="form-group" Validator.Value="{value: EditedGroup.Name}">
                             <label class="col-md-4 control-label">Group Name</label>
                             <div class="col-md-8">
                                 <dot:TextBox Text="{value: EditedGroup.Name}" class="form-control" />
                             </div>
                         </div>
-                        <div class="form-group" Validator.ValidatedValue="{value: EditedGroup.Currency}">
+                        <div class="form-group" Validator.Value="{value: EditedGroup.Currency}">
                             <label class="col-md-4 control-label">Currency</label>
                             <div class="col-md-8">
                                 <dot:TextBox Text="{value: EditedGroup.Currency}" class="form-control" />

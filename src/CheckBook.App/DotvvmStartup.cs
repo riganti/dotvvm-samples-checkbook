@@ -54,23 +54,24 @@ namespace CheckBook.App
             // register custom scripts
             config.Resources.Register("autoHideAlert", new ScriptResource()
             {
-                Url = "/Scripts/autoHideAlert.js",
+                Location = new LocalFileResourceLocation("Scripts/autoHideAlert.js"),
                 Dependencies = new[] { "jquery" }
             });
             config.Resources.Register("inputMathExpressions", new ScriptResource()
             {
-                Url = "/Scripts/inputMathExpressions.js",
+                Location = new LocalFileResourceLocation("Scripts/inputMathExpressions.js"),
                 Dependencies = new [] { "jquery" }
             });
 
             // Note that the 'jquery' resource is registered in DotVVM and points to official jQuery CDN.
             // We have jQuery in our application, so we have to change its URL
-            config.Resources.FindResource("jquery").Url = "/Scripts/jquery-2.1.3.min.js";
+            ((ScriptResource)config.Resources.FindResource("jquery"))
+                .Location = new LocalFileResourceLocation("Scripts/jquery-2.1.3.min.js");
 
             // register bootstrap
             config.Resources.Register("bootstrap", new ScriptResource()
             {
-                Url = "/Scripts/bootstrap.min.js",
+                Location = new LocalFileResourceLocation("Scripts/bootstrap.min.js"),
                 Dependencies = new[] { "jquery" }
             });
         }

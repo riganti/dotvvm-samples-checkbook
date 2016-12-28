@@ -16,7 +16,7 @@ namespace CheckBook.App
         /// <summary>
         /// Generates the Identicon image and returns it to the client.
         /// </summary>
-        public Task ProcessRequest(DotvvmRequestContext context)
+        public Task ProcessRequest(IDotvvmRequestContext context)
         {
             // generate the identicon
             var identicon = new IdenticonGenerator("SHA512", new Size(180, 180), Color.White, new Size(8, 8))
@@ -28,8 +28,8 @@ namespace CheckBook.App
             using (var bitmap = identicon.Create(name))
             {
                 // save it in the response stream
-                context.OwinContext.Response.ContentType = "image/png";
-                bitmap.Save(context.OwinContext.Response.Body, ImageFormat.Png);
+                context.HttpContext.Response.ContentType = "image/png";
+                bitmap.Save(context.HttpContext.Response.Body, ImageFormat.Png);
             }
 
             return Task.FromResult(0);
