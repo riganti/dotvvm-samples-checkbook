@@ -38,7 +38,7 @@ namespace CheckBook.App.ViewModels
         [Bind(Direction.ServerToClient)]
         public string GroupAlertText { get; private set; }
 
-        public string GroupSearchText { get; private set; }
+        public string GroupSearchText { get; set; }
 
         public List<UserInfoData> GroupSearchResults { get; set; }
 
