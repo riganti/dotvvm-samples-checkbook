@@ -6,7 +6,7 @@
     <div class="page">
         <h1><span class="glyphicon glyphicon-time"></span> Payment History</h1>
         
-        <dot:GridView DataSource="{value: MyTransactions}" class="table" RenderSettings.Mode="Server">
+        <dot:GridView DataSource="{value: MyTransactions}" class="table" RenderSettings.Mode="Server" PostBack.Update="true">
             <dot:GridViewTextColumn ValueBinding="{value: CreatedDate}" FormatString="D" HeaderText="Date" />
             <dot:GridViewTextColumn ValueBinding="{value: Description}" HeaderText="Description" />
             <dot:GridViewTemplateColumn HeaderText="My Balance" CssClass="{value: MyBalance >= 0 ? "status-green" : "status-red"}">
