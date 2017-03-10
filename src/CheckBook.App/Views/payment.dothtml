@@ -3,88 +3,221 @@
 
 <dot:Content ContentPlaceHolderID="PageContent"  Validator.InvalidCssClass="has-error" Validator.SetToolTipText="true">
     
-    <div class="page">
-        <form class="form-horizontal payment-group-form">
-            <h1><span class="glyphicon glyphicon-piggy-bank"></span> Payment Details</h1>
-            
-            <div class="form-group">
-                <label class="col-md-2 control-label">Date</label>
-                <div class="col-md-10" Validator.Value="{value: Data.CreatedDate}">
-                    <dot:TextBox class="form-control date" Text="{value: Data.CreatedDate}" FormatString="d" ValueType="DateTime" Enabled="{value: IsEditable}" />
-                </div>
-            </div>
+    <!--<div class="page">-->
+    
+    <div class="subheader-payment">
+        <hr class="style-six" />
+        
+        
+        <dot:LinkButton class="header-item back-mini" Click="{command: GoBack()}">
+            <span class="glyphicon glyphicon-menu-left"></span>
+        </dot:LinkButton>
+        <dot:LinkButton class="header-item back-maxi" Text="{value: GroupName}" Click="{command: GoBack()}" />
 
-            <div class="form-group">
-                <label class="col-md-2 control-label">Description</label>
-                <div class="col-md-10" Validator.Value="{value: Data.Description}">
-                    <dot:TextBox class="form-control" Text="{value: Data.Description}" Enabled="{value: IsEditable}" />
-                </div>
-            </div>
-
-            <div class="payer-box">
-                <h2><span class="glyphicon glyphicon-user"></span> Payers</h2>                    
-                <dot:Repeater DataSource="{value: Payers}">
-                    <div class="user-box">
-                        <div class="name">
-                            <cc:UserAvatar />
-                        </div>
-                        <div class="control">
-                            <dot:TextBox Text="{value: Amount}" FormatString="n2" Enabled="{value: _root.IsEditable}" 
-                                         Changed="{command: _root.Recalculate()}" Validation.Enabled="false"
-                                         class="form-control amount" /> {{value: _root.Data.Currency}}
-                        </div>
-                    </div>
-                </dot:Repeater>
-            </div>
-
-            <div class="payer-box">
-                <h2><span class="glyphicon glyphicon-user"></span> Debtors</h2> 
-                <dot:Repeater DataSource="{value: Debtors}">
-                    <div class="user-box">
-                        <div class="name">
-                            <cc:UserAvatar />
-                        </div>
-                        <div class="control">
-                            <dot:TextBox Text="{value: Amount}" FormatString="n2" Enabled="{value: _root.IsEditable}" 
-                                         Changed="{command: _root.Recalculate()}" Validation.Enabled="false"
-                                         class="form-control amount" /> {{value: _root.Data.Currency}}
-                        </div>
-                    </div>
-                </dot:Repeater>
-            </div>
-
-            <div class="form-group">
-                <div class="alert alert-warning" Visible="{value: AmountDifference != 0}">
-                    <span class="glyphicon glyphicon-alert"></span>
-                    The payments and debts are not equal! If you save the payment, the difference of 
-                    <strong><dot:Literal Text="{value: AmountDifference}" FormatString="n2" /> {{value: _root.Data.Currency}}</strong>
-                    will be split between all people who are involved in this transaction.
-                </div>
-
-                <div class="validation-box">
-                    {{value: ErrorMessage}}
-                    <dot:ValidationSummary IncludeErrorsFromChildren="true" />
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="pull-left">
-                    <dot:LinkButton Text="Delete Payment" Visible="{value: IsDeletable}" Click="{command: Delete()}">
-                        <PostBack.Handlers>
-                            <dot:ConfirmPostBackHandler Message="Do you really want to remove this payment?" />
-                        </PostBack.Handlers>
-                    </dot:LinkButton>
-                </div>
-
-                <div class="text-center">
-                    <dot:Button Click="{command: Save()}" class="btn btn-primary" ButtonTagName="button" Visible="{value: IsEditable}">
-                        <span class="glyphicon glyphicon-floppy-disk"></span> Save Changes
-                    </dot:Button>
-                    <dot:Button Click="{command: GoBack()}" class="btn btn-default" ButtonTagName="button" Validation.Enabled="false">Go Back</dot:Button>
-                </div>
-            </div>
-        </form>
+        <div class="header-payment">
+            New Payment
+        </div>
+        <div class="header-item back-mini" style="float: right;" ></div>
     </div>
+        <div class="container">
+            <form class="payment-group-form">
+                <h1>Payment Details</h1>
+
+                <!-- Date -->
+                <div class="form-group">
+                    <label class="control-label">Date *</label>
+                    <div class="" Validator.Value="{value: Data.CreatedDate}">
+                        <dot:TextBox class="form-control date" Text="{value: Data.CreatedDate}" FormatString="d" ValueType="DateTime" Enabled="{value: IsEditable}" />
+                    </div>
+                </div>
+
+                <!-- Description -->
+                <div class="form-group">
+                    <label class="control-label">Description *</label>
+                    <div class="" Validator.Value="{value: Data.Description}">
+                        <dot:TextBox class="form-control" Text="{value: Data.Description}" Enabled="{value: IsEditable}" />
+                    </div>
+                </div>
+
+
+                <!--<div class="payer-box">
+            <h2><span class="glyphicon glyphicon-user"></span> Payers</h2>
+            <dot:Repeater DataSource="{value: Payers}">
+                <div class="user-box">
+                    <div class="name">
+                        <cc:UserAvatar />
+                    </div>
+                    <div class="control">
+                        <dot:TextBox Text="{value: Amount}" FormatString="n2" Enabled="{value: _root.IsEditable}"
+                                     Changed="{command: _root.Recalculate()}" Validation.Enabled="false"
+                                     class="form-control amount" /> {{value: _root.Data.Currency}}
+                    </div>
+
+                </div>
+            </dot:Repeater>
+        </div>-->
+
+                <dot:RequiredResource Name="searchTextBox" />
+                
+                <!-- Payers -->
+                <div class="payer-box-mini form-group">
+
+                    <div class="row">
+                        <label class="control-label col-xs-6" >Add Payer/Payers *</label>
+                        <label class="control-label col-xs-6">Amount *</label>
+                    </div>
+                    
+                    <dot:Repeater DataSource="{value: Payers }">
+                        <ItemTemplate>
+                            <div class="user-box row" Visible="{value: IsUserboxVisible}">
+                                <!--<div class="name">
+                                    <cc:UserAvatar />
+                                </div>
+                                <div class="control">
+                                    <dot:TextBox Text="{value: Amount}" FormatString="n2" Enabled="{value: _root.IsEditable}"
+                                                 Changed="{command: _root.Recalculate()}" Validation.Enabled="false"
+                                                 class="form-control amount" /> {{value: _root.Data.Currency}}
+                                </div>-->
+                                <div class="col-xs-5 name">
+                                    <cc:UserAvatar />
+                                </div>
+                                <div class="col-xs-2 col-xs-push-1">
+                                    <dot:TextBox Text="{value: Amount}" FormatString="n2" Enabled="{value: _root.IsEditable}"
+                                                 Changed="{command: _root.Recalculate()}" Validation.Enabled="false"
+                                                 class="form-control amount" />
+                                </div>
+                            </div>
+                            <div class="row" Visible="{value: !IsUserboxVisible}">
+                                
+                                <div class="col-xs-5 ">
+                                    <div class="dropdown" >
+                                        <cc:SearchTextBox ID="vz-times-search" Text="{value: TbText}" class="form-control" data-toggle="dropdown" Changed="{command: _root.FilterNames(TbText, _this)}" Validation.Enabled="false" Events.Click="{command: _root.FilterNames(TbText, _this)}" />
+                                        <dot:Repeater DataSource="{value: _root.Names }" WrapperTagName="ul" class="dropdown-menu" >
+                                            <ItemTemplate>
+                                                <li>
+                                                    <dot:LinkButton Text="{value: _this}" Click="{command: _root.AddSelectedUser(_this, _parent, "payers")}" Validation.Enabled="false"/>
+                                                </li>
+                                            </ItemTemplate>
+                                        </dot:Repeater>   
+                                    </div>
+                                </div>
+                                <div class="col-xs-2 col-xs-push-1">
+                                    <dot:TextBox Text="{value: Amount}" FormatString="n2" Enabled="{value: _root.IsEditable}"
+                                                Changed="{command: _root.Recalculate()}" Validation.Enabled="false"
+                                                class="form-control amount" />
+                                </div>
+                            </div>
+                        </ItemTemplate>
+                    </dot:Repeater>
+                    <div class="text-center row">
+                        <dot:Button type="button" ButtonTagName="button" class="btn btn-primary btn-circle" Click="{command: AddRow(Payers)}" Validation.Enabled="false" PostBack.Update="true"><span class="glyphicon glyphicon-plus"></span></dot:Button>
+                    </div>
+                </div>
+                <!--<div class="payer-box">
+            <h2><span class="glyphicon glyphicon-user"></span> Debtors</h2>
+            <dot:Repeater DataSource="{value: Debtors}">
+                <div class="user-box">
+                    <div class="name">
+                        <cc:UserAvatar />
+                    </div>
+                    <div class="control">
+                        <dot:TextBox Text="{value: Amount}" FormatString="n2" Enabled="{value: _root.IsEditable}"
+                                     Changed="{command: _root.Recalculate()}" Validation.Enabled="false"
+                                     class="form-control amount" /> {{value: _root.Data.Currency}}
+                    </div>
+                </div>
+            </dot:Repeater>
+        </div>-->
+
+                <!-- Debtors -->
+                <div class="payer-box-mini form-group">
+
+                    <div class="row">
+                        <label class="control-label col-xs-6">Add Debtor/Debtors *</label>
+                        <label class="control-label col-xs-6">Amount *</label>
+                    </div>
+                    
+                    <dot:Repeater DataSource="{value: Debtors }">
+                        <ItemTemplate>
+                            <div class="user-box row" Visible="{value: IsUserboxVisible}">
+                                <!--<div class="name">
+            <cc:UserAvatar />
+        </div>
+        <div class="control">
+            <dot:TextBox Text="{value: Amount}" FormatString="n2" Enabled="{value: _root.IsEditable}"
+                         Changed="{command: _root.Recalculate()}" Validation.Enabled="false"
+                         class="form-control amount" /> {{value: _root.Data.Currency}}
+        </div>-->
+                                <div class="col-xs-5 name">
+                                    <cc:UserAvatar />
+                                </div>
+                                <div class="col-xs-2 col-xs-push-1">
+                                    <dot:TextBox Text="{value: Amount}" FormatString="n2" Enabled="{value: _root.IsEditable}"
+                                                 Changed="{command: _root.Recalculate()}" Validation.Enabled="false"
+                                                 class="form-control amount" />
+                                </div>
+                            </div>
+                            <div class="row" Visible="{value: !IsUserboxVisible}">
+                                <div class="col-xs-5 ">
+                                    <div class="dropdown">
+                                        <cc:SearchTextBox ID="vz-times-search" Text="{value: TbText}" class="form-control" data-toggle="dropdown" Changed="{command: _root.FilterNames(TbText, _this)}" Validation.Enabled="false" Events.Click="{command: _root.FilterNames(TbText, _this)}" />
+                                        <dot:Repeater DataSource="{value: _root.Names }" WrapperTagName="ul" class="dropdown-menu">
+                                            <ItemTemplate>
+                                                <li>
+                                                    <dot:LinkButton Text="{value: _this}" Click="{command: _root.AddSelectedUser(_this, _parent, "debtors")}" Validation.Enabled="false" />
+                                                </li>
+                                            </ItemTemplate>
+                                        </dot:Repeater>
+                                    </div>
+                                </div>
+                                <div class="col-xs-2 col-xs-push-1">
+                                    <dot:TextBox Text="{value: Amount}" FormatString="n2" Enabled="{value: _root.IsEditable}"
+                                                 Changed="{command: _root.Recalculate()}" Validation.Enabled="false"
+                                                 class="form-control amount" />
+                                </div>
+                            </div>
+                        </ItemTemplate>
+                    </dot:Repeater>
+                    <div class="text-center row">
+                        <dot:Button type="button" ButtonTagName="button" class="btn btn-primary btn-circle" Click="{command: AddRow(Debtors)}" Validation.Enabled="false" PostBack.Update="true"><span class="glyphicon glyphicon-plus"></span></dot:Button>
+                    </div>
+                </div>
+
+                <!-- Warning -->
+                <div class="form-group">
+                    <div class="alert alert-warning" Visible="{value: AmountDifference != 0}">
+                        <span class="glyphicon glyphicon-alert"></span>
+                        The payments and debts are not equal! If you save the payment, the difference of
+                        <strong>
+                            <dot:Literal Text="{value: AmountDifference}" FormatString="n2" /> {{value: _root.Data.Currency}}
+                        </strong>
+                        will be split between all people who are involved in this transaction.
+                    </div>
+
+                    <div class="validation-box">
+                        {{value: ErrorMessage}}
+                        <dot:ValidationSummary IncludeErrorsFromChildren="true" />
+                    </div>
+                </div>
+
+                <!-- Delete button -->
+                <div class="form-group">
+                    <div>
+                        <dot:LinkButton Text="Delete Payment" Visible="{value: IsDeletable}" Click="{command: Delete()}">
+                            <PostBack.Handlers>
+                                <dot:ConfirmPostBackHandler Message="Do you really want to remove this payment?" />
+                            </PostBack.Handlers>
+                        </dot:LinkButton>
+                    </div>
+
+                    <div class="text-center">
+                        <dot:Button Click="{command: Save()}" class="btn btn-primary btn-payment" ButtonTagName="button" Visible="{value: IsEditable}">Save Changes</dot:Button>
+                        <dot:Button Click="{command: GoBack()}" class="btn btn-danger btn-payment" ButtonTagName="button" Validation.Enabled="false">Go Back</dot:Button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    <!--</div>-->
 
     <dot:InlineScript Dependencies="inputMathExpressions">
         dotvvm.events.init.subscribe(function () {

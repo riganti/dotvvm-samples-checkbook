@@ -47,6 +47,7 @@ namespace CheckBook.App
                 TagPrefix = "cc",
                 TagName = "UserDetailForm"
             });
+            config.Markup.AddCodeControl("cc", typeof(Controls.SearchTextBox).Namespace, typeof(Controls.SearchTextBox).Assembly.GetName().Name);
         }
 
         private void RegisterResources(DotvvmConfiguration config)
@@ -73,6 +74,11 @@ namespace CheckBook.App
             {
                 Location = new LocalFileResourceLocation("Scripts/bootstrap.min.js"),
                 Dependencies = new[] { "jquery" }
+            });
+            config.Resources.Register("searchTextBox", new ScriptResource()
+            {
+                Location = new LocalFileResourceLocation("Scripts/SearchTextBox.js"),
+                Dependencies = new[] { "jquery", "dotvvm" }
             });
         }
     }

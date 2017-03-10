@@ -52,7 +52,7 @@ div.content {
 }
 
 .header {
-    background-color: #2980b9;
+    background-color: #3980b9;
     min-height: 50px;
     width: 100%;
 
@@ -70,18 +70,32 @@ div.content {
     display: inline-block;
     line-height: 50px;
     padding: 0px 20px;
-    height: 50px;
     font-size: 14px;
     color: white;
 
     &:hover {
         text-decoration: none;
         color: #e0e0e0;
+        background-color: inherit;
     }
 }
 
 .header-item-active {
-    background-color: lighten(#2980b9, 10%);
+    background-color: lighten(#2980b9, 10%) !important;
+}
+
+.hamburger-menu {
+  font-size: 14px;
+  color: white;
+  margin-bottom: 0px;
+}
+
+.navbar-header {
+    height: 50px;
+}
+
+.navbar-nav>li>a:hover {
+    background-color: inherit;
 }
 
 
@@ -133,14 +147,23 @@ div.content {
     .payer-box h2 {
         margin-top: 50px;
     }
+
+    h1 {
+        font-size: 30px;
+        color: #44a9f7;
+    }
+    .form-group .control-label {
+        color: #44a9f7;
+
+    }
 }
 
 .user-box {
-    display: inline-block;
+    //display: inline-block;
 
     .name {
-        display: inline-block;
-        width: 250px;
+        //display: inline-block;
+        //width: 250px;
         
         .text {
             display: inline-block;
@@ -149,15 +172,15 @@ div.content {
         }
     }
     .control {
-        display: inline-block;
+        //display: inline-block;
         width: 200px;
     }
     .control-medium {
-        display: inline-block;
+        //display: inline-block;
         width: 100px;
     }
     .control-small {
-        display: inline-block;
+        //display: inline-block;
         width: 50px;
     }
 
@@ -165,12 +188,99 @@ div.content {
         margin: 10px;
         width: 60px;
         height: 60px;
-        display: inline-block;
+        //display: inline-block;
+    }
+    .amount {
+        margin-top: 20px;
     }
 
-    .form-control {
-        width: 80px;
+}
+
+.btn-circle {
+    width: 50px;
+    height: 50px;
+    padding: 10px 16px;
+    font-size: 18px;
+    line-height: 1.33;
+    border-radius: 25px;
+    margin: 10px;
+    //display: none;
+
+    &:focus, &:active:focus {
+        outline: none;
+    }
+}
+
+.payer-box-mini {
+    //display: none;
+}
+
+.btn-payment {
+    margin: 0px 15px;
+    width: 130px;
+}
+
+.subheader-payment {
+    background-color: #3980b9;
+    min-height: 50px;
+    width: 100%;
+    -webkit-box-shadow: 0px 4px 10px 0px rgba(77,77,77,0.7);
+    -moz-box-shadow: 0px 4px 10px 0px rgba(77,77,77,0.7);
+    box-shadow: 0px 4px 10px 0px rgba(77,77,77,0.7);
+
+    .header-payment {
         display: inline-block;
+        line-height: 50px;
+        margin: 0px 20px;
+        font-size: 18px;
+        color: white;
+        border-bottom: 2px solid white;
+        transition: all linear 1s;
+    }
+    .header-item {
+        font-size: 18px;
+    }
+    .back-mini {
+        display: none;
+    }
+    
+}
+
+hr.style-six {
+    border: 0;
+    height: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    //border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    margin:0px;
+}
+
+@media screen and (max-width: 767px) {
+    .payer-box {
+        display: none;
+    }
+    .payment-group-form {
+        width: 80%;
+    }
+    .btn-circle {
+        display: inline-block;
+    }
+    .payer-box-mini {
+        display: block;
+    }
+    .subheader-payment {
+        
+        text-align: center;
+        .back-mini {
+            display: inline-block;
+            width: 70px;
+            float: left;
+            min-height: 1px;
+        }
+        .back-maxi {
+            display: none;
+        }
+        .header-payment {
+        }
     }
 }
 

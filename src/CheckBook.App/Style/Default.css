@@ -40,7 +40,7 @@ div.content {
   width: 200px;
 }
 .header {
-  background-color: #2980b9;
+  background-color: #3980b9;
   min-height: 50px;
   width: 100%;
 }
@@ -56,16 +56,27 @@ div.content {
   display: inline-block;
   line-height: 50px;
   padding: 0px 20px;
-  height: 50px;
   font-size: 14px;
   color: white;
 }
 .header-item:hover {
   text-decoration: none;
   color: #e0e0e0;
+  background-color: inherit;
 }
 .header-item-active {
-  background-color: #409ad5;
+  background-color: #409ad5 !important;
+}
+.hamburger-menu {
+  font-size: 14px;
+  color: white;
+  margin-bottom: 0px;
+}
+.navbar-header {
+  height: 50px;
+}
+.navbar-nav > li > a:hover {
+  background-color: inherit;
 }
 /* LOGIN FORM */
 .login-form {
@@ -107,12 +118,12 @@ div.content {
 .payment-group-form .payer-box h2 {
   margin-top: 50px;
 }
-.user-box {
-  display: inline-block;
+.payment-group-form h1 {
+  font-size: 30px;
+  color: #44a9f7;
 }
-.user-box .name {
-  display: inline-block;
-  width: 250px;
+.payment-group-form .form-group .control-label {
+  color: #44a9f7;
 }
 .user-box .name .text {
   display: inline-block;
@@ -120,26 +131,93 @@ div.content {
   vertical-align: middle;
 }
 .user-box .control {
-  display: inline-block;
   width: 200px;
 }
 .user-box .control-medium {
-  display: inline-block;
   width: 100px;
 }
 .user-box .control-small {
-  display: inline-block;
   width: 50px;
 }
 .user-box img {
   margin: 10px;
   width: 60px;
   height: 60px;
-  display: inline-block;
 }
-.user-box .form-control {
-  width: 80px;
+.user-box .amount {
+  margin-top: 20px;
+}
+.btn-circle {
+  width: 50px;
+  height: 50px;
+  padding: 10px 16px;
+  font-size: 18px;
+  line-height: 1.33;
+  border-radius: 25px;
+  margin: 10px;
+}
+.btn-circle:focus,
+.btn-circle:active:focus {
+  outline: none;
+}
+.btn-payment {
+  margin: 0px 15px;
+  width: 130px;
+}
+.subheader-payment {
+  background-color: #3980b9;
+  min-height: 50px;
+  width: 100%;
+  -webkit-box-shadow: 0px 4px 10px 0px rgba(77, 77, 77, 0.7);
+  -moz-box-shadow: 0px 4px 10px 0px rgba(77, 77, 77, 0.7);
+  box-shadow: 0px 4px 10px 0px rgba(77, 77, 77, 0.7);
+}
+.subheader-payment .header-payment {
   display: inline-block;
+  line-height: 50px;
+  margin: 0px 20px;
+  font-size: 18px;
+  color: white;
+  border-bottom: 2px solid white;
+  transition: all linear 1s;
+}
+.subheader-payment .header-item {
+  font-size: 18px;
+}
+.subheader-payment .back-mini {
+  display: none;
+}
+hr.style-six {
+  border: 0;
+  height: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  margin: 0px;
+}
+@media screen and (max-width: 767px) {
+  .payer-box {
+    display: none;
+  }
+  .payment-group-form {
+    width: 80%;
+  }
+  .btn-circle {
+    display: inline-block;
+  }
+  .payer-box-mini {
+    display: block;
+  }
+  .subheader-payment {
+    text-align: center;
+  }
+  .subheader-payment .back-mini {
+    display: inline-block;
+    width: 70px;
+    float: left;
+    min-height: 1px;
+  }
+  .subheader-payment .back-maxi {
+    display: none;
+  }
 }
 @media (max-width: 400px) {
   .user-box {

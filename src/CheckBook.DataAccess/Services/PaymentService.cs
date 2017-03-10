@@ -113,7 +113,7 @@ namespace CheckBook.DataAccess.Services
         /// <summary>
         /// Saves the payment with all details (who paid how much for who)
         /// </summary>
-        public static void SavePayment(int userId, PaymentData data, List<TransactionData> payers, List<TransactionData> debtors)
+        public static void SavePayment(int userId, PaymentData data, List<TransactionRowData> payers, List<TransactionRowData> debtors)
         {
             using (var db = new AppContext())
             {

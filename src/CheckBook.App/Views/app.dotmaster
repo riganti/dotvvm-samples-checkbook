@@ -7,35 +7,54 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <link rel="stylesheet" type="text/css" href="~/Style/Bootstrap/bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" href="~/Style/Default.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/Style/Default.css" />
 </head>
 <body>
-    <div class="header" RenderSettings.Mode="Server">
-        <dot:LinkButton Click="{command: SignOut()}" Text="Sign Out" class="header-item button-right" Validation.Enabled="false" />  
-
-        <h1><span class="glyphicon glyphicon-cutlery"></span> CheckBook</h1>
-
-        <dot:RouteLink RouteName="home" class="{value: 'header-item ' + (ActivePage == 'home' ? 'header-item-active' : '')}">
-            <span class="glyphicon glyphicon-th"></span> My Groups
-        </dot:RouteLink>
+    <nav class="header">
+        <div class="navbar-header">
+            <button type="button" class="hamburger-menu navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="glyphicon glyphicon-menu-hamburger"></span>
+            </button>
+            <h1><span class="glyphicon glyphicon-cutlery"></span> CheckBook</h1>
+        </div>
         
-        <dot:RouteLink RouteName="history" class="{value: 'header-item ' + (ActivePage == 'history' ? 'header-item-active' : '')}">
-            <span class="glyphicon glyphicon-time"></span> Payment History
-        </dot:RouteLink>
+        <div class="collapse navbar-collapse" id="navbar" RenderSettings.Mode="Server">
 
-        <dot:RouteLink RouteName="settings" class="{value: 'header-item ' + (ActivePage == 'settings' ? 'header-item-active' : '')}">
-            <span class="glyphicon glyphicon-user"></span> My Profile
-        </dot:RouteLink>
+            <ul class="nav navbar-nav">
+                <li>
+                    <dot:RouteLink RouteName="home" class="{value: 'header-item ' + (ActivePage == 'home' ? 'header-item-active' : '')}">
+                        <span class="glyphicon glyphicon-th"></span> My Groups
+                    </dot:RouteLink>
+                </li>
+                <li>
+                    <dot:RouteLink RouteName="history" class="{value: 'header-item ' + (ActivePage == 'history' ? 'header-item-active' : '')}">
+                        <span class="glyphicon glyphicon-time"></span> Payment History
+                    </dot:RouteLink>
+                </li>
+                <li>
+                    <dot:RouteLink RouteName="settings" class="{value: 'header-item ' + (ActivePage == 'settings' ? 'header-item-active' : '')}">
+                        <span class="glyphicon glyphicon-user"></span> My Profile
+                    </dot:RouteLink>
+                </li>
+                <li>
+                    <dot:RouteLink RouteName="manager" Text="Manager" class="{value: 'header-item ' + (ActivePage == 'manager' ? 'header-item-active' : '')}"
+                                   Visible="{value: IsAdmin}">
+                        <span class="glyphicon glyphicon-cog"></span> Settings
+                    </dot:RouteLink>
+                </li>
+            </ul>
 
-        <dot:RouteLink RouteName="manager" Text="Manager" class="{value: 'header-item ' + (ActivePage == 'manager' ? 'header-item-active' : '')}"
-                       Visible="{value: IsAdmin}">
-            <span class="glyphicon glyphicon-cog"></span> Settings
-        </dot:RouteLink>
-    </div>
-
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <dot:LinkButton Click="{command: SignOut()}" Text="Sign Out" class="header-item" Validation.Enabled="false" />
+                </li>
+            </ul>
+        </div>
+    </nav>
     <dot:ContentPlaceHolder ID="PageContent">
     </dot:ContentPlaceHolder>
 </body>
+<script src="~/Scripts/bootstrap.min.js"></script>
 </html>
 
 
