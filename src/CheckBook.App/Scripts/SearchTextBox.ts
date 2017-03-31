@@ -1,24 +1,24 @@
 
-interface IElvisDelayedAfterKeyItemProcedure {
+interface IdelayedAfterKeyItemProcedure {
     element: HTMLElement;
     func: () => void;
 }
 
-interface IElvisDelayedAfterKeyItem {
+interface IdelayedAfterKeyItem {
     element: HTMLElement;
     handler: number;
 }
 
 var dotvvm = dotvvm || {};
 
-ko.bindingHandlers["elvisDelayedAfterKey"] = <KnockoutBindingHandler>{
-    onchangeFunctions: <IElvisDelayedAfterKeyItemProcedure[]>[],
-    timeouts: <IElvisDelayedAfterKeyItem[]>[],
+ko.bindingHandlers["delayedAfterKey"] = <KnockoutBindingHandler>{
+    onchangeFunctions: <IdelayedAfterKeyItemProcedure[]>[],
+    timeouts: <IdelayedAfterKeyItem[]>[],
     init(element: any, valueAccessor: () => any, allBindingsAccessor?: KnockoutAllBindingsAccessor, viewModel?: any, bindingContext?: KnockoutBindingContext) {
         var obs = valueAccessor();
         var tmp = obs();
         $(element).keyup((e) => {
-            var onchangeFunctions = <IElvisDelayedAfterKeyItemProcedure[]>(<any>ko.bindingHandlers["elvisDelayedAfterKey"]).onchangeFunctions;
+            var onchangeFunctions = <IdelayedAfterKeyItemProcedure[]>(<any>ko.bindingHandlers["delayedAfterKey"]).onchangeFunctions;
             var changeFunc = <(e) => void>null;
             for (var funcReg of onchangeFunctions) {
                 if (funcReg.element === element) {
@@ -29,12 +29,12 @@ ko.bindingHandlers["elvisDelayedAfterKey"] = <KnockoutBindingHandler>{
             if (!changeFunc) {
                 changeFunc = element.onchange;
                 element.onchange = null;
-                onchangeFunctions.push(<IElvisDelayedAfterKeyItemProcedure>{
+                onchangeFunctions.push(<IdelayedAfterKeyItemProcedure>{
                     func: changeFunc,
                     element: element
                 });
             }
-            var timeouts = <IElvisDelayedAfterKeyItem[]>(<any>ko.bindingHandlers["elvisDelayedAfterKey"]).timeouts;
+            var timeouts = <IdelayedAfterKeyItem[]>(<any>ko.bindingHandlers["delayedAfterKey"]).timeouts;
             var resolvedTimeout = null;
             for (var timeout of timeouts) {
                 if (timeout.element === element) {

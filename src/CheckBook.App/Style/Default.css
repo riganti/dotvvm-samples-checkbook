@@ -147,6 +147,9 @@ div.content {
 .user-box .amount {
   margin-top: 20px;
 }
+.user-box .edit {
+  margin-top: 30px;
+}
 .btn-circle {
   width: 50px;
   height: 50px;
@@ -155,6 +158,10 @@ div.content {
   line-height: 1.33;
   border-radius: 25px;
   margin: 10px;
+  font-size: 30px;
+  vertical-align: middle;
+  margin: 0px;
+  padding: 0px;
 }
 .btn-circle:focus,
 .btn-circle:active:focus {
@@ -171,6 +178,7 @@ div.content {
   -webkit-box-shadow: 0px 4px 10px 0px rgba(77, 77, 77, 0.7);
   -moz-box-shadow: 0px 4px 10px 0px rgba(77, 77, 77, 0.7);
   box-shadow: 0px 4px 10px 0px rgba(77, 77, 77, 0.7);
+  transition: all linear 0.2s;
 }
 .subheader-payment .header-payment {
   display: inline-block;
@@ -179,10 +187,10 @@ div.content {
   font-size: 18px;
   color: white;
   border-bottom: 2px solid white;
-  transition: all linear 1s;
 }
 .subheader-payment .header-item {
   font-size: 18px;
+  transition: all 0.2s;
 }
 .subheader-payment .back-mini {
   display: none;
@@ -200,6 +208,15 @@ hr.style-six {
   .payment-group-form {
     width: 80%;
   }
+  .payment-group-form h1 {
+    display: none;
+  }
+  .payment-group-form::before {
+    height: 20px;
+    width: 100%;
+    content: " ";
+    display: block;
+  }
   .btn-circle {
     display: inline-block;
   }
@@ -208,15 +225,53 @@ hr.style-six {
   }
   .subheader-payment {
     text-align: center;
+    background-color: white;
   }
   .subheader-payment .back-mini {
     display: inline-block;
     width: 70px;
     float: left;
     min-height: 1px;
+    color: #44a9f7;
   }
   .subheader-payment .back-maxi {
     display: none;
+  }
+  .subheader-payment .header-payment {
+    color: #44a9f7;
+  }
+  .date {
+    width: 240px;
+  }
+}
+.input-validation-ok {
+  color: #adea70;
+}
+.input-validation-remove {
+  color: #ff1a1a;
+}
+.input-validation {
+  margin-top: 30px;
+}
+.input-validation .input-validation-ok {
+  display: inline-block;
+}
+.input-validation .input-validation-remove {
+  display: none;
+}
+.input-validation-error .input-validation-ok {
+  display: none;
+}
+.input-validation-error .input-validation-remove {
+  display: inline-block;
+}
+.nav > li > a {
+  transition: all 0.2s;
+}
+@media screen and (max-width: 880px) {
+  .nav > li > a {
+    padding: 15px 10px !important;
+    transition: all 0.2s;
   }
 }
 @media (max-width: 400px) {
@@ -340,9 +395,6 @@ hr.style-six {
 }
 .right {
   text-align: right;
-}
-.form-control.date {
-  width: 160px;
 }
 @media screen and (max-width: 460px) {
   .login-form {

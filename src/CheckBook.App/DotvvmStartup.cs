@@ -63,6 +63,17 @@ namespace CheckBook.App
                 Location = new LocalFileResourceLocation("Scripts/inputMathExpressions.js"),
                 Dependencies = new [] { "jquery" }
             });
+            config.Resources.Register("jqueryui", new ScriptResource()
+            {
+                Location = new LocalFileResourceLocation("Scripts/jquery-ui.js"),
+                Dependencies = new[] { "jquery"}
+            });
+            config.Resources.Register("jqueryuiStyle", new StylesheetResource()
+            {
+                Location = new LocalFileResourceLocation("Style/jquery-ui.css"),
+                Dependencies = new[] { "jqueryui" }
+                
+            });
 
             // Note that the 'jquery' resource is registered in DotVVM and points to official jQuery CDN.
             // We have jQuery in our application, so we have to change its URL
@@ -75,6 +86,7 @@ namespace CheckBook.App
                 Location = new LocalFileResourceLocation("Scripts/bootstrap.min.js"),
                 Dependencies = new[] { "jquery" }
             });
+
             config.Resources.Register("searchTextBox", new ScriptResource()
             {
                 Location = new LocalFileResourceLocation("Scripts/SearchTextBox.js"),

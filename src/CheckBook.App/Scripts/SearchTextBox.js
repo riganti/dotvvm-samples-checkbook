@@ -1,12 +1,12 @@
 var dotvvm = dotvvm || {};
-ko.bindingHandlers["elvisDelayedAfterKey"] = {
+ko.bindingHandlers["delayedAfterKey"] = {
     onchangeFunctions: [],
     timeouts: [],
     init: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
         var obs = valueAccessor();
         var tmp = obs();
         $(element).keyup(function (e) {
-            var onchangeFunctions = ko.bindingHandlers["elvisDelayedAfterKey"].onchangeFunctions;
+            var onchangeFunctions = ko.bindingHandlers["delayedAfterKey"].onchangeFunctions;
             var changeFunc = null;
             for (var _i = 0, onchangeFunctions_1 = onchangeFunctions; _i < onchangeFunctions_1.length; _i++) {
                 var funcReg = onchangeFunctions_1[_i];
@@ -23,7 +23,7 @@ ko.bindingHandlers["elvisDelayedAfterKey"] = {
                     element: element
                 });
             }
-            var timeouts = ko.bindingHandlers["elvisDelayedAfterKey"].timeouts;
+            var timeouts = ko.bindingHandlers["delayedAfterKey"].timeouts;
             var resolvedTimeout = null;
             for (var _a = 0, timeouts_1 = timeouts; _a < timeouts_1.length; _a++) {
                 var timeout = timeouts_1[_a];

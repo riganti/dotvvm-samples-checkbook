@@ -55,7 +55,7 @@ namespace CheckBook.App.Controls
                 }
             });
 
-            writer.AddKnockoutDataBind("elvisDelayedAfterKey", this, TextProperty);
+            writer.AddKnockoutDataBind("delayedAfterKey", this, TextProperty);
 
             if (Type == TextBoxType.MultiLine)
             {

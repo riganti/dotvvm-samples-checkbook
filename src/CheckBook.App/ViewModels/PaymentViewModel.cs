@@ -37,8 +37,8 @@ namespace CheckBook.App.ViewModels
         public List<TransactionRowData> Payers { get; set; } = new List<TransactionRowData>();
 
         public List<TransactionRowData> Debtors { get; set; } = new List<TransactionRowData>();
-
-        public List<string> Names { get; set; } = new List<string>();
+        
+        public string[] Names { get; set; }
 
         public string GroupName { get; set; }
 
@@ -92,6 +92,17 @@ namespace CheckBook.App.ViewModels
             // add first rows to form
             AddRow(Payers);
             AddRow(Debtors);
+
+            foreach (var row in AllPayers.Where(n => n.Amount > 0))
+            {
+                AddLoadedUser(row, Payers);
+            }
+            foreach (var row in AllDebtors.Where(n => n.Amount > 0))
+            {
+                AddLoadedUser(row, Debtors);
+            }
+
+            FilterNames();
         }
 
         /// <summary>
@@ -149,41 +160,85 @@ namespace CheckBook.App.ViewModels
         }
 
 
-        //[Bind(Direction.ServerToClient)]
-        public void FilterNames(string s, TransactionRowData row)
+        //[Bind(Direction.ServerToClient)]        
+        public void FilterNames()
         {
-            Names = AllPayers.Where(n => n.Name.ToLower().Contains(s.ToLower()))
-                .Select(n => n.Name).ToList();
+            Names = AllPayers.Select(n => n.Name).ToArray();
         }
+        
 
         public void AddSelectedUser(string name, TransactionRowData row, string context)
         {
+            
             if(context == "payers")
             {
-                var user = AllPayers.Where(n => n.Name == name).First();
-                var item = Payers.Where(n => n.RowId == row.RowId).First();
-                item.Name = user.Name;
-                item.UserId = user.UserId;
-                item.ImageUrl = user.ImageUrl;
-                item.Id = user.Id;
-                item.IsUserboxVisible = true;
+                var user = AllPayers.Where(n => n.Name == name).FirstOrDefault();
+                if(user != null)
+                {
+                    var item = Payers.Where(n => n.RowId == row.RowId).First();
+                    item.Name = user.Name;
+                    item.UserId = user.UserId;
+                    item.ImageUrl = user.ImageUrl;
+                    item.Id = user.Id;
+                    item.IsUserboxVisible = true;
+                }
+                
             }
             else if (context == "debtors")
             {
-                var user = AllDebtors.Where(n => n.Name == name).First();
-                var item = Debtors.Where(n => n.RowId == row.RowId).First();
-                item.Name = user.Name;
-                item.UserId = user.UserId;
-                item.ImageUrl = user.ImageUrl;
-                item.Id = user.Id;
-                item.IsUserboxVisible = true;
+                var user = AllDebtors.Where(n => n.Name == name).FirstOrDefault();
+                if (user != null)
+                {
+                    var item = Debtors.Where(n => n.RowId == row.RowId).First();
+                    item.Name = user.Name;
+                    item.UserId = user.UserId;
+                    item.ImageUrl = user.ImageUrl;
+                    item.Id = user.Id;
+                    item.IsUserboxVisible = true;
+                }
+                    
             }
 
+        }
+        public void AddLoadedUser(TransactionData user, List<TransactionRowData> list)
+        {
+            list[list.Count - 1].Name = user.Name;
+            list[list.Count - 1].UserId = user.UserId;
+            list[list.Count - 1].ImageUrl = user.ImageUrl;
+            list[list.Count - 1].Id = user.Id;
+            list[list.Count - 1].Amount = user.Amount;
+            list[list.Count - 1].IsUserboxVisible = true;
+
+            AddRow(list);
         }
 
         public void AddRow(List<TransactionRowData> list)
         {
             list.Add(new TransactionRowData() { RowId = list.Count });
+        }
+
+        public void EditRow(TransactionRowData row, string context)
+        {
+            if (context == "payers")
+            {
+                var item = Payers.Find(n => n == row);
+                item.Name = "";
+                item.IsUserboxVisible = false;
+
+            }
+            else if (context == "debtors")
+            {
+                var item = Debtors.Find(n => n == row);
+                item.Name = "";
+                item.IsUserboxVisible = false;
+
+            }
+        }
+
+        
+        public void JustFunc()
+        {
+
         }
     }
 }

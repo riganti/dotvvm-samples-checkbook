@@ -152,6 +152,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\inputMathExpressions.js" />
     <Content Include="Scripts\jquery-2.1.3.min.js" />
+    <Content Include="Scripts\jquery-ui.js" />
     <Content Include="Style\default.svg" />
     <Content Include="Style\dollar-exchange.png" />
     <Content Include="Style\bootstrap\bootstrap-theme.css" />
@@ -165,6 +166,7 @@
       <DependentUpon>Default.css</DependentUpon>
     </Content>
     <Content Include="Style\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Style\jquery-ui.css" />
     <Content Include="Web.config" />
     <Content Include="Views\login.dothtml" />
     <Content Include="packages.config" />
