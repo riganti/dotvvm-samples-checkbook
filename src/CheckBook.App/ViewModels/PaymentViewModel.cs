@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using DotVVM.Framework.Controls;
 using DotVVM.Framework.Runtime.Filters;
 using System.Collections.Generic;
@@ -38,7 +39,7 @@ namespace CheckBook.App.ViewModels
 
         public List<TransactionRowData> Debtors { get; set; } = new List<TransactionRowData>();
         
-        public string[] Names { get; set; }
+        public List<string> FilteredNames { get; set; }
 
         public string GroupName { get; set; }
 
@@ -80,6 +81,7 @@ namespace CheckBook.App.ViewModels
                 };
                 IsEditable = true;
                 IsDeletable = false;
+                
             }
 
             GroupName = group.Name;
@@ -89,9 +91,6 @@ namespace CheckBook.App.ViewModels
             AllDebtors = PaymentService.GetDebtors(groupId, Convert.ToInt32(paymentId));
             Recalculate();
 
-            // add first rows to form
-            AddRow(Payers);
-            AddRow(Debtors);
 
             foreach (var row in AllPayers.Where(n => n.Amount > 0))
             {
@@ -102,7 +101,12 @@ namespace CheckBook.App.ViewModels
                 AddLoadedUser(row, Debtors);
             }
 
-            FilterNames();
+
+            if (AllPayers.Count > Payers.Count)
+                AddRow(Payers);
+
+            if (AllDebtors.Count > Debtors.Count)
+                AddRow(Debtors);
         }
 
         /// <summary>
@@ -158,58 +162,100 @@ namespace CheckBook.App.ViewModels
         {
             Context.RedirectToRoute("group", new { Id = Data.GroupId });
         }
-
-
-        //[Bind(Direction.ServerToClient)]        
-        public void FilterNames()
-        {
-            Names = AllPayers.Select(n => n.Name).ToArray();
-        }
         
+
+        public void FilterPayersNames(string filter)
+        {
+            IEnumerable<TransactionData> payers = AllPayers;
+
+            if (!string.IsNullOrWhiteSpace(filter))
+                payers = payers.Where(t => t.Name.Contains(filter));
+            
+            FilteredNames = payers.Select(t=>t.Name) //select only names
+                .Concat(Payers.Select(t=>t.Name))   //merge Names of allready added payers with names of all payers
+                .GroupBy(t=>t).Where(g => g.Count() == 1).Select(g => g.Key).ToList(); //select only unique entries
+
+            MoveCurrentUserToTop(FilteredNames);
+
+        }
+
+        public void FilterDebtorsNames(string filter)
+        {
+            IEnumerable<TransactionData> debtorsDatas = AllDebtors;
+
+            if (!string.IsNullOrWhiteSpace(filter))
+                debtorsDatas = debtorsDatas.Where(t => t.Name.Contains(filter));
+
+            FilteredNames = debtorsDatas.Select(t => t.Name) //select only names
+                .Concat(Debtors.Select(t => t.Name))   //merge Names of allready added debtors with names of all debtors
+                .GroupBy(t => t).Where(g => g.Count() == 1).Select(g => g.Key).ToList(); //select only unique entries
+
+            MoveCurrentUserToTop(FilteredNames);
+        }
+
+        protected void MoveCurrentUserToTop(List<string> collection)
+        {
+            var currentUserName = GetUserName();
+
+            var index = collection.IndexOf(currentUserName);
+
+            if (index == -1) return; //not found
+
+            collection.RemoveAt(index);
+            collection.Insert(0, currentUserName);
+        }
 
         public void AddSelectedUser(string name, TransactionRowData row, string context)
         {
             
             if(context == "payers")
             {
-                var user = AllPayers.Where(n => n.Name == name).FirstOrDefault();
+                var user = AllPayers.FirstOrDefault(n => n.Name == name);
                 if(user != null)
                 {
-                    var item = Payers.Where(n => n.RowId == row.RowId).First();
+                    var item = Payers.First(n => n.RowId == row.RowId);
                     item.Name = user.Name;
                     item.UserId = user.UserId;
                     item.ImageUrl = user.ImageUrl;
                     item.Id = user.Id;
                     item.IsUserboxVisible = true;
                 }
-                
+
+                if (AllPayers.Count > Payers.Count)
+                    AddRow(Payers);
             }
             else if (context == "debtors")
             {
-                var user = AllDebtors.Where(n => n.Name == name).FirstOrDefault();
+                var user = AllDebtors.FirstOrDefault(n => n.Name == name);
                 if (user != null)
                 {
-                    var item = Debtors.Where(n => n.RowId == row.RowId).First();
+                    var item = Debtors.First(n => n.RowId == row.RowId);
                     item.Name = user.Name;
                     item.UserId = user.UserId;
                     item.ImageUrl = user.ImageUrl;
                     item.Id = user.Id;
                     item.IsUserboxVisible = true;
                 }
-                    
+
+
+                if (AllDebtors.Count > Debtors.Count)
+                    AddRow(Debtors);
             }
 
         }
         public void AddLoadedUser(TransactionData user, List<TransactionRowData> list)
         {
-            list[list.Count - 1].Name = user.Name;
-            list[list.Count - 1].UserId = user.UserId;
-            list[list.Count - 1].ImageUrl = user.ImageUrl;
-            list[list.Count - 1].Id = user.Id;
-            list[list.Count - 1].Amount = user.Amount;
-            list[list.Count - 1].IsUserboxVisible = true;
+            var item = new TransactionRowData
+            {
+                Name = user.Name,
+                UserId = user.UserId,
+                ImageUrl = user.ImageUrl,
+                Id = user.Id,
+                Amount = user.Amount,
+                IsUserboxVisible = true
+            };
 
-            AddRow(list);
+            list.Add(item);
         }
 
         public void AddRow(List<TransactionRowData> list)
@@ -233,12 +279,6 @@ namespace CheckBook.App.ViewModels
                 item.IsUserboxVisible = false;
 
             }
-        }
-
-        
-        public void JustFunc()
-        {
-
         }
     }
 }

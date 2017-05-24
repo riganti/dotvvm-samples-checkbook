@@ -30,6 +30,13 @@ namespace CheckBook.App.ViewModels
         {
             return int.Parse(Context.GetAuthentication().User.Identity.GetUserId());
         }
+        /// <summary>
+        /// Gets the Name of currently logged user.
+        /// </summary>
+        protected string GetUserName()
+        {
+            return Context.GetAuthentication().User.Identity.Name;
+        }
 
         public void SignOut()
         {

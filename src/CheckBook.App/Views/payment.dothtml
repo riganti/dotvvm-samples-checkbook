@@ -32,7 +32,7 @@
                         <div class="col-sm-5 col-xs-6">
                             <label class="control-label">Date *</label>
                             <div class="" Validator.Value="{value: Data.CreatedDate}">
-                                <dot:TextBox class="form-control" Text="{value: Data.CreatedDate}" FormatString="d" ValueType="DateTime" Enabled="{value: IsEditable}" Changed="{command: JustFunc()}" />
+                                <dot:TextBox class="form-control" Text="{value: Data.CreatedDate}" FormatString="d" ValueType="DateTime" Enabled="{value: IsEditable}" Changed="{command: null}" />
 
                             </div>
                         </div>
@@ -49,7 +49,7 @@
                         <div class="col-sm-5 col-xs-11">
                             <label class="control-label">Description *</label>
                             <div class="" Validator.Value="{value: Data.Description}">
-                                <dot:TextBox class="form-control" Text="{value: Data.Description}" Enabled="{value: IsEditable}" Changed="{command: JustFunc()}" />
+                                <dot:TextBox class="form-control" Text="{value: Data.Description}" Enabled="{value: IsEditable}" Changed="{command: null}" />
 
                             </div>
                         </div>
@@ -118,9 +118,8 @@
 
                             <div class="col-sm-5 col-xs-6">
                                 <div class="dropdown">
-                                    <!--<cc:SearchTextBox ID="vz-times-search" Text="{value: TbText}" class="form-control" data-toggle="dropdown" Changed="{command: _root.FilterNames(TbText, _this)}" Validation.Enabled="false" Events.Click="{command: _root.FilterNames(TbText, _this)}" />-->
-                                    <dot:TextBox class="form-control search-tb-autocomplete" Text="{value: Name}" Changed="{command: _root.AddSelectedUser(_this.Name, _this, "payers")}" Validation.Enabled="false"/>
-                                    <dot:Repeater DataSource="{value: _root.Names }" WrapperTagName="ul" class="dropdown-menu">
+                                    <cc:SearchTextBox  ID="vz-times-search" Text="{value: TbText}" class="form-control" data-toggle="dropdown" SearchDelayInMs="500" Validation.Enabled="false" DoneTyping="{command: _root.FilterPayersNames(TbText)}" Events.Click="{command: _root.FilterPayersNames(TbText)}" />
+                                    <dot:Repeater DataSource="{value: _root.FilteredNames }" WrapperTagName="ul" class="dropdown-menu">
                                         <ItemTemplate>
                                             <li>
                                                 <dot:LinkButton Text="{value: _this}" Click="{command: _root.AddSelectedUser(_this, _parent, "payers")}" Validation.Enabled="false" />
@@ -137,9 +136,6 @@
                         </div>
                     </ItemTemplate>
                 </dot:Repeater>
-                <div class="text-center row">
-                    <dot:Button type="button" ButtonTagName="button" class="btn btn-primary btn-circle" Click="{command: AddRow(Payers)}" Validation.Enabled="false" PostBack.Update="true">+</dot:Button>
-                </div>
             </div>
             <!--<div class="payer-box">
                 <h2><span class="glyphicon glyphicon-user"></span> Debtors</h2>
@@ -191,9 +187,8 @@
                         <div class="row" Visible="{value: !IsUserboxVisible}">
                             <div class="col-sm-5 col-xs-6">
                                 <div class="dropdown">
-                                    <!--<cc:SearchTextBox ID="vz-times-search" Text="{value: TbText}" class="form-control" data-toggle="dropdown" Changed="{command: _root.FilterNames(TbText, _this)}" Validation.Enabled="false" Events.Click="{command: _root.FilterNames(TbText, _this)}" />-->
-                                    <dot:TextBox class="form-control search-tb-autocomplete" Text="{value: Name}" Changed="{command: _root.AddSelectedUser(_this.Name, _this, "debtors")}" Validation.Enabled="false"/>
-                                    <dot:Repeater DataSource="{value: _root.Names }" WrapperTagName="ul" class="dropdown-menu">
+                                    <cc:SearchTextBox ID="vz-times-search" Text="{value: TbText}" class="form-control" data-toggle="dropdown" SearchDelayInMs="500" Validation.Enabled="false" DoneTyping="{command: _root.FilterDebtorsNames(TbText)}" Events.Click="{command: _root.FilterDebtorsNames(TbText)}" />
+                                    <dot:Repeater DataSource="{value: _root.FilteredNames }" WrapperTagName="ul" class="dropdown-menu">
                                         <ItemTemplate>
                                             <li>
                                                 <dot:LinkButton Text="{value: _this}" Click="{command: _root.AddSelectedUser(_this, _parent, "debtors")}" Validation.Enabled="false" />
@@ -210,9 +205,6 @@
                         </div>
                     </ItemTemplate>
                 </dot:Repeater>
-                <div class="text-center row">
-                    <dot:Button type="button" ButtonTagName="button" class="btn btn-primary btn-circle" Click="{command: AddRow(Debtors)}" Validation.Enabled="false" PostBack.Update="true">+</dot:Button>
-                </div>
             </div>
 
             
@@ -256,25 +248,7 @@
         dotvvm.events.init.subscribe(function () {
             // when everything in page is initialized, apply the jQuery expression evaluation script on textboxes
             $(".amount").inputMathExpressions();
-            autoc();
         });
-        function autoc() {
-
-            var elm = $("#payers-repeater").get(0);
-            if (!elm) return;
-            var data = ko.dataFor(elm);
-            var array = [];
-            for (var item in data.Names()) {
-                array.push(data.Names()[item]())
-            }
-            $(".search-tb-autocomplete").autocomplete({
-                source: array,
-                select: function (event, ui) {
-                    $('#search').val(ui.item.val);
-                }
-            })
-        }
-        dotvvm.events.afterPostback.subscribe(autoc);
 
     </dot:InlineScript>
 
