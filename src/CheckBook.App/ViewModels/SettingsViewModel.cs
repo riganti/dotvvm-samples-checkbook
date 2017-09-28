@@ -9,6 +9,8 @@ using CheckBook.DataAccess.Services;
 using DotVVM.Framework.Controls;
 using DotVVM.Framework.Storage;
 using DotVVM.Framework.ViewModel;
+using DotVVM.Framework.Hosting;
+using System.Security.Claims;
 
 namespace CheckBook.App.ViewModels
 {
@@ -21,6 +23,8 @@ namespace CheckBook.App.ViewModels
 
         public string AlertType { get; set; }
 
+        public string AuthenticationMethod { get; set; }
+
 
         // To make file uploads work you have to register the IUploadedFilesStorage in the Startup.cs file
         public UploadedFilesCollection AvatarFiles { get; set; } = new UploadedFilesCollection();
@@ -32,6 +36,9 @@ namespace CheckBook.App.ViewModels
             {
                 Data = UserService.GetUserInfo(GetUserId());
             }
+
+            AuthenticationMethod = Context.GetAuthentication().User.Claims.Where(x => x.Type == ClaimTypes.AuthenticationMethod).First().Value;
+
             return base.PreRender();
         }
 

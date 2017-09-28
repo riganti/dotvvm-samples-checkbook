@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNet.Identity;
+using Microsoft.Owin.Security.Cookies;
 using System.Security.Principal;
 
 namespace CheckBook.App.Models
@@ -7,7 +8,7 @@ namespace CheckBook.App.Models
     {
         public string AuthenticationType
         {
-            get { return DefaultAuthenticationTypes.ApplicationCookie; }
+            get { return CookieAuthenticationDefaults.AuthenticationType; }
         }
 
         public bool IsAuthenticated { get; set; }

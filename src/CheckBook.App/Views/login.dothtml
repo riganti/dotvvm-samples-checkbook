@@ -39,6 +39,12 @@
                 </label>
             </div>
 
+            <div class="form-group" Visible="{value: AADEnabled}">
+                <label class="col-md-8 col-md-offset-4">
+                    <dot:LinkButton Click="{command: SignInAAD()}" Validation.Enabled="false">Sign in with Work or school account</dot:LinkButton>
+                </label>
+            </div>
+
             <div class="form-group">
                 <div class="validation-box">
                     {{value: ErrorMessage}}

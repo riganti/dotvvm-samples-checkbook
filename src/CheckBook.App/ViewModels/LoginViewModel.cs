@@ -5,6 +5,9 @@ using CheckBook.App.Helpers;
 using DotVVM.Framework.ViewModel;
 using Microsoft.Owin.Security;
 using DotVVM.Framework.Hosting;
+using Microsoft.Owin.Security.OpenIdConnect;
+using System.Configuration;
+using Microsoft.Owin.Security.Cookies;
 
 namespace CheckBook.App.ViewModels
 {
@@ -14,6 +17,8 @@ namespace CheckBook.App.ViewModels
         [Required(ErrorMessage = "The e-mail address is required!")]
         [EmailAddress(ErrorMessage = "The e-mail address is not valid!")]
         public string Email { get; set; }
+
+        public bool AADEnabled { get; set; } = false;
 
 
         [Required(ErrorMessage = "The password is required!")]
@@ -33,13 +38,15 @@ namespace CheckBook.App.ViewModels
                 Context.RedirectToRoute("home");
             }
 
+            AADEnabled = !String.IsNullOrEmpty(ConfigurationManager.AppSettings["ida:ClientId"]);
+
             return base.Init();
         }
 
 
         public void SignIn()
         {
-            var identity = LoginHelper.GetClaimsIdentity(Email, Password);
+            var identity = LoginHelper.GetClaimsIdentity(Email, Password, CookieAuthenticationDefaults.AuthenticationType);
             if (identity == null)
             {
                 ErrorMessage = "Invalid e-mail address or password!";
@@ -59,5 +66,15 @@ namespace CheckBook.App.ViewModels
             }
         }
         
+        public void SignInAAD()
+        {
+            Context.GetAuthentication().Challenge(new AuthenticationProperties()
+            {
+                RedirectUri = "/home",
+                IsPersistent = RememberMe,
+                ExpiresUtc = RememberMe ? DateTime.UtcNow.AddMonths(1) : (DateTime?)null,
+            }, OpenIdConnectAuthenticationDefaults.AuthenticationType);
+            Context.InterruptRequest();
+        }
     }
 }
