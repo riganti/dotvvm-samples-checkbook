@@ -14,9 +14,15 @@ namespace CheckBook.App.ViewModels
 
         public GridViewDataSet<MyTransactionData> MyTransactions { get; set; } = new GridViewDataSet<MyTransactionData>()
         {
-            SortExpression = nameof(MyTransactionData.CreatedDate),
-            SortDescending = true,
-            PageSize = 20
+            PagingOptions =
+            {
+                PageSize = 20
+            },
+            SortingOptions =
+            {
+                SortExpression = nameof(MyTransactionData.CreatedDate),
+                SortDescending = true
+            }
         };
 
         public override Task PreRender()

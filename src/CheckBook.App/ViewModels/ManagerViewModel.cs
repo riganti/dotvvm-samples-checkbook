@@ -12,13 +12,19 @@ using DotVVM.Framework.ViewModel;
 namespace CheckBook.App.ViewModels
 {
     [Authorize(nameof(UserRole.Admin))]
-	public class ManagerViewModel : AppViewModelBase
-	{
+    public class ManagerViewModel : AppViewModelBase
+    {
         public GridViewDataSet<UserInfoData> Users { get; set; } = new GridViewDataSet<UserInfoData>()
         {
-            SortExpression = nameof(UserInfoData.LastName),
-            SortDescending = false,
-            PageSize = 20
+            PagingOptions =
+            {
+                PageSize = 20
+            },
+            SortingOptions =
+            {
+                SortExpression = nameof(UserInfoData.LastName),
+                SortDescending = false
+            }
         };
 
         public UserInfoData EditedUser { get; set; } = new UserInfoData();
@@ -28,9 +34,15 @@ namespace CheckBook.App.ViewModels
 
         public GridViewDataSet<GroupData> Groups { get; set; } = new GridViewDataSet<GroupData>()
         {
-            SortExpression = nameof(GroupData.Name),
-            SortDescending = false,
-            PageSize = 20
+            PagingOptions =
+            {
+                PageSize = 20
+            },
+            SortingOptions =
+            {
+                SortExpression = nameof(GroupData.Name),
+                SortDescending = false
+            }
         };
 
         public GroupData EditedGroup { get; set; } = new GroupData();

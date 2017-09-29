@@ -47,7 +47,7 @@ namespace CheckBook.App
                 TagPrefix = "cc",
                 TagName = "UserDetailForm"
             });
-            config.Markup.AddCodeControl("cc", typeof(Controls.SearchTextBox).Namespace, typeof(Controls.SearchTextBox).Assembly.GetName().Name);
+            config.Markup.AddCodeControls("cc", typeof(Controls.SearchTextBox).Namespace, typeof(Controls.SearchTextBox).Assembly.GetName().Name);
         }
 
         private void RegisterResources(DotvvmConfiguration config)
@@ -55,22 +55,22 @@ namespace CheckBook.App
             // register custom scripts
             config.Resources.Register("autoHideAlert", new ScriptResource()
             {
-                Location = new LocalFileResourceLocation("Scripts/autoHideAlert.js"),
+                Location = new FileResourceLocation("Scripts/autoHideAlert.js"),
                 Dependencies = new[] { "jquery" }
             });
             config.Resources.Register("inputMathExpressions", new ScriptResource()
             {
-                Location = new LocalFileResourceLocation("Scripts/inputMathExpressions.js"),
+                Location = new FileResourceLocation("Scripts/inputMathExpressions.js"),
                 Dependencies = new [] { "jquery" }
             });
             config.Resources.Register("jqueryui", new ScriptResource()
             {
-                Location = new LocalFileResourceLocation("Scripts/jquery-ui.js"),
+                Location = new FileResourceLocation("Scripts/jquery-ui.js"),
                 Dependencies = new[] { "jquery"}
             });
             config.Resources.Register("jqueryuiStyle", new StylesheetResource()
             {
-                Location = new LocalFileResourceLocation("Style/jquery-ui.css"),
+                Location = new FileResourceLocation("Style/jquery-ui.css"),
                 Dependencies = new[] { "jqueryui" }
                 
             });
@@ -78,18 +78,18 @@ namespace CheckBook.App
             // Note that the 'jquery' resource is registered in DotVVM and points to official jQuery CDN.
             // We have jQuery in our application, so we have to change its URL
             ((ScriptResource)config.Resources.FindResource("jquery"))
-                .Location = new LocalFileResourceLocation("Scripts/jquery-2.1.3.min.js");
+                .Location = new FileResourceLocation("Scripts/jquery-2.1.3.min.js");
 
             // register bootstrap
             config.Resources.Register("bootstrap", new ScriptResource()
             {
-                Location = new LocalFileResourceLocation("Scripts/bootstrap.min.js"),
+                Location = new FileResourceLocation("Scripts/bootstrap.min.js"),
                 Dependencies = new[] { "jquery" }
             });
 
             config.Resources.Register("searchTextBox", new ScriptResource()
             {
-                Location = new LocalFileResourceLocation("Scripts/SearchTextBox.js"),
+                Location = new FileResourceLocation("Scripts/SearchTextBox.js"),
                 Dependencies = new[] { "jquery", "dotvvm" }
             });
         }

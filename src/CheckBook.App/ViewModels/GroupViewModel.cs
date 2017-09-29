@@ -12,8 +12,8 @@ namespace CheckBook.App.ViewModels
 {
     [Authorize]
     public class GroupViewModel : AppViewModelBase
-	{
-	    public override string ActivePage => "home";
+    {
+        public override string ActivePage => "home";
 
         public int GroupId => Convert.ToInt32(Context.Parameters["Id"]);
 
@@ -27,16 +27,22 @@ namespace CheckBook.App.ViewModels
 
         public GridViewDataSet<PaymentData> Payments { get; set; } = new GridViewDataSet<PaymentData>()
         {
-            PageSize = 40,
-            SortDescending = true,
-            SortExpression = nameof(PaymentData.CreatedDate)
+            PagingOptions =
+            {
+                PageSize = 40
+            },
+            SortingOptions =
+            {
+                SortDescending = true,
+                SortExpression = nameof(PaymentData.CreatedDate)
+            }
         };
 
 
         public override Task PreRender()
-	    {
+        {
             // load group name
-	        var userId = GetUserId();
+            var userId = GetUserId();
             var group = GroupService.GetGroup(GroupId, userId);
             GroupName = group.Name;
             Currency = group.Currency;
@@ -50,8 +56,8 @@ namespace CheckBook.App.ViewModels
             // generate settlements
             Settlement = SettlementService.CalculateSettlement(Members).ToList();
 
-	        return base.PreRender();
-	    }
-	}
+            return base.PreRender();
+        }
+    }
 }
 
