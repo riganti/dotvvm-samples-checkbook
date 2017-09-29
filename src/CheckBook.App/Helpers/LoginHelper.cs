@@ -6,7 +6,7 @@ namespace CheckBook.App.Helpers
 {
     public static class LoginHelper
     {
-        public static ClaimsIdentity GetClaimsIdentity(string email, string password)
+        public static ClaimsIdentity GetClaimsIdentity(string email, string password, string authenticationMethod, bool verifyPassword = true)
         {
             // try to find the user
             var user = UserService.GetUserWithPassword(email);
@@ -16,7 +16,7 @@ namespace CheckBook.App.Helpers
             }
 
             // verify the password
-            if (!DataAccess.Security.PasswordHelper.VerifyHashedPassword(user.PasswordHash, user.PasswordSalt, password))
+            if (verifyPassword && !DataAccess.Security.PasswordHelper.VerifyHashedPassword(user.PasswordHash, user.PasswordSalt, password))
             {
                 return null;
             }
@@ -25,6 +25,7 @@ namespace CheckBook.App.Helpers
             var claimsIdentity = new ClaimsIdentity(new UserIdentity(user.FirstName + " " + user.LastName));
             claimsIdentity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
             claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, user.UserRole.ToString()));
+            claimsIdentity.AddClaim(new Claim(ClaimTypes.AuthenticationMethod, authenticationMethod));
             return claimsIdentity;
         }
     }
