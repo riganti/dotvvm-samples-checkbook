@@ -39,20 +39,43 @@ namespace CheckBook.App
             // set up Entity Framework Migrations
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<AppContext, DataAccess.Migrations.Configuration>());
 
-            app.SetDefaultSignInAsAuthenticationType(CookieAuthenticationDefaults.AuthenticationType);
+            // configure authentication
+            ConfigureCookieAuthentication(app);
+            if (LoginHelper.AADEnabled)
+            {
+                ConfigureAADAuthentication(app);
+            }
 
-            // use cookie authentication
+            // use DotVVM
+            var applicationPhysicalPath = HostingEnvironment.ApplicationPhysicalPath;
+            var dotvvmConfiguration = app.UseDotVVM<DotvvmStartup>(applicationPhysicalPath, options: options =>
+            {
+                options.AddDefaultTempStorages("App_Data\\UploadTemp");
+            });
+
+            // use static files
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileSystem = new PhysicalFileSystem(applicationPhysicalPath)
+            });
+        }
+
+        private static void ConfigureCookieAuthentication(IAppBuilder app)
+        {
             app.UseCookieAuthentication(new CookieAuthenticationOptions()
             {
                 LoginPath = new PathString("/"),
+                AuthenticationType = CookieAuthenticationDefaults.AuthenticationType,
                 Provider = new CookieAuthenticationProvider()
                 {
-                    OnApplyRedirect = context =>
-                    {
-                        DotvvmAuthenticationHelper.ApplyRedirectResponse(context.OwinContext, context.RedirectUri);
-                    }
+                    OnApplyRedirect = context => { DotvvmAuthenticationHelper.ApplyRedirectResponse(context.OwinContext, context.RedirectUri); }
                 }
             });
+        }
+
+        private static void ConfigureAADAuthentication(IAppBuilder app)
+        {
+            app.SetDefaultSignInAsAuthenticationType(CookieAuthenticationDefaults.AuthenticationType);
 
             app.UseOpenIdConnectAuthentication(new OpenIdConnectAuthenticationOptions
             {
@@ -75,7 +98,7 @@ namespace CheckBook.App
                             context.ProtocolMessage.RedirectUri = appBaseUrl;
                             // we need to handle the redirect to the login page ourselves because redirects cannot use HTTP 302 in DotVVM
                             var redirectUri = context.ProtocolMessage.CreateAuthenticationRequestUrl();
-                            DotvvmRequestContext.SetRedirectResponse(DotvvmMiddleware.ConvertHttpContext(context.OwinContext), redirectUri, (int)HttpStatusCode.Redirect, true);
+                            DotvvmRequestContext.SetRedirectResponse(DotvvmMiddleware.ConvertHttpContext(context.OwinContext), redirectUri, (int) HttpStatusCode.Redirect, true);
                             context.HandleResponse();
                         }
                         else if (context.ProtocolMessage.RequestType == OpenIdConnectRequestType.LogoutRequest)
@@ -83,7 +106,7 @@ namespace CheckBook.App
                             context.ProtocolMessage.PostLogoutRedirectUri = appBaseUrl;
                             // we need to handle the redirect to the logout page ourselves because redirects cannot use HTTP 302 in DotVVM
                             var redirectUri = context.ProtocolMessage.CreateLogoutRequestUrl();
-                            DotvvmRequestContext.SetRedirectResponse(DotvvmMiddleware.ConvertHttpContext(context.OwinContext), redirectUri, (int)HttpStatusCode.Redirect, true);
+                            DotvvmRequestContext.SetRedirectResponse(DotvvmMiddleware.ConvertHttpContext(context.OwinContext), redirectUri, (int) HttpStatusCode.Redirect, true);
                             context.HandleResponse();
                         }
 
@@ -91,21 +114,22 @@ namespace CheckBook.App
                     },
                     SecurityTokenValidated = context =>
                     {
-                        bool validateIssuer = (ConfigurationManager.AppSettings["ida:TenantId"] == "common");
-
-                        if(validateIssuer)
+                        var isMultiTenant = ConfigurationManager.AppSettings["ida:TenantId"] == "common";
+                        if (isMultiTenant)
                         {
+                            // validate allowed tenants
                             var tenants = ConfigurationManager.AppSettings["ida:Tenants"].Split(',');
                             var tokenTenant = context.AuthenticationTicket.Identity.FindFirstValue(AzureAdClaimTypes.TenantId);
-                            if(!tenants.Contains(tokenTenant))
+                            if (!tenants.Contains(tokenTenant))
                             {
                                 throw new SecurityTokenValidationException($"Tenant {tokenTenant} is not allowed to sign in to the application!");
                             }
                         }
-                        var upn = context.AuthenticationTicket.Identity.FindFirstValue(AzureAdClaimTypes.Upn);
-                        var user = LoginHelper.GetClaimsIdentity(upn, null, OpenIdConnectAuthenticationDefaults.AuthenticationType, false);
 
-                        if(user == null)
+                        // create user if it doesn't exists
+                        var upn = context.AuthenticationTicket.Identity.FindFirstValue(AzureAdClaimTypes.Upn);
+                        var user = LoginHelper.GetClaimsIdentityForAzure(upn);
+                        if (user == null)
                         {
                             var newUser = new UserInfoData
                             {
@@ -118,29 +142,17 @@ namespace CheckBook.App
                             };
                             UserService.CreateOrUpdateUserInfo(newUser);
 
-                            user = LoginHelper.GetClaimsIdentity(upn, null, OpenIdConnectAuthenticationDefaults.AuthenticationType, false);
+                            // create identity for the new user
+                            user = LoginHelper.GetClaimsIdentityForAzure(upn);
+                            context.AuthenticationTicket = new AuthenticationTicket(user, context.AuthenticationTicket.Properties);
                         }
-
-                        context.AuthenticationTicket = new AuthenticationTicket(user, context.AuthenticationTicket.Properties);
 
                         return Task.FromResult(0);
                     }
                 }
             });
-
-            // use DotVVM
-            var applicationPhysicalPath = HostingEnvironment.ApplicationPhysicalPath;
-            var dotvvmConfiguration = app.UseDotVVM<DotvvmStartup>(applicationPhysicalPath, options: options =>
-            {
-                options.AddDefaultTempStorages("App_Data\\UploadTemp");
-            });
-
-            // use static files
-            app.UseStaticFiles(new StaticFileOptions()
-            {
-                FileSystem = new PhysicalFileSystem(applicationPhysicalPath)
-            });
         }
+
         private static string GetApplicationBaseUrl(IOwinRequest contextRequest)
         {
             return contextRequest.Scheme + "://" + contextRequest.Host + contextRequest.PathBase;

@@ -45,17 +45,16 @@ namespace CheckBook.App.ViewModels
         public void SignOut()
         {
             // sign out
-            var authenticationMethod = Context.GetAuthentication().User.Claims.Where(x => x.Type == ClaimTypes.AuthenticationMethod).First().Value;
-            Context.GetAuthentication().SignOut(CookieAuthenticationDefaults.AuthenticationType);
+            var identity = (ClaimsIdentity)Context.HttpContext.User.Identity;
+            Context.GetAuthentication().SignOut(identity.AuthenticationType);
 
-            if (authenticationMethod == OpenIdConnectAuthenticationDefaults.AuthenticationType)
+            // redirect to the login route
+            if (identity.AuthenticationType == OpenIdConnectAuthenticationDefaults.AuthenticationType)
             {
-                Context.GetAuthentication().SignOut(authenticationMethod);
                 Context.InterruptRequest();
             }
             else
             {
-                // redirect to the login route
                 Context.RedirectToRoute("login");
             }
         }

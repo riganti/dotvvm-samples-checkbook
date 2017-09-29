@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 using CheckBook.DataAccess.Data;
 using CheckBook.DataAccess.Services;
 using DotVVM.Framework.Controls;
+using DotVVM.Framework.Runtime.Filters;
 
 namespace CheckBook.App.ViewModels
 {
-	public class HistoryViewModel : AppViewModelBase
+    [Authorize]
+    public class HistoryViewModel : AppViewModelBase
 	{
 
         public GridViewDataSet<MyTransactionData> MyTransactions { get; set; } = new GridViewDataSet<MyTransactionData>()

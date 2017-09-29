@@ -7,7 +7,6 @@ using Microsoft.Owin.Security;
 using DotVVM.Framework.Hosting;
 using Microsoft.Owin.Security.OpenIdConnect;
 using System.Configuration;
-using Microsoft.Owin.Security.Cookies;
 
 namespace CheckBook.App.ViewModels
 {
@@ -18,7 +17,7 @@ namespace CheckBook.App.ViewModels
         [EmailAddress(ErrorMessage = "The e-mail address is not valid!")]
         public string Email { get; set; }
 
-        public bool AADEnabled { get; set; } = false;
+        public bool AADEnabled => LoginHelper.AADEnabled;
 
 
         [Required(ErrorMessage = "The password is required!")]
@@ -38,15 +37,13 @@ namespace CheckBook.App.ViewModels
                 Context.RedirectToRoute("home");
             }
 
-            AADEnabled = !String.IsNullOrEmpty(ConfigurationManager.AppSettings["ida:ClientId"]);
-
             return base.Init();
         }
 
 
         public void SignIn()
         {
-            var identity = LoginHelper.GetClaimsIdentity(Email, Password, CookieAuthenticationDefaults.AuthenticationType);
+            var identity = LoginHelper.GetClaimsIdentity(Email, Password);
             if (identity == null)
             {
                 ErrorMessage = "Invalid e-mail address or password!";
