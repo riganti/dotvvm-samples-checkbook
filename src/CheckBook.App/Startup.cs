@@ -144,8 +144,9 @@ namespace CheckBook.App
 
                             // create identity for the new user
                             user = LoginHelper.GetClaimsIdentityForAzure(upn);
-                            context.AuthenticationTicket = new AuthenticationTicket(user, context.AuthenticationTicket.Properties);
                         }
+
+                        context.AuthenticationTicket = new AuthenticationTicket(user, context.AuthenticationTicket.Properties);
 
                         return Task.FromResult(0);
                     }

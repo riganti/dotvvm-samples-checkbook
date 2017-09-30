@@ -29,7 +29,8 @@ namespace CheckBook.App.Helpers
             {
                 new Claim(ClaimTypes.Name, user.FirstName + " " + user.LastName),
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Role, user.UserRole.ToString())
+                new Claim(ClaimTypes.Role, user.UserRole.ToString()),
+                new Claim(ClaimTypes.AuthenticationMethod, CookieAuthenticationDefaults.AuthenticationType)
             }, CookieAuthenticationDefaults.AuthenticationType);
             
             return claimsIdentity;
@@ -49,8 +50,9 @@ namespace CheckBook.App.Helpers
             {
                 new Claim(ClaimTypes.Name, user.FirstName + " " + user.LastName),
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Role, user.UserRole.ToString())
-            }, OpenIdConnectAuthenticationDefaults.AuthenticationType);
+                new Claim(ClaimTypes.Role, user.UserRole.ToString()),
+                new Claim(ClaimTypes.AuthenticationMethod, OpenIdConnectAuthenticationDefaults.AuthenticationType)
+            }, CookieAuthenticationDefaults.AuthenticationType);
             return claimsIdentity;
         }
 

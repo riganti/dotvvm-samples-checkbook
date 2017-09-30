@@ -46,7 +46,7 @@ namespace CheckBook.App.ViewModels
         {
             // sign out
             var identity = (ClaimsIdentity)Context.HttpContext.User.Identity;
-            if (identity.AuthenticationType == OpenIdConnectAuthenticationDefaults.AuthenticationType)
+            if (identity.FindFirstValue(ClaimTypes.AuthenticationMethod) == OpenIdConnectAuthenticationDefaults.AuthenticationType)
             {
                 Context.GetAuthentication().SignOut(CookieAuthenticationDefaults.AuthenticationType, OpenIdConnectAuthenticationDefaults.AuthenticationType);
                 Context.InterruptRequest();
