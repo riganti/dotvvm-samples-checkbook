@@ -29,7 +29,7 @@ namespace CheckBook.DataAccess.Data
         [StringLength(100)]
         public string Email { get; set; }
 
-        public int UserId => Id;
+        public int? UserId => Id;
 
         public string Name { get; set; }
 

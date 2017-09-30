@@ -63,22 +63,16 @@ namespace CheckBook.DataAccess.Services
         {
             using (var db = new AppContext())
             {
-                return db.Users
-                    .Where(u => u.UserGroups.Any(ug => ug.GroupId == groupId))
-                    .Select(u => new
+                return db.Transactions
+                    .Where(t => t.PaymentId == paymentId)
+                    .Where(t => t.Type == TransactionType.Payment)
+                    .Where(t => t.Amount >= 0)
+                    .OrderBy(t => t.User.FirstName).ThenBy(t => t.User.LastName)
+                    .Select(t => new TransactionData()
                     {
-                        User = u,
-                        Payment = u.Transactions.FirstOrDefault(p => p.PaymentId == paymentId && p.Type == TransactionType.Payment && p.Amount >= 0)
+                        Amount = t.Amount,
+                        UserId = t.UserId
                     })
-                    .Select(u => new TransactionData()
-                    {
-                        Id = u.Payment.Id,
-                        Name = u.User.FirstName + " " + u.User.LastName,
-                        Amount = u.Payment.Amount,
-                        UserId = u.User.Id,
-                        ImageUrl = u.User.ImageUrl
-                    })
-                    .OrderBy(u => u.Name)
                     .ToList();
             }
         }
@@ -90,22 +84,16 @@ namespace CheckBook.DataAccess.Services
         {
             using (var db = new AppContext())
             {
-                return db.Users
-                    .Where(u => u.UserGroups.Any(ug => ug.GroupId == groupId))
-                    .Select(u => new
+                return db.Transactions
+                    .Where(t => t.PaymentId == paymentId)
+                    .Where(t => t.Type == TransactionType.Payment)
+                    .Where(t => t.Amount < 0)
+                    .OrderBy(t => t.User.FirstName).ThenBy(t => t.User.LastName)
+                    .Select(t => new TransactionData()
                     {
-                        User = u,
-                        Payment = u.Transactions.FirstOrDefault(p => p.PaymentId == paymentId && p.Type == TransactionType.Payment && p.Amount < 0)
+                        Amount = -t.Amount,
+                        UserId = t.UserId
                     })
-                    .Select(u => new TransactionData()
-                    {
-                        Id = u.Payment.Id,
-                        Name = u.User.FirstName + " " + u.User.LastName,
-                        Amount = -u.Payment.Amount,
-                        UserId = u.User.Id,
-                        ImageUrl = u.User.ImageUrl
-                    })
-                    .OrderBy(u => u.Name)
                     .ToList();
             }
         }
@@ -113,7 +101,7 @@ namespace CheckBook.DataAccess.Services
         /// <summary>
         /// Saves the payment with all details (who paid how much for who)
         /// </summary>
-        public static void SavePayment(int userId, PaymentData data, List<TransactionRowData> payers, List<TransactionRowData> debtors)
+        public static void SavePayment(int userId, PaymentData data, List<TransactionData> payers, List<TransactionData> debtors)
         {
             using (var db = new AppContext())
             {
@@ -135,6 +123,7 @@ namespace CheckBook.DataAccess.Services
                         throw new UnauthorizedAccessException("You don't have permissions to modify the payment!");
                     }
                 }
+
                 payment.CreatedDate = data.CreatedDate;
                 payment.Description = data.Description;
 
@@ -146,25 +135,25 @@ namespace CheckBook.DataAccess.Services
 
                 // generate new payments
                 var involvedUsers = new HashSet<int>();
-                foreach (var payer in payers.Where(p => p.Amount != null && p.Amount != 0))
+                foreach (var payer in payers.Where(p => p.UserId != null && p.Amount != null && p.Amount != 0))
                 {
                     payment.Transactions.Add(new Transaction()
                     {
                         Amount = payer.Amount.Value,
-                        UserId = payer.UserId,
+                        UserId = payer.UserId.Value,
                         Type = TransactionType.Payment
                     });
-                    involvedUsers.Add(payer.UserId);
+                    involvedUsers.Add(payer.UserId.Value);
                 }
-                foreach (var debtor in debtors.Where(p => p.Amount != null && p.Amount != 0))
+                foreach (var debtor in debtors.Where(p => p.UserId != null && p.Amount != null && p.Amount != 0))
                 {
                     payment.Transactions.Add(new Transaction()
                     {
                         Amount = -debtor.Amount.Value,
-                        UserId = debtor.UserId,
+                        UserId = debtor.UserId.Value,
                         Type = TransactionType.Payment
                     });
-                    involvedUsers.Add(debtor.UserId);
+                    involvedUsers.Add(debtor.UserId.Value);
                 }
 
                 // calculate rounding
@@ -194,7 +183,7 @@ namespace CheckBook.DataAccess.Services
         /// <summary>
         /// Deletes the payment.
         /// </summary>
-        public static void DeletePayment(int userId, PaymentData data, List<TransactionData> payers, List<TransactionData> debtors)
+        public static void DeletePayment(int userId, PaymentData data)
         {
             using (var db = new AppContext())
             {

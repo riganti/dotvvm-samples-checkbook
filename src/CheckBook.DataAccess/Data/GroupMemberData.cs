@@ -3,7 +3,7 @@ namespace CheckBook.DataAccess.Data
     public class GroupMemberData : IAvatarData
     {
 
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
 
         public string Name { get; set; }
 

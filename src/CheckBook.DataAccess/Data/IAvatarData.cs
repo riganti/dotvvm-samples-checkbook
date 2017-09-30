@@ -9,7 +9,7 @@ namespace CheckBook.DataAccess.Data
     public interface IAvatarData
     {
 
-        int UserId { get; }
+        int? UserId { get; }
 
         string Name { get; }
 

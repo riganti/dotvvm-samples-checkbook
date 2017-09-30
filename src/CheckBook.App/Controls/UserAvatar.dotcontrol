@@ -1,4 +1,5 @@
 ﻿@viewModel CheckBook.DataAccess.Data.IAvatarData, CheckBook.DataAccess
+@noWrapperTag 
 
 <img src="{value: (ImageUrl != null && ImageUrl != '') ? ImageUrl : ('/identicon/' + UserId)}" alt="{value: Name}" class="img-circle" />
 <div class="text">{{value: Name}}</div>

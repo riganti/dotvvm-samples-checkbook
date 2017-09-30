@@ -125,24 +125,64 @@ div.content {
 .payment-group-form .form-group .control-label {
   color: #44a9f7;
 }
+.payment-group-form .user-avatar {
+  display: inline-block;
+  width: 60px;
+  margin-right: 8px;
+}
+.payment-group-form .user-avatar.empty {
+  visibility: hidden;
+}
+.payment-group-form .user-avatar img {
+  max-width: 60px;
+}
+.payment-group-form .user-avatar .text {
+  display: none;
+}
+.payment-group-form .amount,
+.payment-group-form .edit {
+  line-height: 56px;
+}
+.payment-group-form .amount .form-control,
+.payment-group-form .edit .form-control {
+  display: inline-block;
+  vertical-align: middle;
+}
+.payment-group-form .twitter-typeahead {
+  width: calc(100% - 90px);
+}
+.payment-group-form .twitter-typeahead .tt-suggestion {
+  font-size: inherit;
+}
+.user-box {
+  display: inline-block;
+}
+.user-box .name {
+  display: inline-block;
+  width: 250px;
+}
 .user-box .name .text {
   display: inline-block;
   width: 165px;
   vertical-align: middle;
 }
 .user-box .control {
+  display: inline-block;
   width: 200px;
 }
 .user-box .control-medium {
+  display: inline-block;
   width: 100px;
 }
 .user-box .control-small {
+  display: inline-block;
   width: 50px;
 }
 .user-box img {
   margin: 10px;
   width: 60px;
   height: 60px;
+  display: inline-block;
 }
 .user-box .amount {
   margin-top: 20px;

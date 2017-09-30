@@ -1,3 +1,4 @@
+using DotVVM.Contrib;
 using DotVVM.Framework.Compilation;
 using DotVVM.Framework.Configuration;
 using DotVVM.Framework.ResourceManagement;
@@ -12,6 +13,8 @@ namespace CheckBook.App
             RegisterRoutes(config);
             RegisterMarkupControls(config);
             RegisterResources(config);
+
+            config.AddContribTypeAheadConfiguration();
 
             config.Markup.ImportedNamespaces.Add(new NamespaceImport("CheckBook.DataAccess.Enums"));
         }
@@ -47,7 +50,13 @@ namespace CheckBook.App
                 TagPrefix = "cc",
                 TagName = "UserDetailForm"
             });
-            config.Markup.AddCodeControls("cc", typeof(Controls.SearchTextBox).Namespace, typeof(Controls.SearchTextBox).Assembly.GetName().Name);
+
+            config.Markup.Controls.Add(new DotvvmControlConfiguration()
+            {
+                TagPrefix = "cc",
+                Namespace = "CheckBook.App.Controls",
+                Assembly = "CheckBook.App"
+            });
         }
 
         private void RegisterResources(DotvvmConfiguration config)
@@ -58,21 +67,15 @@ namespace CheckBook.App
                 Location = new FileResourceLocation("Scripts/autoHideAlert.js"),
                 Dependencies = new[] { "jquery" }
             });
-            config.Resources.Register("inputMathExpressions", new ScriptResource()
+            config.Resources.Register("preserveTextBoxFocus", new ScriptResource()
             {
-                Location = new FileResourceLocation("Scripts/inputMathExpressions.js"),
-                Dependencies = new [] { "jquery" }
+                Location = new FileResourceLocation("Scripts/preserveTextBoxFocus.js"),
+                Dependencies = new[] { "dotvvm", "jquery" }
             });
-            config.Resources.Register("jqueryui", new ScriptResource()
+            config.Resources.Register("ExpressionTextBox", new ScriptResource()
             {
-                Location = new FileResourceLocation("Scripts/jquery-ui.js"),
-                Dependencies = new[] { "jquery"}
-            });
-            config.Resources.Register("jqueryuiStyle", new StylesheetResource()
-            {
-                Location = new FileResourceLocation("Style/jquery-ui.css"),
-                Dependencies = new[] { "jqueryui" }
-                
+                Location = new FileResourceLocation("Scripts/ExpressionTextBox.js"),
+                Dependencies = new [] { "dotvvm", "jquery" }
             });
 
             // Note that the 'jquery' resource is registered in DotVVM and points to official jQuery CDN.
@@ -85,12 +88,6 @@ namespace CheckBook.App
             {
                 Location = new FileResourceLocation("Scripts/bootstrap.min.js"),
                 Dependencies = new[] { "jquery" }
-            });
-
-            config.Resources.Register("searchTextBox", new ScriptResource()
-            {
-                Location = new FileResourceLocation("Scripts/SearchTextBox.js"),
-                Dependencies = new[] { "jquery", "dotvvm" }
             });
         }
     }

@@ -37,7 +37,7 @@ namespace CheckBook.App.ViewModels
                 Data = UserService.GetUserInfo(GetUserId());
             }
 
-            AuthenticationMethod = Context.GetAuthentication().User.Claims.Where(x => x.Type == ClaimTypes.AuthenticationMethod).First().Value;
+            AuthenticationMethod = ((ClaimsIdentity) Context.HttpContext.User.Identity).AuthenticationType;
 
             return base.PreRender();
         }

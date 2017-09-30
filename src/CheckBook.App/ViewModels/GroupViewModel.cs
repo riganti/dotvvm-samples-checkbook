@@ -7,6 +7,7 @@ using CheckBook.DataAccess.Data;
 using CheckBook.DataAccess.Services;
 using DotVVM.Framework.Controls;
 using DotVVM.Framework.Runtime.Filters;
+using DotVVM.Framework.ViewModel;
 
 namespace CheckBook.App.ViewModels
 {
@@ -15,7 +16,8 @@ namespace CheckBook.App.ViewModels
     {
         public override string ActivePage => "home";
 
-        public int GroupId => Convert.ToInt32(Context.Parameters["Id"]);
+        [FromRoute("id")]
+        public int GroupId { get; private set; }
 
         public string GroupName { get; private set; }
 

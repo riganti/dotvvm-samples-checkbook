@@ -40,6 +40,22 @@ namespace CheckBook.DataAccess.Services
             }
         }
 
+
+        /// <summary>
+        /// Gets the user basic info.
+        /// </summary>
+        public static List<UserBasicInfoData> GetUserBasicInfoList(int groupId)
+        {
+            using (var db = new AppContext())
+            {
+                return db.Users
+                    .Where(u => u.UserGroups.Any(g => g.GroupId == groupId))
+                    .Select(ToUserBasicInfoData)
+                    .OrderBy(x => x.Name)
+                    .ToList();
+            }
+        }
+
         /// <summary>
         /// Gets the user profile.
         /// </summary>
@@ -209,6 +225,23 @@ namespace CheckBook.DataAccess.Services
                     ImageUrl = u.ImageUrl,
                     UserRole = u.UserRole,
                     Name = u.FirstName + " " + u.LastName
+                };
+            }
+        }
+
+
+        /// <summary>
+        /// Converts User entity into UserInfoData
+        /// </summary>
+        public static Expression<Func<User, UserBasicInfoData>> ToUserBasicInfoData
+        {
+            get
+            {
+                return u => new UserBasicInfoData()
+                {
+                    Id = u.Id,
+                    Name = u.FirstName + " " + u.LastName,
+                    ImageUrl = u.ImageUrl
                 };
             }
         }

@@ -1,7 +1,7 @@
-﻿(function ($) {
+﻿ko.bindingHandlers["cc-ExpressionTextBox"] = {
 
-    $.fn.inputMathExpressions = function () {
-        return this.change(function() {
+    init: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+        $(element).change(function() {
 
             var input = $(this);
             var value = input.val();
@@ -22,6 +22,7 @@
                 }
             }
         });
-    };
 
-}(jQuery));
+    },
+    before: ["value"]
+};

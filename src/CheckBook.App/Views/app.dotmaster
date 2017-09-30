@@ -5,10 +5,10 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
+    <title>CheckBook</title>
     <meta name="viewport" content="width=device-width" />
     <link rel="stylesheet" type="text/css" href="~/Style/Bootstrap/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="~/Style/Default.css" />
-    <link rel="stylesheet" type="text/css" href="~/Style/jquery-ui.css" />
 </head>
 <body>
     <nav class="header">

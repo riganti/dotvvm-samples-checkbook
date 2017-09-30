@@ -6,7 +6,6 @@ using DotVVM.Framework.ViewModel;
 using Microsoft.Owin.Security;
 using DotVVM.Framework.Hosting;
 using Microsoft.Owin.Security.OpenIdConnect;
-using System.Configuration;
 
 namespace CheckBook.App.ViewModels
 {
@@ -16,14 +15,16 @@ namespace CheckBook.App.ViewModels
         [Required(ErrorMessage = "The e-mail address is required!")]
         [EmailAddress(ErrorMessage = "The e-mail address is not valid!")]
         public string Email { get; set; }
-
-        public bool AADEnabled => LoginHelper.AADEnabled;
-
-
+        
         [Required(ErrorMessage = "The password is required!")]
         public string Password { get; set; }
 
         public bool RememberMe { get; set; }
+
+
+        public bool AADEnabled => LoginHelper.AADEnabled;
+
+
 
         // The user cannot change this field in the browser so there is no point in transferring it from the client to the server
         [Bind(Direction.ServerToClient)]
@@ -34,6 +35,7 @@ namespace CheckBook.App.ViewModels
         {
             if (!Context.IsPostBack && Context.GetAuthentication().User.Identity.IsAuthenticated)
             {
+                // redirect to the home page if the user is already authenticated
                 Context.RedirectToRoute("home");
             }
 

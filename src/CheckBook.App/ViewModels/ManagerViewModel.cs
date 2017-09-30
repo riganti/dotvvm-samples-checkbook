@@ -143,10 +143,10 @@ namespace CheckBook.App.ViewModels
         /// </summary>
         public void GroupSearch()
         {
-            var currentGroupUsers = new HashSet<int>(GroupUsers.Select(u => u.UserId));
+            var currentGroupUsers = new HashSet<int>(GroupUsers.Select(u => u.UserId ?? 0));
 
             GroupSearchResults = UserService.SearchUsers(GroupSearchText)
-                .Where(u => !currentGroupUsers.Contains(u.UserId))
+                .Where(u => !currentGroupUsers.Contains(u.UserId ?? 0))
                 .ToList();
         }
 

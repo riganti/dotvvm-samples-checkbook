@@ -14,8 +14,8 @@
 
             <div class="form-group">
                 <div class="user-box">
-                    <div class="caption">
-                        <cc:UserAvatar DataContext="{value: Data}" />
+                    <div class="caption" DataContext="{value: Data}">
+                        <cc:UserAvatar />
                     </div>
                     <div class="control">
                         <dot:FileUpload UploadedFiles="{value: AvatarFiles}" AllowMultipleFiles="false" UploadCompleted="{command: ProcessFile()}" Validation.Enabled="false" />

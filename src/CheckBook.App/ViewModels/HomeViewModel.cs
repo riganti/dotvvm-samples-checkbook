@@ -15,7 +15,7 @@ namespace CheckBook.App.ViewModels
         /// <summary>
         /// Gets the list of groups the current user is assigned in.
         /// </summary>
-        public List<GroupData> Groups { get; set; }
+        public List<GroupData> Groups { get; private set; }
 
 
         public override Task PreRender()
