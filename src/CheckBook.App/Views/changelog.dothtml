@@ -1,0 +1,44 @@
+﻿@viewModel CheckBook.App.ViewModels.ChangelogViewModel, CheckBook.App
+@masterPage Views/app.dotmaster
+
+<dot:Content ContentPlaceHolderID="PageContent">
+    <div class="page">
+        <h1><span class="glyphicon glyphicon-file"></span> Changelog</h1>
+
+        <dot:CheckBox Checked="{value: ShowAllUsers}" Visible="{value: IsAdmin}" Changed="{command: ShowAllUsersChanged()}">Show all users</dot:CheckBox>
+        <dot:CheckBox Checked="{value: ShowCreations}" Changed="{command: ShowAllUsersChanged()}">
+            Show creations
+        </dot:CheckBox>
+        <dot:CheckBox Checked="{value: ShowDeletions}" Changed="{command: ShowAllUsersChanged()}">
+            Show deletions
+        </dot:CheckBox>
+        <dot:CheckBox Checked="{value: ShowEdits}" Changed="{command: ShowAllUsersChanged()}">
+            Show edits
+        </dot:CheckBox>
+        <dot:GridView DataSource="{value: MyPaymentLog}" class="table" RenderSettings.Mode="Server" PostBack.Update="true" ShowHeaderWhenNoData="true">
+            <dot:GridViewTextColumn ValueBinding="{value: EditDate}" FormatString="d" HeaderText="Edit date" />
+            <dot:GridViewTextColumn ValueBinding="{value: PaymentCreatedDate}" FormatString="d" HeaderText="Payment date" />
+            <dot:GridViewTextColumn ValueBinding="{value: PaymentDescription}" HeaderText="Payment description" />
+            <dot:GridViewTextColumn ValueBinding="{value: EditorName}" HeaderText="Editor" />
+            <dot:GridViewTextColumn ValueBinding="{value: UserName}" HeaderText="Affected user" Visible="{value: ShowAllUsers}"/>
+            <dot:GridViewTemplateColumn HeaderText="Original spending">
+                <ContentTemplate>
+                    <dot:Literal Text="{value: AmountOriginal}" FormatString="+ #;- #;0" /> {{value: Currency}}
+                </ContentTemplate>
+            </dot:GridViewTemplateColumn>
+            <dot:GridViewTemplateColumn HeaderText="New spending">
+                <ContentTemplate>
+                    <dot:Literal Text="{value: AmountNew}" FormatString="+ #;- #;0" /> {{value: Currency}}
+                </ContentTemplate>
+            </dot:GridViewTemplateColumn>
+            <dot:GridViewTemplateColumn HeaderText="Spending difference" CssClass="{value: AmountNew - AmountOriginal >= 0 ? "status-green" : "status-red"}">
+                <ContentTemplate>
+                    <dot:Literal Text="{value: AmountNew - AmountOriginal}" FormatString="+ #;- #;0" /> {{value: Currency}}
+                </ContentTemplate>
+            </dot:GridViewTemplateColumn>
+        </dot:GridView>
+        <dot:DataPager DataSet="{value: MyPaymentLog}" class="pagination" />
+    </div>
+
+</dot:Content>
+

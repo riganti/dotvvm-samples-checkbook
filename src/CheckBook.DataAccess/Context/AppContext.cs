@@ -21,6 +21,8 @@ namespace CheckBook.DataAccess.Context
 
         public DbSet<Transaction> Transactions { get; set; }
 
+        public DbSet<PaymentLog> PaymentLogs { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Transaction>()

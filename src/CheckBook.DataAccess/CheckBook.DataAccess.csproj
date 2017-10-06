@@ -97,6 +97,7 @@
     <Compile Include="Data\IAvatarData.cs" />
     <Compile Include="Data\MyTransactionData.cs" />
     <Compile Include="Data\PaymentData.cs" />
+    <Compile Include="Data\PaymentLogData.cs" />
     <Compile Include="Data\SettlementData.cs" />
     <Compile Include="Data\TransactionData.cs" />
     <Compile Include="Data\UserBasicInfoData.cs" />
@@ -109,9 +110,25 @@
     <Compile Include="Migrations\201602271557481_InitialDatabaseSchema.Designer.cs">
       <DependentUpon>201602271557481_InitialDatabaseSchema.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201710041219315_AddPaymentEdit.cs" />
+    <Compile Include="Migrations\201710041219315_AddPaymentEdit.Designer.cs">
+      <DependentUpon>201710041219315_AddPaymentEdit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710041346135_AddLogType.cs" />
+    <Compile Include="Migrations\201710041346135_AddLogType.Designer.cs">
+      <DependentUpon>201710041346135_AddLogType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710061333445_PaymentSoftDelete.cs" />
+    <Compile Include="Migrations\201710061333445_PaymentSoftDelete.Designer.cs">
+      <DependentUpon>201710061333445_PaymentSoftDelete.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Group.cs" />
+    <Compile Include="Enums\LogType.cs" />
+    <Compile Include="Model\IEntity.cs" />
+    <Compile Include="Model\ISoftDeleteEntity.cs" />
     <Compile Include="Model\Payment.cs" />
+    <Compile Include="Model\PaymentLog.cs" />
     <Compile Include="Model\Transaction.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="Model\UserGroup.cs" />
@@ -134,6 +151,15 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201602271557481_InitialDatabaseSchema.resx">
       <DependentUpon>201602271557481_InitialDatabaseSchema.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710041219315_AddPaymentEdit.resx">
+      <DependentUpon>201710041219315_AddPaymentEdit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710041346135_AddLogType.resx">
+      <DependentUpon>201710041346135_AddLogType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710061333445_PaymentSoftDelete.resx">
+      <DependentUpon>201710061333445_PaymentSoftDelete.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

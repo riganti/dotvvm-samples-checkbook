@@ -20,7 +20,7 @@ namespace CheckBook.DataAccess.Services
             using (var db = new AppContext())
             {
                 var payments = db.Payments
-                    .Where(pg => pg.GroupId == groupId)
+                    .Where(p => p.GroupId == groupId && !p.IsDeleted)
                     .Select(ToPaymentData);
 
                 // This handles sorting and paging for you. Just give the IQueryable<T> into the dataSet's LoadFromQueryable method
@@ -33,9 +33,37 @@ namespace CheckBook.DataAccess.Services
             using (var db = new AppContext())
             {
                 var payments = db.Payments
-                    .Where(p => p.Transactions.Any(t => t.UserId == userId))
+                    .Where(p => !p.IsDeleted && p.Transactions.Any(t => t.UserId == userId))
                     .OrderByDescending(p => p.CreatedDate)
                     .Select(ToMyTransactionData(userId));
+
+                // This handles sorting and paging for you. Just give the IQueryable<T> into the dataSet's LoadFromQueryable method
+                dataSet.LoadFromQueryable(payments);
+            }
+        }
+
+        public static void LoadMyPaymentLog(int userId, GridViewDataSet<PaymentLogData> dataSet, List<LogType> allowedLogTypes)
+        {
+            using (var db = new AppContext())
+            {
+                var payments = db.PaymentLogs
+                    .Where(p => p.UserId == userId && allowedLogTypes.Contains(p.LogType))
+                    .OrderByDescending(p => p.CreatedDate)
+                    .Select(ToPaymentLogData());
+
+                // This handles sorting and paging for you. Just give the IQueryable<T> into the dataSet's LoadFromQueryable method
+                dataSet.LoadFromQueryable(payments);
+            }
+        }
+
+        public static void LoadAllPaymentLogs(GridViewDataSet<PaymentLogData> dataSet, List<LogType> allowedLogTypes)
+        {
+            using (var db = new AppContext())
+            {
+                var payments = db.PaymentLogs
+                    .Where(p => allowedLogTypes.Contains(p.LogType))
+                    .OrderByDescending(p => p.CreatedDate)
+                    .Select(ToPaymentLogData());
 
                 // This handles sorting and paging for you. Just give the IQueryable<T> into the dataSet's LoadFromQueryable method
                 dataSet.LoadFromQueryable(payments);
@@ -107,6 +135,7 @@ namespace CheckBook.DataAccess.Services
             {
                 // get or create the payment
                 var payment = db.Payments.Find(data.Id);
+                var transactions = new List<Transaction>();
                 if (payment == null)
                 {
                     payment = new Payment()
@@ -122,6 +151,7 @@ namespace CheckBook.DataAccess.Services
                     {
                         throw new UnauthorizedAccessException("You don't have permissions to modify the payment!");
                     }
+                    transactions.AddRange(payment.Transactions);
                 }
 
                 payment.CreatedDate = data.CreatedDate;
@@ -145,6 +175,7 @@ namespace CheckBook.DataAccess.Services
                     });
                     involvedUsers.Add(payer.UserId.Value);
                 }
+
                 foreach (var debtor in debtors.Where(p => p.UserId != null && p.Amount != null && p.Amount != 0))
                 {
                     payment.Transactions.Add(new Transaction()
@@ -176,8 +207,48 @@ namespace CheckBook.DataAccess.Services
                     // no data was entered
                     throw new Exception("You have to fill the amount for at least two users!");
                 }
+
+                //log changes
+                db.PaymentLogs.AddRange(BuildPaymentLogs(transactions.Any() ? LogType.Edit : LogType.Create, userId,
+                    transactions, payment.Transactions.ToList(), payment.Id));
+
                 db.SaveChanges();
             }
+        }
+
+        private static ICollection<PaymentLog> BuildPaymentLogs(LogType logType, int editorId, ICollection<Transaction> fromTransactions,
+            ICollection<Transaction> toTransactions, int paymentId)
+        {
+            var paymentLogs = new List<PaymentLog>();
+
+            var mergedFromTransactions = fromTransactions.Concat(
+                toTransactions.Select(t => new Transaction
+                {
+                    UserId = t.UserId,
+                    Amount = 0
+                })).GroupBy(t => t.UserId).ToList();
+            var mergedToTransactions = toTransactions.GroupBy(t => t.UserId).ToList();
+
+            foreach (var user in mergedFromTransactions)
+            {
+                paymentLogs.Add(new PaymentLog()
+                {
+                    EditorId = editorId,
+                    UserId = user.Key,
+                    AmountOriginal = CalculateAmount(user),
+                    CreatedDate = DateTime.Now,
+                    AmountNew = CalculateAmount(mergedToTransactions.FirstOrDefault(t => t.Key == user.Key)),
+                    LogType = logType,
+                    PaymentId = paymentId
+                });
+            }
+
+            return paymentLogs.Where(t => decimal.Round(t.AmountOriginal, 1) != decimal.Round(t.AmountNew, 1)).ToList();
+        }
+
+        private static decimal CalculateAmount(IGrouping<int, Transaction> user)
+        {
+            return user?.Sum(transaction => transaction.Amount) ?? 0;
         }
 
         /// <summary>
@@ -195,7 +266,22 @@ namespace CheckBook.DataAccess.Services
 
                 // get the payment
                 var payment = db.Payments.Find(data.Id);
-                db.Payments.Remove(payment);
+                if (payment == null)
+                {
+                    throw new Exception("Could not find the payment");
+                } 
+                
+                //log changes
+                db.PaymentLogs.AddRange(BuildPaymentLogs(LogType.Delete, userId, payment.Transactions.ToList(),
+                    new List<Transaction>(), payment.Id));
+
+                //delete payment
+                payment.IsDeleted = true;
+                foreach (var transaction in payment.Transactions.ToList())
+                {
+                    db.Transactions.Remove(transaction);
+                }
+
                 db.SaveChanges();
             }
         }
@@ -208,7 +294,7 @@ namespace CheckBook.DataAccess.Services
             using (var db = new AppContext())
             {
                 var user = db.Users.Find(userId);
-                return user.UserRole == UserRole.Admin
+                return user?.UserRole == UserRole.Admin
                        || db.Payments.Any(pg => pg.Id == paymentId && pg.Group.UserGroups.Any(ug => ug.UserId == userId));
             }
         }
@@ -242,6 +328,22 @@ namespace CheckBook.DataAccess.Services
                 GroupName = p.Group.Name,
                 MyBalance = p.Transactions.Where(t => t.UserId == userId).Sum(t => (decimal?)t.Amount) ?? 0,
                 MySpending = p.Transactions.Where(t => t.UserId == userId && t.Amount < 0).Sum(t => (decimal?)t.Amount) ?? 0
+            };
+        }
+
+        private static Expression<Func<PaymentLog, PaymentLogData>> ToPaymentLogData()
+        {
+            return p => new PaymentLogData
+            {
+                EditDate = p.CreatedDate,
+                PaymentCreatedDate = p.Payment.CreatedDate,
+                PaymentDescription = p.Payment.Description,
+                EditorName = p.Editor.FirstName + " " + p.Editor.LastName,
+                UserName = p.User.FirstName + " " + p.User.LastName,
+                LogType = p.LogType,
+                Currency = p.Payment.Group.Currency,
+                AmountOriginal = p.AmountOriginal,
+                AmountNew = p.AmountNew
             };
         }
     }

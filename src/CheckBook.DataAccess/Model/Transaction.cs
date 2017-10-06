@@ -3,7 +3,7 @@ using CheckBook.DataAccess.Enums;
 
 namespace CheckBook.DataAccess.Model
 {
-    public class Transaction
+    public class Transaction : IEntity<int>
     {
         public int Id { get; set; }
         

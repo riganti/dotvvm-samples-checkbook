@@ -7,7 +7,7 @@ namespace CheckBook.DataAccess.Model
     /// <summary>
     /// A group of users which share their payments.
     /// </summary>
-    public class Group
+    public class Group : IEntity<int>
     {
         public int Id { get; set; }
 

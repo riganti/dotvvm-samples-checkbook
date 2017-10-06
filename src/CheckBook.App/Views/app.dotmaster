@@ -33,6 +33,11 @@
                     </dot:RouteLink>
                 </li>
                 <li>
+                    <dot:RouteLink RouteName="changelog" class="{value: 'header-item ' + (ActivePage == 'changelog' ? 'header-item-active' : '')}">
+                        <span class="glyphicon glyphicon-file"></span> Changelog
+                    </dot:RouteLink>
+                </li>
+                <li>
                     <dot:RouteLink RouteName="settings" class="{value: 'header-item ' + (ActivePage == 'settings' ? 'header-item-active' : '')}">
                         <span class="glyphicon glyphicon-user"></span> My Profile
                     </dot:RouteLink>

@@ -9,9 +9,8 @@ namespace CheckBook.DataAccess.Model
     /// <summary>
     /// A user who can login into the application.
     /// </summary>
-    public class User
+    public class User : IEntity<int>
     {
-        [Key]
         public int Id { get; set; }
 
         [Required]

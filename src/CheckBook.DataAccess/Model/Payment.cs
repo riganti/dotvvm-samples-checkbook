@@ -8,9 +8,11 @@ namespace CheckBook.DataAccess.Model
     /// <summary>
     /// A group of transactions which belong together (e.g. one person paid for a cinema for four others).
     /// </summary>
-    public class Payment
+    public class Payment : ISoftDeleteEntity<int>
     {
         public int Id { get; set; }
+
+        public bool IsDeleted { get; set; }
 
         public DateTime CreatedDate { get; set; }
 

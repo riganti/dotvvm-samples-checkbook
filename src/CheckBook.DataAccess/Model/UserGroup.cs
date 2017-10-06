@@ -1,8 +1,7 @@
 ﻿namespace CheckBook.DataAccess.Model
 {
-    public class UserGroup
+    public class UserGroup : IEntity<int>
     {
-
         public int Id { get; set; }
 
         public int UserId { get; set; }
