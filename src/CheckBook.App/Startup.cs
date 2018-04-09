@@ -1,35 +1,32 @@
-using System;
-using System.Data.Entity;
-using System.IO;
-using System.Web.Hosting;
-using CheckBook.DataAccess.Context;
-using Microsoft.Owin;
-using Microsoft.Owin.FileSystems;
-using Microsoft.Owin.StaticFiles;
-using Owin;
-using DotVVM.Framework;
-using DotVVM.Framework.Configuration;
-using DotVVM.Framework.Hosting;
-using DotVVM.Framework.Storage;
-using Microsoft.Owin.Security.Cookies;
-using Microsoft.AspNet.Identity;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Owin.Security.OpenIdConnect;
-using System.IdentityModel.Tokens;
-using System.Net;
-using System.Threading.Tasks;
-using System.Security.Claims;
 using CheckBook.App.Helpers;
 using CheckBook.App.Models;
-using System.Configuration;
-using Microsoft.IdentityModel.Protocols;
-using CheckBook.DataAccess.Services;
+using CheckBook.DataAccess.Context;
 using CheckBook.DataAccess.Data;
 using CheckBook.DataAccess.Enums;
+using CheckBook.DataAccess.Services;
+using DotVVM.Framework.Hosting;
+using Microsoft.AspNet.Identity;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.Owin;
+using Microsoft.Owin.FileSystems;
 using Microsoft.Owin.Security;
+using Microsoft.Owin.Security.ActiveDirectory;
+using Microsoft.Owin.Security.Cookies;
+using Microsoft.Owin.Security.OpenIdConnect;
+using Microsoft.Owin.StaticFiles;
+using Owin;
+using System;
+using System.Configuration;
+using System.Data.Entity;
 using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
+using System.Web.Hosting;
+using System.Web.Http;
 
 [assembly: OwinStartup(typeof(CheckBook.App.Startup))]
+
 namespace CheckBook.App
 {
     public class Startup
@@ -58,6 +55,15 @@ namespace CheckBook.App
             {
                 FileSystem = new PhysicalFileSystem(applicationPhysicalPath)
             });
+
+            HttpConfiguration config = new HttpConfiguration();
+            config.Routes.MapHttpRoute(
+                name: "DefaultApi",
+                routeTemplate: "api/{controller}/{action}/{id}",
+                defaults: new { id = RouteParameter.Optional }
+            );
+
+            app.UseWebApi(config);
         }
 
         private static void ConfigureCookieAuthentication(IAppBuilder app)
@@ -77,6 +83,16 @@ namespace CheckBook.App
         {
             app.SetDefaultSignInAsAuthenticationType(CookieAuthenticationDefaults.AuthenticationType);
 
+            app.UseWindowsAzureActiveDirectoryBearerAuthentication(
+                new WindowsAzureActiveDirectoryBearerAuthenticationOptions
+                {
+                    Tenant = ConfigurationManager.AppSettings["ida:TenantId"],
+                    TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ValidateIssuer = (ConfigurationManager.AppSettings["ida:TenantId"] != "common")
+                    }
+                });
+
             app.UseOpenIdConnectAuthentication(new OpenIdConnectAuthenticationOptions
             {
                 Authority = $"https://login.microsoftonline.com/{ConfigurationManager.AppSettings["ida:TenantId"]}/",
@@ -90,23 +106,26 @@ namespace CheckBook.App
                 {
                     RedirectToIdentityProvider = context =>
                     {
-                        // determines the base URL of the application (useful when the app can run on multiple domains)
+                        // determines the base URL of the application (useful when the app can run on
+                        // multiple domains)
                         var appBaseUrl = GetApplicationBaseUrl(context.Request);
 
-                        if (context.ProtocolMessage.RequestType == OpenIdConnectRequestType.AuthenticationRequest)
+                        if (context.ProtocolMessage.RequestType == Microsoft.IdentityModel.Protocols.OpenIdConnect.OpenIdConnectRequestType.Authentication)
                         {
                             context.ProtocolMessage.RedirectUri = appBaseUrl;
-                            // we need to handle the redirect to the login page ourselves because redirects cannot use HTTP 302 in DotVVM
+                            // we need to handle the redirect to the login page ourselves because
+                            // redirects cannot use HTTP 302 in DotVVM
                             var redirectUri = context.ProtocolMessage.CreateAuthenticationRequestUrl();
-                            DotvvmRequestContext.SetRedirectResponse(DotvvmMiddleware.ConvertHttpContext(context.OwinContext), redirectUri, (int) HttpStatusCode.Redirect, true);
+                            DotvvmRequestContext.SetRedirectResponse(DotvvmMiddleware.ConvertHttpContext(context.OwinContext), redirectUri, (int)HttpStatusCode.Redirect, true);
                             context.HandleResponse();
                         }
-                        else if (context.ProtocolMessage.RequestType == OpenIdConnectRequestType.LogoutRequest)
+                        else if (context.ProtocolMessage.RequestType == Microsoft.IdentityModel.Protocols.OpenIdConnect.OpenIdConnectRequestType.Logout)
                         {
                             context.ProtocolMessage.PostLogoutRedirectUri = appBaseUrl;
-                            // we need to handle the redirect to the logout page ourselves because redirects cannot use HTTP 302 in DotVVM
+                            // we need to handle the redirect to the logout page ourselves because
+                            // redirects cannot use HTTP 302 in DotVVM
                             var redirectUri = context.ProtocolMessage.CreateLogoutRequestUrl();
-                            DotvvmRequestContext.SetRedirectResponse(DotvvmMiddleware.ConvertHttpContext(context.OwinContext), redirectUri, (int) HttpStatusCode.Redirect, true);
+                            DotvvmRequestContext.SetRedirectResponse(DotvvmMiddleware.ConvertHttpContext(context.OwinContext), redirectUri, (int)HttpStatusCode.Redirect, true);
                             context.HandleResponse();
                         }
 
@@ -158,6 +177,5 @@ namespace CheckBook.App
         {
             return contextRequest.Scheme + "://" + contextRequest.Host + contextRequest.PathBase;
         }
-
     }
 }
