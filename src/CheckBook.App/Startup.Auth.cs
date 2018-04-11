@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
-using System.Web;
-using CheckBook.App.Helpers;
+﻿using CheckBook.App.Helpers;
 using CheckBook.App.Models;
 using CheckBook.DataAccess.Data;
 using CheckBook.DataAccess.Enums;
@@ -17,9 +10,13 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.ActiveDirectory;
 using Microsoft.Owin.Security.Cookies;
-using Microsoft.Owin.Security.OAuth;
 using Microsoft.Owin.Security.OpenIdConnect;
 using Owin;
+using System;
+using System.Configuration;
+using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
 
 namespace CheckBook.App
 {
@@ -46,7 +43,7 @@ namespace CheckBook.App
                     Tenant = ConfigurationManager.AppSettings["ida:TenantId"],
                     TokenValidationParameters = new TokenValidationParameters()
                     {
-                        ValidateIssuer = (ConfigurationManager.AppSettings["ida:TenantId"] != "common"),
+                        ValidateIssuer = ConfigurationManager.AppSettings["ida:TenantId"] != "common",
                         ValidAudiences = ConfigurationManager.AppSettings["ida:Audiences"].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
                     }
                 });
