@@ -189,7 +189,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiControllers\AppApiController.cs" />
-    <Compile Include="ApiControllers\TestApiController.cs" />
+    <Compile Include="ApiControllers\TestController.cs" />
     <Compile Include="Controls\ExpressionTextBox.cs" />
     <Compile Include="Controls\UserDetailForm.cs" />
     <Compile Include="DotvvmStartup.cs" />
@@ -209,6 +209,7 @@
     <Compile Include="ViewModels\GroupViewModel.cs" />
     <Compile Include="ViewModels\PaymentViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
+    <Compile Include="Startup.Auth.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Scripts\autoHideAlert.js" />
