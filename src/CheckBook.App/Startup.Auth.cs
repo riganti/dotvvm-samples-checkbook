@@ -1,6 +1,6 @@
 ﻿using CheckBook.App.Helpers;
 using CheckBook.App.Models;
-using CheckBook.DataAccess.Data;
+using CheckBook.DataAccess.Data.User;
 using CheckBook.DataAccess.Enums;
 using CheckBook.DataAccess.Services;
 using DotVVM.Framework.Hosting;
@@ -10,6 +10,7 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.ActiveDirectory;
 using Microsoft.Owin.Security.Cookies;
+using Microsoft.Owin.Security.OAuth;
 using Microsoft.Owin.Security.OpenIdConnect;
 using Owin;
 using System;
@@ -45,6 +46,16 @@ namespace CheckBook.App
                     {
                         ValidateIssuer = ConfigurationManager.AppSettings["ida:TenantId"] != "common",
                         ValidAudiences = ConfigurationManager.AppSettings["ida:Audiences"].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                    },
+                    Provider = new OAuthBearerAuthenticationProvider()
+                    {
+                        OnValidateIdentity = context =>
+                        {
+                            var processedTicket = ProcessAuthenticationTicket(context.Ticket);
+                            context.Validated(processedTicket);
+
+                            return Task.FromResult(0);
+                        }
                     }
                 });
         }
