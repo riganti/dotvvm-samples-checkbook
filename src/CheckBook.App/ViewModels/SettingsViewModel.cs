@@ -11,6 +11,7 @@ using DotVVM.Framework.Storage;
 using DotVVM.Framework.ViewModel;
 using DotVVM.Framework.Hosting;
 using System.Security.Claims;
+using CheckBook.DataAccess.Data.User;
 using Microsoft.AspNet.Identity;
 
 namespace CheckBook.App.ViewModels

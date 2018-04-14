@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CheckBook.DataAccess.Data;
 using CheckBook.DataAccess.Services;
 using System.Linq;
+using CheckBook.DataAccess.Data.Group;
 
 namespace CheckBook.App.ViewModels
 {

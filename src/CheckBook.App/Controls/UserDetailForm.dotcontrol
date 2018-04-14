@@ -1,4 +1,4 @@
-﻿@viewModel CheckBook.DataAccess.Data.UserInfoData, CheckBook.DataAccess
+﻿@viewModel CheckBook.DataAccess.Data.User.UserInfoData, CheckBook.DataAccess
 @baseType CheckBook.App.Controls.UserDetailForm, CheckBook.App
 
 <div class="form-group" Validator.Value="{value: Email}">

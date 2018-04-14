@@ -1,8 +1,6 @@
-﻿using System.Security.Principal;
-using System.Web;
+﻿using Microsoft.AspNet.Identity;
+using System.Security.Principal;
 using System.Web.Http;
-using Microsoft.AspNet.Identity;
-using Newtonsoft.Json;
 
 namespace CheckBook.App.ApiControllers
 {
@@ -16,15 +14,9 @@ namespace CheckBook.App.ApiControllers
         }
 
         [HttpGet]
-        [Authorize]
-        public string GetSecuredTest()
+        public string GetIdentity()
         {
-            return JsonConvert.SerializeObject(new
-            {
-                RequestContextIdentity = RequestContext.Principal.Identity?.AsString(),
-                HttpContext = HttpContext.Current?.User?.Identity?.AsString(),
-                OwinContext = HttpContext.Current?.GetOwinContext()?.Authentication?.User?.Identity?.AsString()
-            });
+            return RequestContext.Principal.Identity.AsString();
         }
     }
 
@@ -32,7 +24,7 @@ namespace CheckBook.App.ApiControllers
     {
         public static string AsString(this IIdentity identity)
         {
-            return $"Name: {identity?.GetUserName()}, Id: {identity?.GetUserId()}, Authenticated: {identity?.IsAuthenticated}, Type: {identity?.AuthenticationType}";
+            return $"Name: {identity?.GetUserName()}\nId: {identity?.GetUserId()}\nAuthenticated: {identity?.IsAuthenticated}\nType: {identity?.AuthenticationType}";
         }
     }
 }

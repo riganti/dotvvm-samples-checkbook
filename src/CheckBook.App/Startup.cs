@@ -1,27 +1,11 @@
 using CheckBook.App.Helpers;
-using CheckBook.App.Models;
 using CheckBook.DataAccess.Context;
-using CheckBook.DataAccess.Data;
-using CheckBook.DataAccess.Enums;
-using CheckBook.DataAccess.Services;
-using DotVVM.Framework.Hosting;
-using Microsoft.AspNet.Identity;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.Owin;
 using Microsoft.Owin.FileSystems;
-using Microsoft.Owin.Security;
-using Microsoft.Owin.Security.ActiveDirectory;
-using Microsoft.Owin.Security.Cookies;
-using Microsoft.Owin.Security.OpenIdConnect;
 using Microsoft.Owin.StaticFiles;
 using Owin;
-using System;
-using System.Configuration;
 using System.Data.Entity;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
 using System.Web.Hosting;
 using System.Web.Http;
 
@@ -34,7 +18,7 @@ namespace CheckBook.App
         public void Configuration(IAppBuilder app)
         {
             // set up Entity Framework Migrations
-            Database.SetInitializer(new MigrateDatabaseToLatestVersion<AppContext, DataAccess.Migrations.Configuration>());
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<AppDbContext, DataAccess.Migrations.Configuration>());
 
             // configure authentication
             ConfigureCookieAuthentication(app);
@@ -65,6 +49,7 @@ namespace CheckBook.App
             );
 
             app.UseWebApi(config);
+            SwaggerConfig.Register(config);
         }
     }
 }

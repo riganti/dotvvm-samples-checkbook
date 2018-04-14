@@ -2,6 +2,7 @@
 
 namespace CheckBook.App.ApiControllers
 {
+    [Authorize]
     public abstract class AppApiController : ApiController
     {
     }

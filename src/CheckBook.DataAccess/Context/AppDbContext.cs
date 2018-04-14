@@ -1,16 +1,10 @@
-﻿using System.Data.Entity;
-using CheckBook.DataAccess.Model;
+﻿using CheckBook.DataAccess.Model;
+using System.Data.Entity;
 
 namespace CheckBook.DataAccess.Context
 {
-    public class AppContext : DbContext
+    public class AppDbContext : DbContext
     {
-
-        public AppContext() : base("name=DB")
-        {
-            
-        }
-
         public DbSet<User> Users { get; set; }
 
         public DbSet<Group> Groups { get; set; }
@@ -22,6 +16,10 @@ namespace CheckBook.DataAccess.Context
         public DbSet<Transaction> Transactions { get; set; }
 
         public DbSet<PaymentLog> PaymentLogs { get; set; }
+
+        public AppDbContext() : base("name=DB")
+        {
+        }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

@@ -1,15 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
-using CheckBook.DataAccess.Enums;
+﻿using CheckBook.DataAccess.Enums;
+using System.ComponentModel.DataAnnotations;
 
-namespace CheckBook.DataAccess.Data
+namespace CheckBook.DataAccess.Data.User
 {
     public class UserInfoData : IAvatarData
     {
-
         public int Id { get; set; }
 
         public UserRole UserRole { get; set; }
-
 
         [Required(ErrorMessage = "The First Name field is required.")]
         [StringLength(100)]

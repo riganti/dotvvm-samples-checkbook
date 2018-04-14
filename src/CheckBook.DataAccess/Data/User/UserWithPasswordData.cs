@@ -1,8 +1,9 @@
-﻿
-using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using CheckBook.DataAccess.Enums;
 
-namespace CheckBook.DataAccess.Data
+namespace CheckBook.DataAccess.Data.User
 {
     public class UserWithPasswordData
     {

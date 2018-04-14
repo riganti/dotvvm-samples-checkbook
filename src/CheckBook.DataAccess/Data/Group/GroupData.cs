@@ -1,8 +1,7 @@
-﻿
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Net;
 
-namespace CheckBook.DataAccess.Data
+namespace CheckBook.DataAccess.Data.Group
 {
     public class GroupData
     {
