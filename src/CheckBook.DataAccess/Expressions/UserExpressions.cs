@@ -12,7 +12,16 @@ namespace CheckBook.DataAccess.Expressions
             u => new UserStatsData
             {
                 TotalBalance = u.Transactions.Sum(t => (decimal?)t.Amount) ?? 0,
-                Groups = u.UserGroups.AsQueryable().Select(GroupExpressions.ToUserGroupStats)
+                Groups = u.UserGroups.Select(ug => new UserGroupStatsData
+                {
+                    GroupId = ug.GroupId,
+                    GroupName = ug.Group.Name,
+                    UserBalance = ug.User.Transactions
+                        .Where(w => w.Payment.GroupId == ug.GroupId)
+                        .Select(s => s.Amount)
+                        .DefaultIfEmpty(0)
+                        .Sum()
+                }).ToList()
             };
 
         /// <summary>

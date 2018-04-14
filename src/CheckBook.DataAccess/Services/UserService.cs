@@ -45,7 +45,8 @@ namespace CheckBook.DataAccess.Services
             using (var db = new AppDbContext())
             {
                 var user = db.Users.Find(id);
-                return UserExpressions.ToUserStatsData.Compile()(user);
+                var dto = UserExpressions.ToUserStatsData.Compile()(user);
+                return dto;
             }
         }
 

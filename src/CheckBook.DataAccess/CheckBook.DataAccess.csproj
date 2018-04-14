@@ -127,7 +127,6 @@
     <Compile Include="Data\User\UserWithPasswordData.cs" />
     <Compile Include="Enums\TransactionType.cs" />
     <Compile Include="Enums\UserRole.cs" />
-    <Compile Include="Expressions\GroupExpressions.cs" />
     <Compile Include="Expressions\UserExpressions.cs" />
     <Compile Include="Migrations\201602271557481_InitialDatabaseSchema.cs" />
     <Compile Include="Migrations\201602271557481_InitialDatabaseSchema.Designer.cs">
