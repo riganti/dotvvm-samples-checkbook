@@ -17,7 +17,7 @@ namespace CheckBook.DataAccess.Services
         /// </summary>
         public static void LoadPayments(int groupId, GridViewDataSet<PaymentData> dataSet)
         {
-            using (var db = new AppContext())
+            using (var db = new AppDbContext())
             {
                 var payments = db.Payments
                     .Where(p => p.GroupId == groupId && !p.IsDeleted)
@@ -30,7 +30,7 @@ namespace CheckBook.DataAccess.Services
 
         public static void LoadMyTransactions(int userId, GridViewDataSet<MyTransactionData> dataSet)
         {
-            using (var db = new AppContext())
+            using (var db = new AppDbContext())
             {
                 var payments = db.Payments
                     .Where(p => !p.IsDeleted && p.Transactions.Any(t => t.UserId == userId))
@@ -44,7 +44,7 @@ namespace CheckBook.DataAccess.Services
 
         public static void LoadMyPaymentLog(int userId, GridViewDataSet<PaymentLogData> dataSet, List<LogType> allowedLogTypes)
         {
-            using (var db = new AppContext())
+            using (var db = new AppDbContext())
             {
                 var payments = db.PaymentLogs
                     .Where(p => p.UserId == userId && allowedLogTypes.Contains(p.LogType))
@@ -58,7 +58,7 @@ namespace CheckBook.DataAccess.Services
 
         public static void LoadAllPaymentLogs(GridViewDataSet<PaymentLogData> dataSet, List<LogType> allowedLogTypes)
         {
-            using (var db = new AppContext())
+            using (var db = new AppDbContext())
             {
                 var payments = db.PaymentLogs
                     .Where(p => allowedLogTypes.Contains(p.LogType))
@@ -75,7 +75,7 @@ namespace CheckBook.DataAccess.Services
         /// </summary>
         public static PaymentData GetPayment(int paymentId)
         {
-            using (var db = new AppContext())
+            using (var db = new AppDbContext())
             {
                 return db.Payments
                     .Where(pg => pg.Id == paymentId)
@@ -89,7 +89,7 @@ namespace CheckBook.DataAccess.Services
         /// </summary>
         public static List<TransactionData> GetPayers(int groupId, int paymentId)
         {
-            using (var db = new AppContext())
+            using (var db = new AppDbContext())
             {
                 return db.Transactions
                     .Where(t => t.PaymentId == paymentId)
@@ -110,7 +110,7 @@ namespace CheckBook.DataAccess.Services
         /// </summary>
         public static List<TransactionData> GetDebtors(int groupId, int paymentId)
         {
-            using (var db = new AppContext())
+            using (var db = new AppDbContext())
             {
                 return db.Transactions
                     .Where(t => t.PaymentId == paymentId)
@@ -131,7 +131,7 @@ namespace CheckBook.DataAccess.Services
         /// </summary>
         public static void SavePayment(int userId, PaymentData data, List<TransactionData> payers, List<TransactionData> debtors)
         {
-            using (var db = new AppContext())
+            using (var db = new AppDbContext())
             {
                 // get or create the payment
                 var payment = db.Payments.Find(data.Id);
@@ -256,7 +256,7 @@ namespace CheckBook.DataAccess.Services
         /// </summary>
         public static void DeletePayment(int userId, PaymentData data)
         {
-            using (var db = new AppContext())
+            using (var db = new AppDbContext())
             {
                 // check permissions
                 if (!IsPaymentEditable(userId, data.Id))
@@ -291,7 +291,7 @@ namespace CheckBook.DataAccess.Services
         /// </summary>
         public static bool IsPaymentEditable(int userId, int paymentId)
         {
-            using (var db = new AppContext())
+            using (var db = new AppDbContext())
             {
                 var user = db.Users.Find(userId);
                 return user?.UserRole == UserRole.Admin

@@ -1,81 +1,90 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using CheckBook.DataAccess.Context;
-using CheckBook.DataAccess.Data;
+﻿using CheckBook.DataAccess.Context;
+using CheckBook.DataAccess.Data.User;
+using CheckBook.DataAccess.Expressions;
 using CheckBook.DataAccess.Model;
 using CheckBook.DataAccess.Security;
 using DotVVM.Framework.Controls;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CheckBook.DataAccess.Services
 {
     public static class UserService
     {
         /// <summary>
-        /// Gets the user with specified e-mail address.
+        /// Gets the user with specified e-mail address. 
         /// </summary>
         public static UserWithPasswordData GetUserWithPassword(string email)
         {
-            using (var db = new AppContext())
+            using (var db = new AppDbContext())
             {
                 email = email.Trim().ToLower();
 
                 return db.Users
-                    .Select(ToUserWithPasswordData)
+                    .Select(UserExpressions.ToUserWithPasswordData)
                     .FirstOrDefault(x => x.Email == email);
             }
         }
 
         /// <summary>
-        /// Gets the user profile.
+        /// Gets the user profile. 
         /// </summary>
         public static UserInfoData GetUserInfo(int id)
         {
-            using (var db = new AppContext())
+            using (var db = new AppDbContext())
             {
                 return db.Users
-                    .Select(ToUserInfoData)
+                    .Select(UserExpressions.ToUserInfoData)
                     .First(x => x.Id == id);
             }
         }
 
+        public static UserStatsData GetUserStats(int id)
+        {
+            using (var db = new AppDbContext())
+            {
+                var user = db.Users.Find(id);
+                var dto = UserExpressions.ToUserStatsData.Compile()(user);
+                return dto;
+            }
+        }
 
         /// <summary>
-        /// Gets the user basic info.
+        /// Gets the user basic info. 
         /// </summary>
         public static List<UserBasicInfoData> GetUserBasicInfoList(int groupId)
         {
-            using (var db = new AppContext())
+            using (var db = new AppDbContext())
             {
                 return db.Users
                     .Where(u => u.UserGroups.Any(g => g.GroupId == groupId))
-                    .Select(ToUserBasicInfoData)
+                    .Select(UserExpressions.ToUserBasicInfoData)
                     .OrderBy(x => x.Name)
                     .ToList();
             }
         }
 
         /// <summary>
-        /// Gets the user profile.
+        /// Gets the user profile. 
         /// </summary>
         public static void LoadUserInfos(GridViewDataSet<UserInfoData> dataSet)
         {
-            using (var db = new AppContext())
+            using (var db = new AppDbContext())
             {
                 var users = db.Users
-                    .Select(ToUserInfoData);
+                    .Select(UserExpressions.ToUserInfoData);
 
                 dataSet.LoadFromQueryable(users);
             }
         }
 
         /// <summary>
-        /// Searches for the users.
+        /// Searches for the users. 
         /// </summary>
         public static List<UserInfoData> SearchUsers(string searchText)
         {
-            using (var db = new AppContext())
+            using (var db = new AppDbContext())
             {
                 IQueryable<User> users = db.Users;
                 if (!string.IsNullOrWhiteSpace(searchText))
@@ -85,33 +94,33 @@ namespace CheckBook.DataAccess.Services
 
                 return users
                     .OrderBy(u => u.LastName)
-                    .Select(ToUserInfoData)
+                    .Select(UserExpressions.ToUserInfoData)
                     .Take(8)
                     .ToList();
             }
         }
 
         /// <summary>
-        /// Gets the users in the specified group.
+        /// Gets the users in the specified group. 
         /// </summary>
         public static List<UserInfoData> GetGroupUsers(int groupId)
         {
-            using (var db = new AppContext())
+            using (var db = new AppDbContext())
             {
                 return db.Users
                     .Where(u => u.UserGroups.Any(g => g.GroupId == groupId))
                     .OrderBy(u => u.LastName)
-                    .Select(ToUserInfoData)
+                    .Select(UserExpressions.ToUserInfoData)
                     .ToList();
             }
         }
 
         /// <summary>
-        /// Updates the user data (from the Settings page).
+        /// Updates the user data (from the Settings page). 
         /// </summary>
         public static void UpdateUserInfo(UserInfoData user, int userId)
         {
-            using (var db = new AppContext())
+            using (var db = new AppDbContext())
             {
                 var entity = db.Users.Find(userId);
 
@@ -122,11 +131,11 @@ namespace CheckBook.DataAccess.Services
         }
 
         /// <summary>
-        /// Creates the or update user information (from the Manager page).
+        /// Creates the or update user information (from the Manager page). 
         /// </summary>
         public static void CreateOrUpdateUserInfo(UserInfoData user)
         {
-            using (var db = new AppContext())
+            using (var db = new AppDbContext())
             {
                 var entity = db.Users.Find(user.Id);
                 if (entity == null)
@@ -147,7 +156,25 @@ namespace CheckBook.DataAccess.Services
             }
         }
 
-        private static void UpdateUserInfoCore(UserInfoData user, User entity, AppContext db)
+        /// <summary>
+        /// Deletes the user. 
+        /// </summary>
+        public static void DeleteUser(int id)
+        {
+            using (var db = new AppDbContext())
+            {
+                var user = db.Users.Find(id);
+                if (user.Transactions.Any())
+                {
+                    throw new Exception("The user cannot be removed because he is involved in one or more transactions!");
+                }
+
+                db.Users.Remove(user);
+                db.SaveChanges();
+            }
+        }
+
+        private static void UpdateUserInfoCore(UserInfoData user, User entity, AppDbContext db)
         {
             // update first and last name
             entity.FirstName = user.FirstName;
@@ -168,82 +195,6 @@ namespace CheckBook.DataAccess.Services
                 throw new Exception($"The user with e-mail address '{user.Email}' already exists!");
             }
             entity.Email = user.Email;
-        }
-
-
-        /// <summary>
-        /// Deletes the user.
-        /// </summary>
-        public static void DeleteUser(int id)
-        {
-            using (var db = new AppContext())
-            {
-                var user = db.Users.Find(id);
-                if (user.Transactions.Any())
-                {
-                    throw new Exception("The user cannot be removed because he is involved in one or more transactions!");
-                }
-
-                db.Users.Remove(user);
-                db.SaveChanges();
-            }
-        }
-
-        /// <summary>
-        /// Converts the User entity into the UserWithPasswordData object
-        /// </summary>
-        public static Expression<Func<User, UserWithPasswordData>> ToUserWithPasswordData
-        {
-            get
-            {
-                return u => new UserWithPasswordData()
-                {
-                    Id = u.Id,
-                    Email = u.Email,
-                    FirstName = u.FirstName,
-                    LastName = u.LastName,
-                    PasswordHash = u.PasswordHash,
-                    PasswordSalt = u.PasswordSalt,
-                    UserRole = u.UserRole
-                };
-            }
-        }
-
-        /// <summary>
-        /// Converts User entity into UserInfoData
-        /// </summary>
-        public static Expression<Func<User, UserInfoData>> ToUserInfoData
-        {
-            get
-            {
-                return u => new UserInfoData()
-                {
-                    Id = u.Id,
-                    Email = u.Email,
-                    FirstName = u.FirstName,
-                    LastName = u.LastName,
-                    ImageUrl = u.ImageUrl,
-                    UserRole = u.UserRole,
-                    Name = u.FirstName + " " + u.LastName
-                };
-            }
-        }
-
-
-        /// <summary>
-        /// Converts User entity into UserInfoData
-        /// </summary>
-        public static Expression<Func<User, UserBasicInfoData>> ToUserBasicInfoData
-        {
-            get
-            {
-                return u => new UserBasicInfoData()
-                {
-                    Id = u.Id,
-                    Name = u.FirstName + " " + u.LastName,
-                    ImageUrl = u.ImageUrl
-                };
-            }
         }
     }
 }

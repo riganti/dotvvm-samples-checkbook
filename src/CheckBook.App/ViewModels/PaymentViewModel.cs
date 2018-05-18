@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.UI;
 using CheckBook.DataAccess.Data;
+using CheckBook.DataAccess.Data.User;
 using CheckBook.DataAccess.Services;
 using DotVVM.Framework.ViewModel;
 

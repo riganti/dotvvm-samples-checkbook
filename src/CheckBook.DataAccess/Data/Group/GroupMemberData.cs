@@ -1,8 +1,7 @@
-namespace CheckBook.DataAccess.Data
+namespace CheckBook.DataAccess.Data.Group
 {
     public class GroupMemberData : IAvatarData
     {
-
         public int? UserId { get; set; }
 
         public string Name { get; set; }

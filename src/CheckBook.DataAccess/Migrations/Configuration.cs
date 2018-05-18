@@ -6,14 +6,14 @@ using CheckBook.DataAccess.Security;
 
 namespace CheckBook.DataAccess.Migrations
 {
-    public sealed class Configuration : DbMigrationsConfiguration<DataAccess.Context.AppContext>
+    public sealed class Configuration : DbMigrationsConfiguration<DataAccess.Context.AppDbContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(DataAccess.Context.AppContext context)
+        protected override void Seed(DataAccess.Context.AppDbContext context)
         {
             if (!context.Users.Any())
             {

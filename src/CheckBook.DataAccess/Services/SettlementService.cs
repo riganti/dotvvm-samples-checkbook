@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using CheckBook.DataAccess.Data;
+using CheckBook.DataAccess.Data.Group;
 
 namespace CheckBook.DataAccess.Services
 {

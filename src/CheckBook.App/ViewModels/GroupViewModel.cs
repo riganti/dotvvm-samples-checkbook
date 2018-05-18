@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CheckBook.DataAccess.Data;
+using CheckBook.DataAccess.Data.Group;
 using CheckBook.DataAccess.Services;
 using DotVVM.Framework.Controls;
 using DotVVM.Framework.Runtime.Filters;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CheckBook.DataAccess.Data
+namespace CheckBook.DataAccess.Data.User
 {
     public class UserBasicInfoData 
     {
