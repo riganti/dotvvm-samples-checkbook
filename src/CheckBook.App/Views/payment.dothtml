@@ -139,8 +139,8 @@
                     The payments and debts are not equal! If you save the payment, the difference of
                     <strong>
                         <dot:Literal Text="{value: AmountDifference}" FormatString="n2" /> {{value: _root.Data.Currency}}
-                    </strong>
-                    will be split between all people who are involved in this transaction.
+                    </strong> will be split between all <b>debtors</b> who are involved in this transaction.
+                    <dot:LinkButton Validation.Enabled="false" class="pull-right" Click="{command: InvolveEveryone()}" Text="Involve everyone in group" />
                 </div>
 
                 <div class="validation-box">
