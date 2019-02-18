@@ -1,4 +1,4 @@
-﻿using System.Data.Entity;
+﻿    using System.Data.Entity;
 using CheckBook.DataAccess.Model;
 
 namespace CheckBook.DataAccess.Context
