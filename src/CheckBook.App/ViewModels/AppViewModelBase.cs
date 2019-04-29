@@ -1,12 +1,12 @@
 ﻿using DotVVM.Framework.Runtime.Filters;
 using DotVVM.Framework.ViewModel;
-using Microsoft.AspNet.Identity;
 using CheckBook.DataAccess.Enums;
 using DotVVM.Framework.Hosting;
-using Microsoft.Owin.Security.Cookies;
 using System.Linq;
 using System.Security.Claims;
-using Microsoft.Owin.Security.OpenIdConnect;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 
 namespace CheckBook.App.ViewModels
 {
@@ -20,7 +20,7 @@ namespace CheckBook.App.ViewModels
         /// <summary>
         /// Determines whether the user is administrator.
         /// </summary>
-        public bool IsAdmin => Context.GetAuthentication().User.IsInRole(UserRole.Admin.ToString());
+        public bool IsAdmin => Context.HttpContext.User.IsInRole(UserRole.Admin.ToString());
 
         /// <summary>
         /// Gets or sets the active page. This is used in the top menu bar to highlight the current menu item.
@@ -32,28 +32,31 @@ namespace CheckBook.App.ViewModels
         /// </summary>
         protected int GetUserId()
         {
-            return int.Parse(Context.GetAuthentication().User.Identity.GetUserId());
+            var claimsIdentity = (ClaimsIdentity)Context.HttpContext.User.Identity;
+            return int.Parse(claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value);
         }
+
         /// <summary>
         /// Gets the Name of currently logged user.
         /// </summary>
         protected string GetUserName()
         {
-            return Context.GetAuthentication().User.Identity.Name;
+            return Context.HttpContext.User.Identity.Name;
         }
 
-        public void SignOut()
+        public async Task SignOut()
         {
             // sign out
             var identity = (ClaimsIdentity)Context.HttpContext.User.Identity;
-            if (identity.FindFirstValue(ClaimTypes.AuthenticationMethod) == OpenIdConnectAuthenticationDefaults.AuthenticationType)
+            if (identity.FindFirst(ClaimTypes.AuthenticationMethod).Value == OpenIdConnectDefaults.AuthenticationScheme)
             {
-                Context.GetAuthentication().SignOut(CookieAuthenticationDefaults.AuthenticationType, OpenIdConnectAuthenticationDefaults.AuthenticationType);
+                await Context.GetAuthentication().SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+                await Context.GetAuthentication().SignOutAsync(OpenIdConnectDefaults.AuthenticationScheme);
                 Context.InterruptRequest();
             }
             else
             {
-                Context.GetAuthentication().SignOut(CookieAuthenticationDefaults.AuthenticationType);
+                await Context.GetAuthentication().SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
                 Context.RedirectToRoute("login");
             }
         }

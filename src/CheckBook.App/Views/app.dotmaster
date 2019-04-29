@@ -59,8 +59,8 @@
     </nav>
     <dot:ContentPlaceHolder ID="PageContent">
     </dot:ContentPlaceHolder>
+    <dot:RequiredResource Name="bootstrap" />
 </body>
-<script src="~/Scripts/bootstrap.min.js"></script>
 </html>
 
 

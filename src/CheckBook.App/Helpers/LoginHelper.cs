@@ -2,17 +2,27 @@
 using System.Security.Claims;
 using CheckBook.App.Models;
 using CheckBook.DataAccess.Services;
-using Microsoft.Owin.Security.Cookies;
-using Microsoft.Owin.Security.OpenIdConnect;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.Extensions.Options;
 
 namespace CheckBook.App.Helpers
 {
-    public static class LoginHelper
+    public class LoginHelper
     {
-        public static ClaimsIdentity GetClaimsIdentity(string email, string password)
+        private readonly IOptions<LoginOptions> loginOptions;
+        private readonly UserService userService;
+
+        public LoginHelper(IOptions<LoginOptions> loginOptions, UserService userService)
+        {
+            this.loginOptions = loginOptions;
+            this.userService = userService;
+        }
+
+        public ClaimsIdentity GetClaimsIdentity(string email, string password)
         {
             // try to find the user
-            var user = UserService.GetUserWithPassword(email);
+            var user = userService.GetUserWithPassword(email);
             if (user == null)
             {
                 return null;
@@ -30,16 +40,16 @@ namespace CheckBook.App.Helpers
                 new Claim(ClaimTypes.Name, user.FirstName + " " + user.LastName),
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Role, user.UserRole.ToString()),
-                new Claim(ClaimTypes.AuthenticationMethod, CookieAuthenticationDefaults.AuthenticationType)
-            }, CookieAuthenticationDefaults.AuthenticationType);
+                new Claim(ClaimTypes.AuthenticationMethod, CookieAuthenticationDefaults.AuthenticationScheme)
+            }, CookieAuthenticationDefaults.AuthenticationScheme);
             
             return claimsIdentity;
         }
 
-        public static ClaimsIdentity GetClaimsIdentityForAzure(string email)
+        public ClaimsIdentity GetClaimsIdentityForAzure(string email)
         {
             // try to find the user
-            var user = UserService.GetUserWithPassword(email);
+            var user = userService.GetUserWithPassword(email);
             if (user == null)
             {
                 return null;
@@ -51,11 +61,11 @@ namespace CheckBook.App.Helpers
                 new Claim(ClaimTypes.Name, user.FirstName + " " + user.LastName),
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Role, user.UserRole.ToString()),
-                new Claim(ClaimTypes.AuthenticationMethod, OpenIdConnectAuthenticationDefaults.AuthenticationType)
-            }, CookieAuthenticationDefaults.AuthenticationType);
+                new Claim(ClaimTypes.AuthenticationMethod, OpenIdConnectDefaults.AuthenticationScheme)
+            }, OpenIdConnectDefaults.AuthenticationScheme);
             return claimsIdentity;
         }
 
-        public static bool AADEnabled => !string.IsNullOrEmpty(ConfigurationManager.AppSettings["ida:ClientId"]);
+        public bool AADEnabled => loginOptions.Value.AADEnabled;
     }
 }

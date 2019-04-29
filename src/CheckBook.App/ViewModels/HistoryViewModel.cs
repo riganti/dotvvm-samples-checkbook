@@ -13,6 +13,7 @@ namespace CheckBook.App.ViewModels
     [Authorize]
     public class HistoryViewModel : AppViewModelBase
 	{
+        private readonly PaymentService paymentService;
 
         public GridViewDataSet<MyTransactionData> MyTransactions { get; set; } = new GridViewDataSet<MyTransactionData>()
         {
@@ -27,10 +28,15 @@ namespace CheckBook.App.ViewModels
             }
         };
 
+        public HistoryViewModel(PaymentService paymentService)
+        {
+            this.paymentService = paymentService;
+        }
+
         public override Task PreRender()
 	    {
             var userId = GetUserId();
-            PaymentService.LoadMyTransactions(userId, MyTransactions);
+            paymentService.LoadMyTransactions(userId, MyTransactions);
 
             return base.PreRender();
 	    }

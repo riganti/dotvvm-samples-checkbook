@@ -1,280 +1,52 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{A5EA0101-0A7E-4182-A28C-DD223A8C0DBD}</ProjectGuid>
-    <ProjectTypeGuids>{94EE71E2-EE2A-480B-8704-AF46D2E58D94};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CheckBook.App</RootNamespace>
-    <AssemblyName>CheckBook.App</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
-    <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication />
-    <IISExpressWindowsAuthentication />
-    <IISExpressUseClassicPipelineMode />
-    <TargetFrameworkProfile />
-    <UseGlobalApplicationHostFile />
-    <TypeScriptToolsVersion>2.4</TypeScriptToolsVersion>
-    <Use64BitIISExpress />
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="DotVVM.Contrib, Version=1.1.6.4, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DotVVM.Contrib.TypeAhead.1.1.6.4\lib\net451\DotVVM.Contrib.dll</HintPath>
-    </Reference>
-    <Reference Include="DotVVM.Core, Version=1.1.7.0, Culture=neutral, PublicKeyToken=23f3607db32275da, processorArchitecture=MSIL">
-      <HintPath>..\packages\DotVVM.Core.1.1.7\lib\net451\DotVVM.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="DotVVM.Framework, Version=1.1.7.0, Culture=neutral, PublicKeyToken=23f3607db32275da, processorArchitecture=MSIL">
-      <HintPath>..\packages\DotVVM.1.1.7\lib\net451\DotVVM.Framework.dll</HintPath>
-    </Reference>
-    <Reference Include="DotVVM.Framework.Hosting.Owin, Version=1.1.7.0, Culture=neutral, PublicKeyToken=23f3607db32275da, processorArchitecture=MSIL">
-      <HintPath>..\packages\DotVVM.Owin.1.1.7\lib\net451\DotVVM.Framework.Hosting.Owin.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.CodeAnalysis, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.CodeAnalysis.Common.1.0.0\lib\net45\Microsoft.CodeAnalysis.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.CodeAnalysis.CSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.CodeAnalysis.CSharp.1.0.0\lib\net45\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Extensions.DependencyInjection, Version=1.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.1.0.0\lib\netstandard1.1\Microsoft.Extensions.DependencyInjection.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.1.0.0\lib\netstandard1.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Extensions.Options, Version=1.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.Options.1.0.0\lib\netstandard1.0\Microsoft.Extensions.Options.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Extensions.Primitives, Version=1.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.Primitives.1.0.0\lib\netstandard1.0\Microsoft.Extensions.Primitives.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.IdentityModel.Protocol.Extensions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.IdentityModel.Protocol.Extensions.1.0.0\lib\net45\Microsoft.IdentityModel.Protocol.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Owin, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Owin.3.1.0\lib\net45\Microsoft.Owin.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Owin.FileSystems, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Owin.FileSystems.3.1.0\lib\net45\Microsoft.Owin.FileSystems.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.3.1.0\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Owin.Security, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Owin.Security.3.1.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Owin.Security.Cookies, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.3.1.0\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Owin.Security.OpenIdConnect, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Owin.Security.OpenIdConnect.3.1.0\lib\net45\Microsoft.Owin.Security.OpenIdConnect.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Owin.StaticFiles, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Owin.StaticFiles.3.1.0\lib\net45\Microsoft.Owin.StaticFiles.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="NIdenticon, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\NIdenticon.1.2.1.0\lib\net35-client\NIdenticon.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
-      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Collections.Immutable, Version=1.1.36.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Collections.Immutable.1.1.36\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ComponentModel.Composition" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.configuration" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.IdentityModel" />
-    <Reference Include="System.IdentityModel.Tokens.Jwt, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.IdentityModel.Tokens.Jwt.4.0.0\lib\net45\System.IdentityModel.Tokens.Jwt.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Net" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Net.Http.WebRequest" />
-    <Reference Include="System.Reflection.Metadata, Version=1.0.21.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Reflection.Metadata.1.0.21\lib\portable-net45+win8\System.Reflection.Metadata.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Web.ApplicationServices" />
-    <Reference Include="System.Web.DynamicData" />
-    <Reference Include="System.Web.Entity" />
-    <Reference Include="System.Web.Extensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Xml.Linq" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Controls\ExpressionTextBox.cs" />
-    <Compile Include="Controls\UserDetailForm.cs" />
-    <Compile Include="DotvvmStartup.cs" />
-    <Compile Include="Helpers\FileStorageHelper.cs" />
-    <Compile Include="Helpers\LoginHelper.cs" />
-    <Compile Include="IdenticonPresenter.cs" />
-    <Compile Include="Models\AzureAdClaimTypes.cs" />
-    <Compile Include="Models\UserIdentity.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Startup.cs" />
-    <Compile Include="ViewModels\AppViewModelBase.cs" />
-    <Compile Include="ViewModels\ChangelogViewModel.cs" />
-    <Compile Include="ViewModels\HistoryViewModel.cs" />
-    <Compile Include="ViewModels\HomeViewModel.cs" />
-    <Compile Include="ViewModels\LoginViewModel.cs" />
-    <Compile Include="ViewModels\ManagerViewModel.cs" />
-    <Compile Include="ViewModels\GroupViewModel.cs" />
-    <Compile Include="ViewModels\PaymentViewModel.cs" />
-    <Compile Include="ViewModels\SettingsViewModel.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Scripts\autoHideAlert.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\ExpressionTextBox.js" />
-    <Content Include="Scripts\jquery-2.1.3.min.js" />
-    <Content Include="Scripts\preserveTextBoxFocus.js" />
-    <Content Include="Style\default.svg" />
-    <Content Include="Style\dollar-exchange.png" />
-    <Content Include="Style\bootstrap\bootstrap-theme.css" />
-    <Content Include="Style\bootstrap\bootstrap-theme.min.css" />
-    <Content Include="Style\bootstrap\bootstrap.css" />
-    <Content Include="Style\bootstrap\bootstrap.min.css" />
-    <Content Include="Style\Default.css">
-      <DependentUpon>Default.less</DependentUpon>
-    </Content>
-    <Content Include="Style\Default.min.css">
-      <DependentUpon>Default.css</DependentUpon>
-    </Content>
-    <Content Include="Style\fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="Web.config">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Views\login.dothtml" />
-    <Content Include="packages.config" />
-    <Content Include="Style\Default.less" />
-    <None Include="compilerconfig.json" />
-    <Content Include="compilerconfig.json.defaults">
-      <DependentUpon>compilerconfig.json</DependentUpon>
-    </Content>
-    <Content Include="Style\bootstrap\bootstrap-theme.css.map" />
-    <Content Include="Style\bootstrap\bootstrap.css.map" />
-    <Content Include="Views\home.dothtml" />
-    <Content Include="Views\settings.dothtml" />
-    <Content Include="Views\app.dotmaster" />
-    <Content Include="Views\payment.dothtml" />
-    <Content Include="Views\manager.dothtml" />
-    <Content Include="Style\fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Style\fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="Style\fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="Style\fonts\glyphicons-halflings-regular.woff2" />
-    <Content Include="Views\group.dothtml" />
-    <Content Include="Controls\UserAvatar.dotcontrol" />
-    <Content Include="Controls\UserDetailForm.dotcontrol" />
-    <None Include="Properties\PublishProfiles\Production.pubxml" />
-    <Content Include="Views\history.dothtml" />
-    <Content Include="Views\changelog.dothtml" />
-    <None Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </None>
-    <None Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\CheckBook.DataAccess\CheckBook.DataAccess.csproj">
-      <Project>{7091eb10-4e6b-48e6-a30c-964c7d806a32}</Project>
-      <Name>CheckBook.DataAccess</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Images\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.0.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
-    <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.0.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
-  </ItemGroup>
-  <PropertyGroup>
-    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
-    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
-  </PropertyGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
-  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
-  <ProjectExtensions>
-    <VisualStudio>
-      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
-        <WebProjectProperties>
-          <UseIIS>False</UseIIS>
-          <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>8628</DevelopmentServerPort>
-          <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:60319/</IISUrl>
-          <NTLMAuthentication>False</NTLMAuthentication>
-          <UseCustomServer>False</UseCustomServer>
-          <CustomServerUrl>
-          </CustomServerUrl>
-          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
-        </WebProjectProperties>
-      </FlavorProperties>
-      <FlavorProperties GUID="{94EE71E2-EE2A-480B-8704-AF46D2E58D94}" Configuration="Debug|Any CPU">
-        <DotvvmPropertyPageProjectFlavorCfg />
-      </FlavorProperties>
-      <FlavorProperties GUID="{94EE71E2-EE2A-480B-8704-AF46D2E58D94}" Configuration="Release|Any CPU">
-        <DotvvmPropertyPageProjectFlavorCfg />
-      </FlavorProperties>
-    </VisualStudio>
-  </ProjectExtensions>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+    <PropertyGroup>
+        <TargetFramework>netcoreapp2.0</TargetFramework>
+    </PropertyGroup>
+    <ItemGroup>
+        <!--Include Views-->
+        <Content Include="**/*.dothtml" Exclude="obj/**/*.*;bin/**/*.*">
+            <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+        </Content>
+        <!--Include MasterPage Views-->
+        <Content Include="**/*.dotmaster" Exclude="obj/**/*.*;bin/**/*.*">
+            <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+        </Content>
+        <!--Include Custom Control Views-->
+        <Content Include="**/*.dotcontrol" Exclude="obj/**/*.*;bin/**/*.*">
+            <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+        </Content>
+    </ItemGroup>
+    <ItemGroup>
+        <None Remove="dotvvm_serialized_config.json.tmp" />
+    </ItemGroup>
+    <ItemGroup>
+        <Folder Include="ViewModels\" />
+        <Folder Include="Views\" />
+        <Folder Include="wwwroot\Images\" />
+    </ItemGroup>
+    <ItemGroup>
+      <None Include="wwwroot\Scripts\autoHideAlert.js" />
+      <None Include="wwwroot\Scripts\bootstrap.min.js" />
+      <None Include="wwwroot\Scripts\ExpressionTextBox.js" />
+      <None Include="wwwroot\Scripts\jquery-2.1.3.min.js" />
+      <None Include="wwwroot\Scripts\preserveTextBoxFocus.js" />
+      <None Include="wwwroot\Style\bootstrap\bootstrap-theme.css.map" />
+      <None Include="wwwroot\Style\bootstrap\bootstrap.css.map" />
+      <None Include="wwwroot\Style\Default.less" />
+      <None Include="wwwroot\Style\default.svg" />
+      <None Include="wwwroot\Style\fonts\glyphicons-halflings-regular.svg" />
+      <None Include="wwwroot\Style\fonts\glyphicons-halflings-regular.woff2" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="DotVVM.Contrib.TypeAhead" Version="2.2.0" />
+        <PackageReference Include="Microsoft.AspNetCore" Version="2.0.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="2.0.0" />
+        <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.0.0" />
+        <PackageReference Include="DotVVM.AspNetCore" Version="2.2.0.2" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.0.0" />
+        <PackageReference Include="NIdenticon.NetCoreFix" Version="1.3.0" />
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\CheckBook.DataAccess\CheckBook.DataAccess.csproj" />
+    </ItemGroup>
 </Project>

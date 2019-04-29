@@ -3,10 +3,8 @@ using System.Collections;
 using DotVVM.Framework.Controls;
 using DotVVM.Framework.Runtime.Filters;
 using System.Collections.Generic;
-using System.Data.Entity.Infrastructure.Interception;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web.UI;
 using CheckBook.DataAccess.Data;
 using CheckBook.DataAccess.Services;
 using DotVVM.Framework.ViewModel;
@@ -16,6 +14,9 @@ namespace CheckBook.App.ViewModels
     [Authorize]
     public class PaymentViewModel : AppViewModelBase
     {
+        private readonly GroupService groupService;
+        private readonly UserService userService;
+        private readonly PaymentService paymentService;
         public override string ActivePage => "home";
 
         [FromRoute("GroupId")]
@@ -52,10 +53,18 @@ namespace CheckBook.App.ViewModels
         public List<UserBasicInfoData> AllUsers { get; set; }
 
 
+        public PaymentViewModel(GroupService groupService, UserService userService, PaymentService paymentService)
+        {
+            this.groupService = groupService;
+            this.userService = userService;
+            this.paymentService = paymentService;
+        }
+
+
         public override Task Load()
         {
             // load all users
-            AllUsers = UserService.GetUserBasicInfoList(GroupId);
+            AllUsers = userService.GetUserBasicInfoList(GroupId);
 
             // load data
             if (!Context.IsPostBack)
@@ -73,14 +82,14 @@ namespace CheckBook.App.ViewModels
         {
             // get group
             var userId = GetUserId();
-            var group = GroupService.GetGroup(GroupId, userId);
+            var group = groupService.GetGroup(GroupId, userId);
 
             // get or create the payment
             if (PaymentId > 0)
             {
                 // load
-                Data = PaymentService.GetPayment(PaymentId);
-                IsEditable = IsDeletable = PaymentService.IsPaymentEditable(userId, PaymentId);
+                Data = paymentService.GetPayment(PaymentId);
+                IsEditable = IsDeletable = paymentService.IsPaymentEditable(userId, PaymentId);
             }
             else
             {
@@ -98,11 +107,11 @@ namespace CheckBook.App.ViewModels
             GroupName = group.Name;
 
             // load payers and debtors
-            Payers = PaymentService.GetPayers(GroupId, PaymentId);
+            Payers = paymentService.GetPayers(GroupId, PaymentId);
             EnsureInsertRowPresent(Payers);
             UpdateNameAndImageUrl(Payers);
 
-            Debtors = PaymentService.GetDebtors(GroupId, PaymentId);
+            Debtors = paymentService.GetDebtors(GroupId, PaymentId);
             EnsureInsertRowPresent(Debtors);
             UpdateNameAndImageUrl(Debtors);
 
@@ -180,7 +189,7 @@ namespace CheckBook.App.ViewModels
             try
             {
                 var userId = GetUserId();
-                PaymentService.SavePayment(userId, Data, Payers, Debtors);
+                paymentService.SavePayment(userId, Data, Payers, Debtors);
             }
             catch (Exception ex)
             {
@@ -199,7 +208,7 @@ namespace CheckBook.App.ViewModels
             try
             {
                 var userId = GetUserId();
-                PaymentService.DeletePayment(userId, Data);
+                paymentService.DeletePayment(userId, Data);
             }
             catch (Exception ex)
             {

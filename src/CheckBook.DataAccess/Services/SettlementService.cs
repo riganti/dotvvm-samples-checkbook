@@ -9,9 +9,9 @@ namespace CheckBook.DataAccess.Services
     {
 
         /// <summary>
-        /// Calculates the transactions to settle the memebrs.
+        /// Calculates the transactions to settle the members.
         /// </summary>
-        public static IEnumerable<SettlementData> CalculateSettlement(List<GroupMemberData> members)
+        public IEnumerable<SettlementData> CalculateSettlement(List<GroupMemberData> members)
         {
             // sort members by amounts and exclude 
             var sortedMembers = members

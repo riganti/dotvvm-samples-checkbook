@@ -16,6 +16,8 @@ namespace CheckBook.App.ViewModels
     [Authorize]
     public class ChangelogViewModel : AppViewModelBase
     {
+        private readonly PaymentService paymentService;
+
         public GridViewDataSet<PaymentLogData> MyPaymentLog { get; set; } = new GridViewDataSet<PaymentLogData>()
         {
 
@@ -35,6 +37,12 @@ namespace CheckBook.App.ViewModels
         public bool ShowDeletions { get; set; }
         public bool ShowEdits { get; set; }
 
+
+        public ChangelogViewModel(PaymentService paymentService)
+        {
+            this.paymentService = paymentService;
+        }
+
         public override Task Init()
         {
             if (!Context.IsPostBack)
@@ -50,12 +58,12 @@ namespace CheckBook.App.ViewModels
         {
             if (ShowAllUsers)
             {
-                PaymentService.LoadAllPaymentLogs(MyPaymentLog, GetAllowedLogTypes());
+                paymentService.LoadAllPaymentLogs(MyPaymentLog, GetAllowedLogTypes());
             }
             else
             {
                 var userId = GetUserId();
-                PaymentService.LoadMyPaymentLog(userId, MyPaymentLog, GetAllowedLogTypes());
+                paymentService.LoadMyPaymentLog(userId, MyPaymentLog, GetAllowedLogTypes());
             }
             return base.PreRender();
         }

@@ -1,27 +1,35 @@
-using System.Data.Entity.Migrations;
-using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using CheckBook.DataAccess.Context;
 using CheckBook.DataAccess.Enums;
 using CheckBook.DataAccess.Model;
 using CheckBook.DataAccess.Security;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 
-namespace CheckBook.DataAccess.Migrations
+namespace CheckBook.DataAccess.Services
 {
-    public sealed class Configuration : DbMigrationsConfiguration<DataAccess.Context.AppContext>
+    public class DataSeedingService
     {
-        public Configuration()
+        private readonly AppDbContext context;
+
+        public DataSeedingService(AppDbContext context)
         {
-            AutomaticMigrationsEnabled = false;
+            this.context = context;
         }
 
-        protected override void Seed(DataAccess.Context.AppContext context)
+        public void Seed()
         {
+            context.Database.Migrate();
+
             if (!context.Users.Any())
             {
                 // create sample groups
-                var prague = new Group { Name = "Lunches - Riganti Office", Currency = "CZK" };
+                var prague = new Group { Name = "Group 1", Currency = "CZK" };
                 context.Groups.Add(prague);
 
-                var brno = new Group { Name = "Brno - Other Activities", Currency = "EUR" };
+                var brno = new Group { Name = "Group 2", Currency = "EUR" };
                 context.Groups.Add(brno);
 
 
@@ -38,7 +46,7 @@ namespace CheckBook.DataAccess.Migrations
                 };
                 context.Users.Add(user1);
                 context.UserGroups.Add(new UserGroup() { User = user1, Group = prague });
-            
+
                 var password2 = PasswordHelper.CreateHash("Pa$$w0rd");
                 var user2 = new User
                 {
@@ -53,7 +61,7 @@ namespace CheckBook.DataAccess.Migrations
                 context.Users.Add(user2);
                 context.UserGroups.Add(new UserGroup() { User = user2, Group = prague });
                 context.UserGroups.Add(new UserGroup() { User = user2, Group = brno });
-            
+
                 var password3 = PasswordHelper.CreateHash("Pa$$w0rd");
                 var user3 = new User
                 {
@@ -68,7 +76,10 @@ namespace CheckBook.DataAccess.Migrations
                 context.Users.Add(user3);
                 context.UserGroups.Add(new UserGroup() { User = user3, Group = prague });
                 context.UserGroups.Add(new UserGroup() { User = user3, Group = brno });
+
+                context.SaveChanges();
             }
         }
+
     }
 }

@@ -14,6 +14,10 @@ namespace CheckBook.App.ViewModels
     [Authorize]
     public class GroupViewModel : AppViewModelBase
     {
+        private readonly GroupService groupService;
+        private readonly PaymentService paymentService;
+        private readonly SettlementService settlementService;
+
         public override string ActivePage => "home";
 
         [FromRoute("id")]
@@ -40,23 +44,29 @@ namespace CheckBook.App.ViewModels
             }
         };
 
+        public GroupViewModel(GroupService groupService, PaymentService paymentService, SettlementService settlementService)
+        {
+            this.groupService = groupService;
+            this.paymentService = paymentService;
+            this.settlementService = settlementService;
+        }
 
         public override Task PreRender()
         {
             // load group name
             var userId = GetUserId();
-            var group = GroupService.GetGroup(GroupId, userId);
+            var group = groupService.GetGroup(GroupId, userId);
             GroupName = group.Name;
             Currency = group.Currency;
 
             // load payments in current group
-            PaymentService.LoadPayments(GroupId, Payments);
+            paymentService.LoadPayments(GroupId, Payments);
 
             // load members
-            Members = GroupService.GetGroupMembers(GroupId);
+            Members = groupService.GetGroupMembers(GroupId);
 
             // generate settlements
-            Settlement = SettlementService.CalculateSettlement(Members).ToList();
+            Settlement = settlementService.CalculateSettlement(Members).ToList();
 
             return base.PreRender();
         }

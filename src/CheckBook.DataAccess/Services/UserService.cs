@@ -10,144 +10,127 @@ using DotVVM.Framework.Controls;
 
 namespace CheckBook.DataAccess.Services
 {
-    public static class UserService
+    public class UserService
     {
+        private readonly AppDbContext db;
+
+        public UserService(AppDbContext db)
+        {
+            this.db = db;
+        }
+
         /// <summary>
         /// Gets the user with specified e-mail address.
         /// </summary>
-        public static UserWithPasswordData GetUserWithPassword(string email)
+        public UserWithPasswordData GetUserWithPassword(string email)
         {
-            using (var db = new AppContext())
-            {
-                email = email.Trim().ToLower();
+            email = email.Trim().ToLower();
 
-                return db.Users
-                    .Select(ToUserWithPasswordData)
-                    .FirstOrDefault(x => x.Email == email);
-            }
+            return db.Users
+                .Select(ToUserWithPasswordData)
+                .FirstOrDefault(x => x.Email == email);
         }
 
         /// <summary>
         /// Gets the user profile.
         /// </summary>
-        public static UserInfoData GetUserInfo(int id)
+        public UserInfoData GetUserInfo(int id)
         {
-            using (var db = new AppContext())
-            {
-                return db.Users
-                    .Select(ToUserInfoData)
-                    .First(x => x.Id == id);
-            }
+            return db.Users
+                .Select(ToUserInfoData)
+                .First(x => x.Id == id);
         }
 
 
         /// <summary>
         /// Gets the user basic info.
         /// </summary>
-        public static List<UserBasicInfoData> GetUserBasicInfoList(int groupId)
+        public List<UserBasicInfoData> GetUserBasicInfoList(int groupId)
         {
-            using (var db = new AppContext())
-            {
-                return db.Users
-                    .Where(u => u.UserGroups.Any(g => g.GroupId == groupId))
-                    .Select(ToUserBasicInfoData)
-                    .OrderBy(x => x.Name)
-                    .ToList();
-            }
+            return db.Users
+                .Where(u => u.UserGroups.Any(g => g.GroupId == groupId))
+                .Select(ToUserBasicInfoData)
+                .OrderBy(x => x.Name)
+                .ToList();
         }
 
         /// <summary>
         /// Gets the user profile.
         /// </summary>
-        public static void LoadUserInfos(GridViewDataSet<UserInfoData> dataSet)
+        public void LoadUserInfos(GridViewDataSet<UserInfoData> dataSet)
         {
-            using (var db = new AppContext())
-            {
-                var users = db.Users
-                    .Select(ToUserInfoData);
+            var users = db.Users
+                .Select(ToUserInfoData);
 
-                dataSet.LoadFromQueryable(users);
-            }
+            dataSet.LoadFromQueryable(users);
         }
 
         /// <summary>
         /// Searches for the users.
         /// </summary>
-        public static List<UserInfoData> SearchUsers(string searchText)
+        public List<UserInfoData> SearchUsers(string searchText)
         {
-            using (var db = new AppContext())
+            IQueryable<User> users = db.Users;
+            if (!string.IsNullOrWhiteSpace(searchText))
             {
-                IQueryable<User> users = db.Users;
-                if (!string.IsNullOrWhiteSpace(searchText))
-                {
-                    users = users.Where(u => (u.FirstName + " " + u.LastName + " " + u.Email).Contains(searchText));
-                }
-
-                return users
-                    .OrderBy(u => u.LastName)
-                    .Select(ToUserInfoData)
-                    .Take(8)
-                    .ToList();
+                users = users.Where(u => (u.FirstName + " " + u.LastName + " " + u.Email).Contains(searchText));
             }
+
+            return users
+                .OrderBy(u => u.LastName)
+                .Select(ToUserInfoData)
+                .Take(8)
+                .ToList();
         }
 
         /// <summary>
         /// Gets the users in the specified group.
         /// </summary>
-        public static List<UserInfoData> GetGroupUsers(int groupId)
+        public List<UserInfoData> GetGroupUsers(int groupId)
         {
-            using (var db = new AppContext())
-            {
-                return db.Users
-                    .Where(u => u.UserGroups.Any(g => g.GroupId == groupId))
-                    .OrderBy(u => u.LastName)
-                    .Select(ToUserInfoData)
-                    .ToList();
-            }
+            return db.Users
+                .Where(u => u.UserGroups.Any(g => g.GroupId == groupId))
+                .OrderBy(u => u.LastName)
+                .Select(ToUserInfoData)
+                .ToList();
         }
 
         /// <summary>
         /// Updates the user data (from the Settings page).
         /// </summary>
-        public static void UpdateUserInfo(UserInfoData user, int userId)
+        public void UpdateUserInfo(UserInfoData user, int userId)
         {
-            using (var db = new AppContext())
-            {
-                var entity = db.Users.Find(userId);
+            var entity = db.Users.Find(userId);
 
-                UpdateUserInfoCore(user, entity, db);
+            UpdateUserInfoCore(user, entity, db);
 
-                db.SaveChanges();
-            }
+            db.SaveChanges();
         }
 
         /// <summary>
         /// Creates the or update user information (from the Manager page).
         /// </summary>
-        public static void CreateOrUpdateUserInfo(UserInfoData user)
+        public void CreateOrUpdateUserInfo(UserInfoData user)
         {
-            using (var db = new AppContext())
+            var entity = db.Users.Find(user.Id);
+            if (entity == null)
             {
-                var entity = db.Users.Find(user.Id);
-                if (entity == null)
+                if (string.IsNullOrWhiteSpace(user.Password))
                 {
-                    if (string.IsNullOrWhiteSpace(user.Password))
-                    {
-                        throw new Exception("The Password is required!");
-                    }
-
-                    entity = new User();
-                    db.Users.Add(entity);
+                    throw new Exception("The Password is required!");
                 }
 
-                UpdateUserInfoCore(user, entity, db);
-                entity.UserRole = user.UserRole;
-
-                db.SaveChanges();
+                entity = new User();
+                db.Users.Add(entity);
             }
+
+            UpdateUserInfoCore(user, entity, db);
+            entity.UserRole = user.UserRole;
+
+            db.SaveChanges();
         }
 
-        private static void UpdateUserInfoCore(UserInfoData user, User entity, AppContext db)
+        private void UpdateUserInfoCore(UserInfoData user, User entity, AppDbContext db)
         {
             // update first and last name
             entity.FirstName = user.FirstName;
@@ -174,19 +157,16 @@ namespace CheckBook.DataAccess.Services
         /// <summary>
         /// Deletes the user.
         /// </summary>
-        public static void DeleteUser(int id)
+        public void DeleteUser(int id)
         {
-            using (var db = new AppContext())
+            var user = db.Users.Find(id);
+            if (user.Transactions.Any())
             {
-                var user = db.Users.Find(id);
-                if (user.Transactions.Any())
-                {
-                    throw new Exception("The user cannot be removed because he is involved in one or more transactions!");
-                }
-
-                db.Users.Remove(user);
-                db.SaveChanges();
+                throw new Exception("The user cannot be removed because he is involved in one or more transactions!");
             }
+
+            db.Users.Remove(user);
+            db.SaveChanges();
         }
 
         /// <summary>

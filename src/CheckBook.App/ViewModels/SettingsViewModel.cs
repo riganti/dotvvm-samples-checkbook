@@ -1,6 +1,5 @@
 ﻿using System;
 using DotVVM.Framework.Runtime.Filters;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using CheckBook.App.Helpers;
@@ -8,16 +7,17 @@ using CheckBook.DataAccess.Data;
 using CheckBook.DataAccess.Services;
 using DotVVM.Framework.Controls;
 using DotVVM.Framework.Storage;
-using DotVVM.Framework.ViewModel;
-using DotVVM.Framework.Hosting;
-using System.Security.Claims;
-using Microsoft.AspNet.Identity;
 
 namespace CheckBook.App.ViewModels
 {
     [Authorize]
 	public class SettingsViewModel : AppViewModelBase
     {
+        private readonly IUploadedFileStorage uploadedFileStorage;
+        private readonly FileStorageHelper fileStorageHelper;
+        private readonly UserService userService;
+
+
         public UserInfoData Data { get; set; }
 
         public string AlertText { get; set; }
@@ -28,12 +28,19 @@ namespace CheckBook.App.ViewModels
         // To make file uploads work you have to register the IUploadedFilesStorage in the Startup.cs file
         public UploadedFilesCollection AvatarFiles { get; set; } = new UploadedFilesCollection();
 
+        public SettingsViewModel(IUploadedFileStorage uploadedFileStorage, FileStorageHelper fileStorageHelper, UserService userService)
+        {
+            this.uploadedFileStorage = uploadedFileStorage;
+            this.fileStorageHelper = fileStorageHelper;
+            this.userService = userService;
+        }
+
 
         public override Task PreRender()
         {
             if (!Context.IsPostBack)
             {
-                Data = UserService.GetUserInfo(GetUserId());
+                Data = userService.GetUserInfo(GetUserId());
             }
 
             return base.PreRender();
@@ -50,12 +57,11 @@ namespace CheckBook.App.ViewModels
                 // TODO: the image should be resized to some reasonable dimensions
 
                 // save the file in the Images folder and update the ImageUrl property
-                var storage = Context.Configuration.ServiceLocator.GetService<IUploadedFileStorage>();
-                var stream = storage.GetFile(AvatarFiles.Files[0].FileId);
-                Data.ImageUrl = FileStorageHelper.StoreFile(stream, AvatarFiles.Files[0].FileName);
+                var stream = uploadedFileStorage.GetFile(AvatarFiles.Files[0].FileId);
+                Data.ImageUrl = fileStorageHelper.StoreFile(stream, AvatarFiles.Files[0].FileName);
 
                 // delete temporary file and clear the upload control collection
-                storage.DeleteFile(AvatarFiles.Files[0].FileId);
+                uploadedFileStorage.DeleteFile(AvatarFiles.Files[0].FileId);
                 AvatarFiles.Clear();
             }
         }
@@ -67,7 +73,7 @@ namespace CheckBook.App.ViewModels
         {
             try
             {
-                UserService.UpdateUserInfo(Data, GetUserId());
+                userService.UpdateUserInfo(Data, GetUserId());
                 AlertType = "success";
                 AlertText = "Your profile was updated.";
             }

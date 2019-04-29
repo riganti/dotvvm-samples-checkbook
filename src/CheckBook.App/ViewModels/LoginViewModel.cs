@@ -1,16 +1,20 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using CheckBook.App.Helpers;
 using DotVVM.Framework.ViewModel;
-using Microsoft.Owin.Security;
 using DotVVM.Framework.Hosting;
-using Microsoft.Owin.Security.OpenIdConnect;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.Extensions.Options;
 
 namespace CheckBook.App.ViewModels
 {
     public class LoginViewModel : DotvvmViewModelBase
     {
+        private readonly LoginHelper loginHelper;
 
         [Required(ErrorMessage = "The e-mail address is required!")]
         [EmailAddress(ErrorMessage = "The e-mail address is not valid!")]
@@ -22,7 +26,7 @@ namespace CheckBook.App.ViewModels
         public bool RememberMe { get; set; }
 
 
-        public bool AADEnabled => LoginHelper.AADEnabled;
+        public bool AADEnabled => loginHelper.AADEnabled;
 
 
 
@@ -31,9 +35,14 @@ namespace CheckBook.App.ViewModels
         public string ErrorMessage { get; set; }
 
 
+        public LoginViewModel(LoginHelper loginHelper)
+        {
+            this.loginHelper = loginHelper;
+        }
+
         public override Task Init()
         {
-            if (!Context.IsPostBack && Context.GetAuthentication().User.Identity.IsAuthenticated)
+            if (!Context.IsPostBack && Context.HttpContext.User.Identity.IsAuthenticated)
             {
                 // redirect to the home page if the user is already authenticated
                 Context.RedirectToRoute("home");
@@ -43,9 +52,9 @@ namespace CheckBook.App.ViewModels
         }
 
 
-        public void SignIn()
+        public async Task SignIn()
         {
-            var identity = LoginHelper.GetClaimsIdentity(Email, Password);
+            var identity = loginHelper.GetClaimsIdentity(Email, Password);
             if (identity == null)
             {
                 ErrorMessage = "Invalid e-mail address or password!";
@@ -58,21 +67,21 @@ namespace CheckBook.App.ViewModels
                     IsPersistent = RememberMe,
                     ExpiresUtc = RememberMe ? DateTime.UtcNow.AddMonths(1) : (DateTime?)null
                 };
-                Context.GetAuthentication().SignIn(properties, identity);
+                await Context.GetAuthentication().SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity), properties);
 
                 // redirect to the home page
                 Context.RedirectToRoute("home");
             }
         }
         
-        public void SignInAAD()
+        public async Task SignInAAD()
         {
-            Context.GetAuthentication().Challenge(new AuthenticationProperties()
+            await Context.GetAuthentication().ChallengeAsync(OpenIdConnectDefaults.AuthenticationScheme, new AuthenticationProperties()
             {
                 RedirectUri = "/home",
                 IsPersistent = RememberMe,
                 ExpiresUtc = RememberMe ? DateTime.UtcNow.AddMonths(1) : (DateTime?)null,
-            }, OpenIdConnectAuthenticationDefaults.AuthenticationType);
+            });
             Context.InterruptRequest();
         }
     }

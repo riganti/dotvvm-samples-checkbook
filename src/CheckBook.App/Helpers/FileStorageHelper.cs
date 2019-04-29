@@ -3,18 +3,24 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
-using System.Web.Hosting;
+using Microsoft.AspNetCore.Hosting;
 
 namespace CheckBook.App.Helpers
 {
     public class FileStorageHelper
     {
+        private readonly IHostingEnvironment env;
 
-        public static string FileStoragePath
+        public FileStorageHelper(IHostingEnvironment env)
+        {
+            this.env = env;
+        }
+
+        public string FileStoragePath
         {
             get
             {
-                var path = Path.Combine(HostingEnvironment.ApplicationPhysicalPath, "Images");
+                var path = Path.Combine(env.WebRootPath, "Images");
                 if (!Directory.Exists(path))
                 {
                     Directory.CreateDirectory(path);
@@ -28,7 +34,7 @@ namespace CheckBook.App.Helpers
         /// <summary>
         /// Stores the file and return its URL for the client.
         /// </summary>
-        public static string StoreFile(Stream stream, string fileName)
+        public string StoreFile(Stream stream, string fileName)
         {
             var name = Guid.NewGuid() + Path.GetExtension(fileName);
 

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using CheckBook.DataAccess.Enums;
 
 namespace CheckBook.DataAccess.Model

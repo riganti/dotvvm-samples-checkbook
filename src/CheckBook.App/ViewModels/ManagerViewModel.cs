@@ -11,9 +11,12 @@ using DotVVM.Framework.ViewModel;
 
 namespace CheckBook.App.ViewModels
 {
-    [Authorize(nameof(UserRole.Admin))]
+    [Authorize(Roles = nameof(UserRole.Admin))]
     public class ManagerViewModel : AppViewModelBase
     {
+        private readonly GroupService groupService;
+        private readonly UserService userService;
+
         public GridViewDataSet<UserInfoData> Users { get; set; } = new GridViewDataSet<UserInfoData>()
         {
             PagingOptions =
@@ -56,12 +59,16 @@ namespace CheckBook.App.ViewModels
 
         public List<UserInfoData> GroupUsers { get; set; }
 
-
+        public ManagerViewModel(GroupService groupService, UserService userService)
+        {
+            this.groupService = groupService;
+            this.userService = userService;
+        }
 
         public override Task PreRender()
         {
-            UserService.LoadUserInfos(Users);
-            GroupService.LoadGroups(Groups);
+            userService.LoadUserInfos(Users);
+            groupService.LoadGroups(Groups);
 
             return base.PreRender();
         }
@@ -77,7 +84,7 @@ namespace CheckBook.App.ViewModels
             }
             else
             {
-                EditedUser = UserService.GetUserInfo(userId.Value);
+                EditedUser = userService.GetUserInfo(userId.Value);
             }
 
             Context.ResourceManager.AddStartupScript("$('div[data-id=user-detail]').modal('show');");
@@ -90,7 +97,7 @@ namespace CheckBook.App.ViewModels
         {
             try
             {
-                UserService.CreateOrUpdateUserInfo(EditedUser);
+                userService.CreateOrUpdateUserInfo(EditedUser);
                 Context.ResourceManager.AddStartupScript("$('div[data-id=user-detail]').modal('hide');");
             }
             catch (Exception ex)
@@ -106,7 +113,7 @@ namespace CheckBook.App.ViewModels
         {
             try
             {
-                UserService.DeleteUser(EditedUser.Id);
+                userService.DeleteUser(EditedUser.Id);
                 Context.ResourceManager.AddStartupScript("$('div[data-id=user-detail]').modal('hide');");
             }
             catch (Exception ex)
@@ -127,8 +134,8 @@ namespace CheckBook.App.ViewModels
             }
             else
             {
-                EditedGroup = GroupService.GetGroup(groupId.Value);
-                GroupUsers = UserService.GetGroupUsers(groupId.Value);
+                EditedGroup = groupService.GetGroup(groupId.Value);
+                GroupUsers = userService.GetGroupUsers(groupId.Value);
             }
 
             // load users
@@ -145,7 +152,7 @@ namespace CheckBook.App.ViewModels
         {
             var currentGroupUsers = new HashSet<int>(GroupUsers.Select(u => u.UserId ?? 0));
 
-            GroupSearchResults = UserService.SearchUsers(GroupSearchText)
+            GroupSearchResults = userService.SearchUsers(GroupSearchText)
                 .Where(u => !currentGroupUsers.Contains(u.UserId ?? 0))
                 .ToList();
         }
@@ -178,7 +185,7 @@ namespace CheckBook.App.ViewModels
         {
             try
             {
-                GroupService.CreateOrUpdateGroup(EditedGroup, GroupUsers);
+                groupService.CreateOrUpdateGroup(EditedGroup, GroupUsers);
                 Context.ResourceManager.AddStartupScript("$('div[data-id=group-detail]').modal('hide');");
             }
             catch (Exception ex)
@@ -194,7 +201,7 @@ namespace CheckBook.App.ViewModels
         {
             try
             {
-                GroupService.DeleteGroup(EditedGroup.Id);
+                groupService.DeleteGroup(EditedGroup.Id);
                 Context.ResourceManager.AddStartupScript("$('div[data-id=group-detail]').modal('hide');");
             }
             catch (Exception ex)
