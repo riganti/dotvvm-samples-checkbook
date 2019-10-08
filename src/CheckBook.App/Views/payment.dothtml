@@ -1,15 +1,15 @@
 ﻿@viewModel CheckBook.App.ViewModels.PaymentViewModel, CheckBook.App
 @masterPage Views/app.dotmaster
 
-<dot:Content ContentPlaceHolderID="PageContent"  Validator.InvalidCssClass="has-error" Validator.SetToolTipText="true">
-    
+<dot:Content ContentPlaceHolderID="PageContent" Validator.InvalidCssClass="has-error" Validator.SetToolTipText="true">
+
     <div class="subheader-payment">
         <hr class="style-six" />
-        
+
         <dot:LinkButton class="header-item back-mini" Click="{command: GoBack()}" Validation.Enabled="false">
             <span class="glyphicon glyphicon-menu-left"></span>
         </dot:LinkButton>
-        <dot:LinkButton class="header-item back-maxi" Text="{value: GroupName}" Click="{command: GoBack()}" Validation.Enabled="false"/>
+        <dot:LinkButton class="header-item back-maxi" Text="{value: GroupName}" Click="{command: GoBack()}" Validation.Enabled="false" />
 
         <div class="header-payment">
             New Payment
@@ -67,15 +67,15 @@
                     <ItemTemplate>
 
                         <div class="row">
-                            
+
                             <div class="col-xs-12 col-sm-6 name">
                                 <div class="user-avatar" class-empty="{value: UserId == null}">
                                     <cc:UserAvatar />
                                 </div>
 
-                                <dc:TypeAhead DataSource="{value: _root.AllUsers}" ValueMember="Id" DisplayMember="Name" SelectedValue="{value: UserId}" 
+                                <dc:TypeAhead DataSource="{value: _root.AllUsers}" ValueMember="Id" DisplayMember="Name" SelectedValue="{value: UserId}"
                                               SelectionChanged="{command: _root.PayersChanged()}" Validation.Enabled="false"
-                                              class="form-control"/>
+                                              class="form-control" />
                             </div>
                             <div class="col-xs-6 col-sm-4 amount">
                                 <cc:ExpressionTextBox Text="{value: Amount}" FormatString="n2" Enabled="{value: _root.IsEditable}"
@@ -92,7 +92,7 @@
                     </ItemTemplate>
                 </dot:Repeater>
             </div>
-            
+
             <!-- Debtors -->
             <div class="payer-box-mini form-group">
                 <div class="row">
@@ -111,9 +111,9 @@
                                     <cc:UserAvatar />
                                 </div>
 
-                                <dc:TypeAhead DataSource="{value: _root.AllUsers}" ValueMember="Id" DisplayMember="Name" SelectedValue="{value: UserId}" 
+                                <dc:TypeAhead DataSource="{value: _root.AllUsers}" ValueMember="Id" DisplayMember="Name" SelectedValue="{value: UserId}"
                                               SelectionChanged="{command: _root.DebtorsChanged()}" Validation.Enabled="false"
-                                              class="form-control"/>
+                                              class="form-control" />
                             </div>
                             <div class="col-xs-6 col-sm-4 amount">
                                 <cc:ExpressionTextBox Text="{value: Amount}" FormatString="n2" Enabled="{value: _root.IsEditable}"
@@ -131,7 +131,7 @@
                 </dot:Repeater>
             </div>
 
-            
+
             <!-- Warning -->
             <div class="form-group">
                 <div class="alert alert-warning" Visible="{value: AmountDifference != 0}">
