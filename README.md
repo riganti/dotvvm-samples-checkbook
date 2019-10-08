@@ -2,7 +2,7 @@
 
 This is a sample application featuring the basic principles of [DotVVM](https://github.com/riganti/dotvvm), an open source MVVM framework for ASP.NET Core and OWIN.
 
-This application demonstrates using **DotVVM 2.2** with **ASP.NET Core**, **Entity Framework Core** and **SQLite** database.
+This application demonstrates using **DotVVM 2.3.1** with **ASP.NET Core**, **Entity Framework Core** and **SQLite** database.
 
 You can find an older version of this sample using ASP.NET 4.5 with OWIN in the `dotnetframework` branch.
 

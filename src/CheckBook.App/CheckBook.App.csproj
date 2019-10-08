@@ -38,11 +38,11 @@
       <None Include="wwwroot\Style\fonts\glyphicons-halflings-regular.woff2" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="DotVVM.Contrib.TypeAhead" Version="2.2.0" />
+        <PackageReference Include="DotVVM.Contrib.TypeAhead" Version="2.3.2" />
         <PackageReference Include="Microsoft.AspNetCore" Version="2.0.0" />
         <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="2.0.0" />
         <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.0.0" />
-        <PackageReference Include="DotVVM.AspNetCore" Version="2.2.0.2" />
+        <PackageReference Include="DotVVM.AspNetCore" Version="2.3.1" />
         <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.0.0" />
         <PackageReference Include="NIdenticon.NetCoreFix" Version="1.3.0" />
     </ItemGroup>
