@@ -3,20 +3,26 @@ using DotVVM.Framework.Compilation;
 using DotVVM.Framework.Configuration;
 using DotVVM.Framework.ResourceManagement;
 using DotVVM.Framework.Routing;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace CheckBook.App
 {
-    public class DotvvmStartup : IDotvvmStartup
+    public class DotvvmStartup : IDotvvmStartup, IDotvvmServiceConfigurator
     {
         public void Configure(DotvvmConfiguration config, string applicationPath)
         {
             RegisterRoutes(config);
             RegisterMarkupControls(config);
             RegisterResources(config);
-
             config.AddContribTypeAheadConfiguration();
 
             config.Markup.ImportedNamespaces.Add(new NamespaceImport("CheckBook.DataAccess.Enums"));
+        }
+
+        public void ConfigureServices(IDotvvmServiceCollection options)
+        {
+            // paste the body of the lambda here
+            options.AddDefaultTempStorages("Temp");
         }
 
         private void RegisterRoutes(DotvvmConfiguration config)
@@ -29,7 +35,7 @@ namespace CheckBook.App
             config.RouteTable.Add("payment", "payment/{GroupId}/{Id}", "Views/payment.dothtml", new { Id = (int?)null });
 
             // configure customer presenters
-            config.RouteTable.Add("identicon", "identicon/{Identicon}", null, null, () => new IdenticonPresenter());
+            config.RouteTable.Add("identicon", "identicon/{Identicon}", provider => new IdenticonPresenter());
 
             // auto-discover all missing parameterless routes
             config.RouteTable.AutoDiscoverRoutes(new DefaultRouteStrategy(config));
@@ -61,6 +67,12 @@ namespace CheckBook.App
 
         private void RegisterResources(DotvvmConfiguration config)
         {
+            config.Resources.Register("jquery", new ScriptResource()
+            {
+                // use relative URL if you ship jQuery with your application
+                Location = new FileResourceLocation("Scripts/jquery-2.1.3.min.js")
+            });
+
             // register custom scripts
             config.Resources.Register("autoHideAlert", new ScriptResource()
             {
@@ -75,13 +87,8 @@ namespace CheckBook.App
             config.Resources.Register("ExpressionTextBox", new ScriptResource()
             {
                 Location = new FileResourceLocation("Scripts/ExpressionTextBox.js"),
-                Dependencies = new [] { "dotvvm", "jquery" }
+                Dependencies = new[] { "dotvvm", "jquery" }
             });
-
-            // Note that the 'jquery' resource is registered in DotVVM and points to official jQuery CDN.
-            // We have jQuery in our application, so we have to change its URL
-            ((ScriptResource)config.Resources.FindResource("jquery"))
-                .Location = new FileResourceLocation("Scripts/jquery-2.1.3.min.js");
 
             // register bootstrap
             config.Resources.Register("bootstrap", new ScriptResource()

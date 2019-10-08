@@ -36,6 +36,7 @@ namespace CheckBook.App
     {
         public void Configuration(IAppBuilder app)
         {
+
             // set up Entity Framework Migrations
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<AppContext, DataAccess.Migrations.Configuration>());
 
@@ -48,10 +49,7 @@ namespace CheckBook.App
 
             // use DotVVM
             var applicationPhysicalPath = HostingEnvironment.ApplicationPhysicalPath;
-            var dotvvmConfiguration = app.UseDotVVM<DotvvmStartup>(applicationPhysicalPath, options: options =>
-            {
-                options.AddDefaultTempStorages("App_Data\\UploadTemp");
-            });
+            var dotvvmConfiguration = app.UseDotVVM<DotvvmStartup>(applicationPhysicalPath);
 
             // use static files
             app.UseStaticFiles(new StaticFileOptions()
@@ -98,7 +96,8 @@ namespace CheckBook.App
                             context.ProtocolMessage.RedirectUri = appBaseUrl;
                             // we need to handle the redirect to the login page ourselves because redirects cannot use HTTP 302 in DotVVM
                             var redirectUri = context.ProtocolMessage.CreateAuthenticationRequestUrl();
-                            DotvvmRequestContext.SetRedirectResponse(DotvvmMiddleware.ConvertHttpContext(context.OwinContext), redirectUri, (int) HttpStatusCode.Redirect, true);
+
+                            DotvvmRequestContext.GetCurrent(DotvvmMiddleware.ConvertHttpContext(context.OwinContext)).SetRedirectResponse(redirectUri, (int)HttpStatusCode.Redirect, true);
                             context.HandleResponse();
                         }
                         else if (context.ProtocolMessage.RequestType == OpenIdConnectRequestType.LogoutRequest)
@@ -106,7 +105,7 @@ namespace CheckBook.App
                             context.ProtocolMessage.PostLogoutRedirectUri = appBaseUrl;
                             // we need to handle the redirect to the logout page ourselves because redirects cannot use HTTP 302 in DotVVM
                             var redirectUri = context.ProtocolMessage.CreateLogoutRequestUrl();
-                            DotvvmRequestContext.SetRedirectResponse(DotvvmMiddleware.ConvertHttpContext(context.OwinContext), redirectUri, (int) HttpStatusCode.Redirect, true);
+                            DotvvmRequestContext.GetCurrent(DotvvmMiddleware.ConvertHttpContext(context.OwinContext)).SetRedirectResponse(redirectUri, (int)HttpStatusCode.Redirect, true);
                             context.HandleResponse();
                         }
 
