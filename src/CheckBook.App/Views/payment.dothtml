@@ -160,7 +160,7 @@
                 </div>
 
                 <div class="text-center">
-                    <dot:Button Click="{command: Save()}" class="btn btn-primary btn-payment" ButtonTagName="button" Visible="{value: IsEditable}">Save Changes</dot:Button>
+                    <dot:Button PostBack.Concurrency="Deny" Click="{command: Save()}" class="btn btn-primary btn-payment" ButtonTagName="button" Visible="{value: IsEditable}">Save Changes</dot:Button>
                     <dot:Button Click="{command: GoBack()}" class="btn btn-danger btn-payment" ButtonTagName="button" Validation.Enabled="false">Go Back</dot:Button>
                 </div>
             </div>
