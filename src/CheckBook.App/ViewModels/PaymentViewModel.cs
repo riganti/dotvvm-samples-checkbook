@@ -124,7 +124,7 @@ namespace CheckBook.App.ViewModels
                     list.Remove(emptyRow);
                 }
             }
-            else if(list.Last()!=emptyRows[0])
+            else if (list.Last() != emptyRows[0])
             {
                 list.Remove(emptyRows[0]);
                 list.Add(emptyRows[0]);
@@ -225,11 +225,12 @@ namespace CheckBook.App.ViewModels
 
         public void InvolveEveryone()
         {
-            var alreadyPresentDebtors = Debtors.Where(t=>t.UserId!=null).Select(t => t.UserId).ToArray();
-            var missingTransactions = AllUsers.Where(t => alreadyPresentDebtors.All(d => d != t.Id))
-                .Select(t => new TransactionData() {UserId = t.Id, Name = t.Name,Amount = 0});
+            Recalculate();
+            var alreadyPresentDebtors = Debtors.Where(t => t.UserId != null).Select(t => t.UserId).ToArray();
+            var missingDebtors = AllUsers.Where(t => alreadyPresentDebtors.All(d => d != t.Id)).ToArray();
+            var missingTransactions = missingDebtors.Select(t => new TransactionData() { UserId = t.Id, Name = t.Name, Amount = AmountDifference / missingDebtors.Count() });
             Debtors.AddRange(missingTransactions);
-            
+
             DebtorsChanged();
         }
     }
