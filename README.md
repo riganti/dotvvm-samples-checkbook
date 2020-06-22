@@ -7,13 +7,17 @@ This application demonstrates using **DotVVM 2.3.1** with **ASP.NET Core**, **En
 You can find an older version of this sample using ASP.NET 4.5 with OWIN in the `dotnetframework` branch.
 
 
-## Running The Sample
+## Running the sample app
 
-The SQLite database will be created upon first run of the application.
+1. Clone the repository using command `git clone https://github.com/riganti/dotvvm-samples-checkbook.git`
 
-Simply open the solution in Visual Studio, or go to the `CheckBook.App` folder and run `dotnet run`. You'll need to install .NET Core SDK (2.0 or newer).
+2. Open the solution (CheckBook.sln) in Visual Studio
 
-The default user account is **smith@test.com** / **Pa$$w0rd**.
+3. Run `CheckBook.App` project
+
+
+The SQLite database will be created upon first run of the application. You'll need to install .NET Core SDK (2.0 or newer).
+The default user account is **smith@test.com** / **Pa$$w0rd**. It is also possible to configure **AAD** authentication using **OpenIdConnect**. For further details about such option, have a look at [this sample repository](https://github.com/riganti/dotvvm-samples-azuread-auth).
 
 <br />
 
@@ -57,3 +61,13 @@ cause serialization and other issues. We always transform them to these Data Tra
     * **Startup.cs** is a main application entry point.
     
     * **DotvvmStartup.cs** contains DotVVM route and resource configuration.
+	
+## Other resources
+
+* [DotVVM.com](https://www.dotvvm.com)
+* [DotVVM Blog](https://www.dotvvm.com/blog)
+* [Documentation](https://www.dotvvm.com/docs)
+* [Twitter @dotvvm](https://twitter.com/dotvvm)
+* [Gitter Chat](https://gitter.im/riganti/dotvvm)
+* [Samples](https://github.com/search?q=topic%3Adotvvm-sample+org%3Ariganti&type=Repositories)
+* [Roadmap](https://github.com/riganti/dotvvm/blob/master/roadmap.md)
