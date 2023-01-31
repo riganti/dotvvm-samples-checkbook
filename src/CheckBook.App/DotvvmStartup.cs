@@ -1,4 +1,5 @@
 ﻿using DotVVM.Contrib;
+using DotVVM.Contrib.TypeAhead;
 using DotVVM.Framework.Compilation;
 using DotVVM.Framework.Configuration;
 using DotVVM.Framework.ResourceManagement;

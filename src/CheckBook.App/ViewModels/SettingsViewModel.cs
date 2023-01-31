@@ -5,12 +5,13 @@ using System.Threading.Tasks;
 using CheckBook.App.Helpers;
 using CheckBook.DataAccess.Data;
 using CheckBook.DataAccess.Services;
+using DotVVM.Core.Storage;
 using DotVVM.Framework.Controls;
 using DotVVM.Framework.Storage;
+using DotVVM.Framework.Hosting;
 
 namespace CheckBook.App.ViewModels
 {
-    [Authorize]
 	public class SettingsViewModel : AppViewModelBase
     {
         private readonly IUploadedFileStorage uploadedFileStorage;
@@ -35,6 +36,12 @@ namespace CheckBook.App.ViewModels
             this.userService = userService;
         }
 
+        public override async Task Init()
+        {
+            await Context.Authorize();
+
+            await base.Init();  // always call base.Init() - another authorization checks can be specified in the base page 
+        }
 
         public override Task PreRender()
         {
@@ -57,11 +64,11 @@ namespace CheckBook.App.ViewModels
                 // TODO: the image should be resized to some reasonable dimensions
 
                 // save the file in the Images folder and update the ImageUrl property
-                var stream = uploadedFileStorage.GetFile(AvatarFiles.Files[0].FileId);
+                var stream = uploadedFileStorage.GetFileAsync(AvatarFiles.Files[0].FileId).Result;
                 Data.ImageUrl = fileStorageHelper.StoreFile(stream, AvatarFiles.Files[0].FileName);
 
                 // delete temporary file and clear the upload control collection
-                uploadedFileStorage.DeleteFile(AvatarFiles.Files[0].FileId);
+                uploadedFileStorage.DeleteFileAsync(AvatarFiles.Files[0].FileId);
                 AvatarFiles.Clear();
             }
         }

@@ -9,9 +9,9 @@ namespace CheckBook.App.Helpers
 {
     public class FileStorageHelper
     {
-        private readonly IHostingEnvironment env;
+        private readonly IWebHostEnvironment env;
 
-        public FileStorageHelper(IHostingEnvironment env)
+        public FileStorageHelper(IWebHostEnvironment env)
         {
             this.env = env;
         }

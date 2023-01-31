@@ -6,14 +6,22 @@ using System.Threading.Tasks;
 using CheckBook.DataAccess.Data;
 using CheckBook.DataAccess.Services;
 using DotVVM.Framework.Controls;
+using DotVVM.Framework.Hosting;
 using DotVVM.Framework.Runtime.Filters;
 using DotVVM.Framework.ViewModel;
 
 namespace CheckBook.App.ViewModels
 {
-    [Authorize]
     public class GroupViewModel : AppViewModelBase
     {
+
+        public override async Task Init()
+        {
+            await Context.Authorize();
+
+            await base.Init();
+        }
+
         private readonly GroupService groupService;
         private readonly PaymentService paymentService;
         private readonly SettlementService settlementService;

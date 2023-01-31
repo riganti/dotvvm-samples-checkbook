@@ -8,12 +8,18 @@ using CheckBook.DataAccess.Enums;
 using CheckBook.DataAccess.Services;
 using DotVVM.Framework.Runtime.Filters;
 using DotVVM.Framework.ViewModel;
+using DotVVM.Framework.Hosting;
 
 namespace CheckBook.App.ViewModels
 {
-    [Authorize(Roles = nameof(UserRole.Admin))]
     public class ManagerViewModel : AppViewModelBase
     {
+        public override async Task Init()
+        {
+            await Context.Authorize(roles: new[] { nameof(UserRole.Admin) });
+
+            await base.Init();  // always call base.Init() - another authorization checks can be specified in the base page 
+        }
         private readonly GroupService groupService;
         private readonly UserService userService;
 

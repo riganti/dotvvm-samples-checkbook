@@ -8,14 +8,17 @@ using CheckBook.DataAccess.Enums;
 using CheckBook.DataAccess.Model;
 using CheckBook.DataAccess.Services;
 using DotVVM.Framework.Controls;
+using DotVVM.Framework.Hosting;
 using DotVVM.Framework.Runtime.Filters;
 using DotVVM.Framework.ViewModel;
 
 namespace CheckBook.App.ViewModels
 {
-    [Authorize]
     public class ChangelogViewModel : AppViewModelBase
     {
+
+        
+
         private readonly PaymentService paymentService;
 
         public GridViewDataSet<PaymentLogData> MyPaymentLog { get; set; } = new GridViewDataSet<PaymentLogData>()
@@ -43,15 +46,17 @@ namespace CheckBook.App.ViewModels
             this.paymentService = paymentService;
         }
 
-        public override Task Init()
+        public override async Task Init()
         {
+            await Context.Authorize();
+
             if (!Context.IsPostBack)
             {
                 ShowCreations = false;
                 ShowDeletions = true;
                 ShowEdits = true;
             }
-            return base.Init();
+            await base.Init();
         }
 
         public override Task PreRender()

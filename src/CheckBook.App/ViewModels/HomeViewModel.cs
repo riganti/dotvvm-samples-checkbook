@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 using CheckBook.DataAccess.Data;
 using CheckBook.DataAccess.Services;
 using System.Linq;
+using DotVVM.Framework.Hosting;
 
 namespace CheckBook.App.ViewModels
 {
-    [Authorize]
 	public class HomeViewModel : AppViewModelBase
     {
         private readonly GroupService groupService;
@@ -21,6 +21,13 @@ namespace CheckBook.App.ViewModels
         public HomeViewModel(GroupService groupService)
         {
             this.groupService = groupService;
+        }
+
+        public override async Task Init()
+        {
+            await Context.Authorize();
+
+            await base.Init();
         }
 
         public override Task PreRender()

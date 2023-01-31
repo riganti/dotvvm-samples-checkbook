@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 using CheckBook.DataAccess.Data;
 using CheckBook.DataAccess.Services;
 using DotVVM.Framework.Controls;
+using DotVVM.Framework.Hosting;
 using DotVVM.Framework.Runtime.Filters;
 
 namespace CheckBook.App.ViewModels
 {
-    [Authorize]
     public class HistoryViewModel : AppViewModelBase
 	{
         private readonly PaymentService paymentService;
@@ -27,6 +27,13 @@ namespace CheckBook.App.ViewModels
                 SortDescending = true
             }
         };
+
+        public override async Task Init()
+        {
+            await Context.Authorize();
+
+            await base.Init();
+        }
 
         public HistoryViewModel(PaymentService paymentService)
         {

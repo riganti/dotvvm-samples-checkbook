@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 using CheckBook.DataAccess.Data;
 using CheckBook.DataAccess.Services;
 using DotVVM.Framework.ViewModel;
+using DotVVM.Framework.Hosting;
 
 namespace CheckBook.App.ViewModels
 {
-    [Authorize]
     public class PaymentViewModel : AppViewModelBase
     {
         private readonly GroupService groupService;
@@ -60,7 +60,12 @@ namespace CheckBook.App.ViewModels
             this.paymentService = paymentService;
         }
 
+        public override async Task Init()
+        {
+            await Context.Authorize();
 
+            await base.Init();
+        }
         public override Task Load()
         {
             // load all users
