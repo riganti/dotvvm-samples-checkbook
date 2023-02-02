@@ -115,10 +115,12 @@ namespace CheckBook.DataAccess.Services
         /// <summary>
         /// Saves the payment with all details (who paid how much for who)
         /// </summary>
-        public void SavePayment(int userId, PaymentData data, List<TransactionData> payers, List<TransactionData> debtors)
+        public void SavePayment(int userId, PaymentData data, List<TransactionData> payers,
+            List<TransactionData> debtors)
         {
             // get or create the payment
-            var payment = db.Payments.Find(data.Id);
+
+            var payment = db.Payments.FirstOrDefault(x => x.Id == data.Id);
             var transactions = new List<Transaction>();
             if (payment == null)
             {
@@ -135,17 +137,20 @@ namespace CheckBook.DataAccess.Services
                 {
                     throw new UnauthorizedAccessException("You don't have permissions to modify the payment!");
                 }
-                transactions.AddRange(payment.Transactions);
-            }
 
+                transactions = db.Transactions.Where(x => x.PaymentId == payment.Id).ToList();
+            }
             payment.CreatedDate = data.CreatedDate;
             payment.Description = data.Description;
-            db.SaveChanges();
+
             // delete all current payments
-            foreach (var transaction in payment.Transactions.ToList())
+            foreach (var transaction in transactions)
             {
                 db.Transactions.Remove(transaction);
             }
+
+            db.SaveChanges();
+            payment.Transactions.Clear();
             // generate new payments
             foreach (var payer in payers.Where(p => p.UserId != null && p.Amount != null && p.Amount != 0))
             {
@@ -166,6 +171,7 @@ namespace CheckBook.DataAccess.Services
                     Type = TransactionType.Payment
                 });
             }
+
             // calculate rounding
             var difference = (payers.Sum(p => p.Amount) ?? 0) - (debtors.Sum(p => p.Amount) ?? 0);
             if (difference != 0)
@@ -191,12 +197,10 @@ namespace CheckBook.DataAccess.Services
                 transactions, payment.Transactions.ToList(), payment.Id));
 
             db.SaveChanges();
-
-
-            Console.WriteLine();
         }
 
-        private ICollection<PaymentLog> BuildPaymentLogs(LogType logType, int editorId, ICollection<Transaction> fromTransactions,
+        private ICollection<PaymentLog> BuildPaymentLogs(LogType logType, int editorId,
+            ICollection<Transaction> fromTransactions,
             ICollection<Transaction> toTransactions, int paymentId)
         {
             var paymentLogs = new List<PaymentLog>();
@@ -223,7 +227,9 @@ namespace CheckBook.DataAccess.Services
                 });
             }
 
-            return paymentLogs.Where(t => Math.Round(t.AmountOriginal, MidpointRounding.AwayFromZero) != Math.Round(t.AmountNew, MidpointRounding.AwayFromZero)).ToList();
+            return paymentLogs.Where(t =>
+                Math.Round(t.AmountOriginal, MidpointRounding.AwayFromZero) !=
+                Math.Round(t.AmountNew, MidpointRounding.AwayFromZero)).ToList();
         }
 
         private static double CalculateAmount(IGrouping<int, Transaction> user)
@@ -301,7 +307,8 @@ namespace CheckBook.DataAccess.Services
                 GroupId = p.GroupId,
                 GroupName = p.Group.Name,
                 MyBalance = p.Transactions.Where(t => t.UserId == userId).Sum(t => (double?)t.Amount) ?? 0,
-                MySpending = p.Transactions.Where(t => t.UserId == userId && t.Amount < 0).Sum(t => (double?)t.Amount) ?? 0
+                MySpending =
+                    p.Transactions.Where(t => t.UserId == userId && t.Amount < 0).Sum(t => (double?)t.Amount) ?? 0
             };
         }
 
