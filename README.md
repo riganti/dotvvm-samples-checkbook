@@ -1,19 +1,32 @@
+![Screenshot](https://github.com/riganti/dotvvm-samples-checkbook/blob/master/images/CheckBookSample001.png?raw=true)
+
+
 # CheckBook: [DotVVM](https://github.com/riganti/dotvvm) Sample App
 
 This is a sample application featuring the basic principles of [DotVVM](https://github.com/riganti/dotvvm), an open source MVVM framework for ASP.NET Core and OWIN.
 
-This application demonstrates using **DotVVM 2.3.1** with **ASP.NET Core**, **Entity Framework Core** and **SQLite** database.
+This application demonstrates using **DotVVM 4.1.0** with **ASP.NET Core**, **Entity Framework Core** and **SQLite** database.
 
 You can find an older version of this sample using ASP.NET 4.5 with OWIN in the `dotnetframework` branch.
 
 
-## Running The Sample
+### Prerequisites
+* Make sure you have installed [DotVVM for Visual Studio](https://www.dotvvm.com/install)
 
-The SQLite database will be created upon first run of the application.
 
-Simply open the solution in Visual Studio, or go to the `CheckBook.App` folder and run `dotnet run`. You'll need to install .NET Core SDK (2.0 or newer).
+### How to run the sample
 
-The default user account is **smith@test.com** / **Pa$$w0rd**.
+1. [Open the GitHub repo in Visual Studio](git-client://clone/?repo=https%3A%2F%2Fgithub.com%2Friganti%2Fdotvvm-samples-checkbook)
+or 
+`git clone https://github.com/riganti/dotvvm-samples-checkbook.git`
+
+2. Open `src/CheckBook.sln` 
+![Open the solution file](https://github.com/riganti/dotvvm-samples-checkbook/blob/master/images/CheckBookSample002.png?raw=true)
+
+3. Right-click the `Checkbook.App` project and select **View > View in Browser**
+![View CheckBook in Browser](https://github.com/riganti/dotvvm-samples-checkbook/blob/master/images/CheckBookSample003.png?raw=true)
+
+4. The default user account is **smith@test.com** / **Pa$$w0rd**.
 
 <br />
 
