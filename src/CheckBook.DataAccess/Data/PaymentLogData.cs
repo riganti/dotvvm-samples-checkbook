@@ -24,8 +24,8 @@ namespace CheckBook.DataAccess.Data
 
         public string Currency { get; set; }
 
-        public decimal AmountOriginal { get; set; }
+        public double AmountOriginal { get; set; }
 
-        public decimal AmountNew { get; set; }
+        public double AmountNew { get; set; }
     }
 }

@@ -15,17 +15,15 @@ namespace CheckBook.DataAccess.Security
         /// </summary>
         public static PasswordData CreateHash(string password)
         {
-            using (var deriveBytes = new Rfc2898DeriveBytes(password, SaltSize, PBKDF2IterCount))
-            {
-                byte[] salt = deriveBytes.Salt;
-                byte[] subkey = deriveBytes.GetBytes(PBKDF2SubkeyLength);
+            using var deriveBytes = new Rfc2898DeriveBytes(password, SaltSize, PBKDF2IterCount);
+            byte[] salt = deriveBytes.Salt;
+            byte[] subkey = deriveBytes.GetBytes(PBKDF2SubkeyLength);
 
-                return new PasswordData()
-                {
-                    PasswordHash = Convert.ToBase64String(subkey),
-                    PasswordSalt = Convert.ToBase64String(salt)
-                };
-            }
+            return new PasswordData()
+            {
+                PasswordHash = Convert.ToBase64String(subkey),
+                PasswordSalt = Convert.ToBase64String(salt)
+            };
         }
 
         /// <summary>
@@ -36,12 +34,10 @@ namespace CheckBook.DataAccess.Security
             byte[] hashedPasswordBytes = Convert.FromBase64String(hashedPassword);
             byte[] saltBytes = Convert.FromBase64String(salt);
 
-            using (var deriveBytes = new Rfc2898DeriveBytes(password, saltBytes, PBKDF2IterCount))
-            {
-                byte[] generatedSubkey = deriveBytes.GetBytes(PBKDF2SubkeyLength);
-                return hashedPasswordBytes.SequenceEqual(generatedSubkey);
-            }
-            
+            using var deriveBytes = new Rfc2898DeriveBytes(password, saltBytes, PBKDF2IterCount);
+            byte[] generatedSubkey = deriveBytes.GetBytes(PBKDF2SubkeyLength);
+            return hashedPasswordBytes.SequenceEqual(generatedSubkey);
+
         }
     }
 }

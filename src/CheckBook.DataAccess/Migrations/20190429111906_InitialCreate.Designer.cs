@@ -63,9 +63,9 @@ namespace CheckBook.DataAccess.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<decimal>("AmountNew");
+                    b.Property<double>("AmountNew");
 
-                    b.Property<decimal>("AmountOriginal");
+                    b.Property<double>("AmountOriginal");
 
                     b.Property<DateTime>("CreatedDate");
 
@@ -93,7 +93,7 @@ namespace CheckBook.DataAccess.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<decimal>("Amount");
+                    b.Property<double>("Amount");
 
                     b.Property<int>("PaymentId");
 

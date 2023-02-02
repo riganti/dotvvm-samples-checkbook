@@ -10,9 +10,9 @@ namespace CheckBook.DataAccess.Data
     {
         public DateTime CreatedDate { get; set; }
         public string Description { get; set; }
-        public decimal MyBalance { get; set; }
-        public decimal MySpending { get; set; }
-        public decimal TotalAmount { get; set; }
+        public double MyBalance { get; set; }
+        public double MySpending { get; set; }
+        public double TotalAmount { get; set; }
         public string Currency { get; set; }
         public int GroupId { get; set; }
         public int PaymentId { get; set; }

@@ -32,7 +32,6 @@ namespace CheckBook.App
                     Environment.Exit(1);
                 }
             }
-
             host.Run();
         }
 

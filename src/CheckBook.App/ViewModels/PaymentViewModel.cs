@@ -33,7 +33,7 @@ namespace CheckBook.App.ViewModels
 
 
         [Bind(Direction.ServerToClient)]
-        public decimal AmountDifference { get; set; }
+        public double AmountDifference { get; set; }
 
 
         [Bind(Direction.ServerToClient)]

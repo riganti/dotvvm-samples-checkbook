@@ -73,7 +73,8 @@
                                     <cc:UserAvatar />
                                 </div>
 
-                                <dc:TypeAhead DataSource="{value: _root.AllUsers}" ValueMember="Id" DisplayMember="Name" SelectedValue="{value: UserId}" 
+                                <dc:TypeAhead DataSource="{value: _root.AllUsers}" SelectedValue="{value: UserId}"
+                                              ItemTextBinding="{value: Name}" ItemValueBinding="{value: Id}"
                                               SelectionChanged="{command: _root.PayersChanged()}" Validation.Enabled="false"
                                               class="form-control"/>
                             </div>
@@ -111,7 +112,8 @@
                                     <cc:UserAvatar />
                                 </div>
 
-                                <dc:TypeAhead DataSource="{value: _root.AllUsers}" ValueMember="Id" DisplayMember="Name" SelectedValue="{value: UserId}" 
+                                <dc:TypeAhead DataSource="{value: _root.AllUsers}" SelectedValue="{value: UserId}"
+                                              ItemTextBinding="{value: Name}" ItemValueBinding="{value: Id}"
                                               SelectionChanged="{command: _root.DebtorsChanged()}" Validation.Enabled="false"
                                               class="form-control"/>
                             </div>

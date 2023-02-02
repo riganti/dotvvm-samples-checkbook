@@ -6,6 +6,6 @@ namespace CheckBook.DataAccess.Data
 
         public string Name2 { get; set; }
 
-        public decimal Amount { get; set; }
+        public double Amount { get; set; }
     }
 }

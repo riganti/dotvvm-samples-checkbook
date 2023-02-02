@@ -60,7 +60,7 @@ namespace CheckBook.DataAccess.Services
         private class TempMemberData
         {
             public string Name { get; set; }
-            public decimal Amount { get; set; }
+            public double Amount { get; set; }
         }
     }
 }

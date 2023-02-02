@@ -43,7 +43,7 @@
                     </dot:RouteLink>
                 </li>
                 <li>
-                    <dot:RouteLink RouteName="manager" Text="Manager" class="{value: 'header-item ' + (ActivePage == 'manager' ? 'header-item-active' : '')}"
+                    <dot:RouteLink RouteName="manager"  class="{value: 'header-item ' + (ActivePage == 'manager' ? 'header-item-active' : '')}"
                                    Visible="{value: IsAdmin}">
                         <span class="glyphicon glyphicon-cog"></span> Settings
                     </dot:RouteLink>

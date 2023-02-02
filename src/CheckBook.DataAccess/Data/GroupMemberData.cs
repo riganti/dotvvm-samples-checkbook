@@ -9,6 +9,6 @@ namespace CheckBook.DataAccess.Data
 
         public string ImageUrl { get; set; }
 
-        public decimal Amount { get; set; }
+        public double Amount { get; set; }
     }
 }

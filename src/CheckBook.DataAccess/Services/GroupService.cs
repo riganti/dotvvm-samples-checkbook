@@ -87,7 +87,7 @@ namespace CheckBook.DataAccess.Services
             foreach (var user in usersToRemove)
             {
                 // if the user has non-zero balance, he cannot be removed
-                var balance = user.User.Transactions.Where(t => t.Payment.GroupId == group.Id).Sum(t => (decimal?)t.Amount) ?? 0;
+                var balance = user.User.Transactions.Where(t => t.Payment.GroupId == group.Id).Sum(t => (double?)t.Amount) ?? 0;
                 if (balance != 0)
                 {
                     throw new Exception($"Cannot remove the user {user.User.FirstName} {user.User.LastName} from the group because he has non-zero balance. You have to settle first!");
@@ -136,9 +136,9 @@ namespace CheckBook.DataAccess.Services
                     Name = g.Name,
                     Currency = g.Currency,
                     TotalPayments = g.Payments.Count(),
-                    TotalSpending = g.Payments.Sum(pg => pg.Transactions.Where(p => p.Amount > 0).Sum(p => (decimal?)p.Amount)) ?? 0,
-                    // We need to cast to (decimal?) because the result of the expression is NULL when there are no groups
-                    // and null is not assignable in the property of decimal
+                    TotalSpending = g.Payments.Sum(pg => pg.Transactions.Where(p => p.Amount > 0).Sum(p => (double?)p.Amount)) ?? 0,
+                    // We need to cast to (double?) because the result of the expression is NULL when there are no groups
+                    // and null is not assignable in the property of double
                 };
             }
         }
@@ -150,9 +150,9 @@ namespace CheckBook.DataAccess.Services
                 UserId = u.Id,
                 Name = u.FirstName + " " + u.LastName,
                 ImageUrl = u.ImageUrl,
-                Amount = u.Transactions.Where(t => t.Payment.GroupId == groupId).Sum(t => (decimal?)t.Amount) ?? 0
-                // We need to cast to (decimal?) because the result of the expression is NULL when there are no groups
-                // and null is not assignable in the property of decimal
+                Amount = u.Transactions.Where(t => t.Payment.GroupId == groupId).Sum(t => (double?)t.Amount) ?? 0
+                // We need to cast to (double?) because the result of the expression is NULL when there are no groups
+                // and null is not assignable in the property of double
             };
         }
     }

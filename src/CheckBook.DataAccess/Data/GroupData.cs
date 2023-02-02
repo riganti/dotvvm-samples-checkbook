@@ -14,7 +14,7 @@ namespace CheckBook.DataAccess.Data
         [Required(ErrorMessage = "The Currency field is required!")]
         public string Currency { get; set; }
 
-        public decimal TotalSpending { get; set; }
+        public double TotalSpending { get; set; }
 
         public int TotalPayments { get; set; }
 

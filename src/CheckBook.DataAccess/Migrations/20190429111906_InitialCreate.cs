@@ -99,8 +99,8 @@ namespace CheckBook.DataAccess.Migrations
                     EditorId = table.Column<int>(nullable: false),
                     UserId = table.Column<int>(nullable: false),
                     LogType = table.Column<int>(nullable: false),
-                    AmountOriginal = table.Column<decimal>(nullable: false),
-                    AmountNew = table.Column<decimal>(nullable: false)
+                    AmountOriginal = table.Column<double>(nullable: false),
+                    AmountNew = table.Column<double>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -131,7 +131,7 @@ namespace CheckBook.DataAccess.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Amount = table.Column<decimal>(nullable: false),
+                    Amount = table.Column<double>(nullable: false),
                     Type = table.Column<int>(nullable: false),
                     UserId = table.Column<int>(nullable: false),
                     PaymentId = table.Column<int>(nullable: false)

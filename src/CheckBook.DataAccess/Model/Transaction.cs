@@ -7,7 +7,7 @@ namespace CheckBook.DataAccess.Model
     {
         public int Id { get; set; }
         
-        public decimal Amount { get; set; }
+        public double Amount { get; set; }
         
         public TransactionType Type { get; set; }
 

@@ -13,6 +13,7 @@ using DotVVM.Framework.Routing;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.IO;
 
 namespace CheckBook.App
 {
@@ -63,7 +64,7 @@ namespace CheckBook.App
                 {
                     options.UseSqlite(Configuration.GetSection("dbOptions").GetValue<string>("connectionString")); 
                 });
-
+            
             var loginOptions = Configuration.GetSection("loginOptions").Get<LoginOptions>();
 
             // authentication

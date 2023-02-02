@@ -14,7 +14,7 @@ namespace CheckBook.DataAccess.Data
         [Required(ErrorMessage = "The Description field is required!")]
         public string Description { get; set; }
 
-        public decimal TotalAmount { get; set; }
+        public double TotalAmount { get; set; }
 
         public string Currency { get; set; }
 
